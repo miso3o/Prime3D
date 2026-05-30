@@ -15,7 +15,7 @@
  * To change the mapping, edit FLOOR_DEFS below — no other file needs updating.
  */
 
-export type FloorId = '7F' | '6F' | 'GRD2F';
+export type FloorId = '7F' | '6F' | 'GRD1F' |'GRD2F' ;
 
 export interface FloorDef {
   id: FloorId;
@@ -30,17 +30,25 @@ export interface FloorDef {
  * FLOOR_DEFS — edit this to configure floor heights and layer membership.
  *
  * Layer ID → name mapping for reference:
- *   layer_mncrxsud = G1   layer_mncs2tlq = G2   layer_mncs2zk3 = G3
- *   layer_mncs35c8 = G4   layer_mncs3a33 = G5   layer_mncs3e54 = G6
- *   layer_mncs3hsr = G7
+ *   layer_group1 = G1   layer_group2 = G2     layer_group3 = G3
+ *   layer_group4 = G4   layer_group5_1 = G5   layer_group5_2 = G5 
+ *   layer_group6 = G6   layer_group7 = G7
  */
 export const FLOOR_DEFS: FloorDef[] = [
+    {
+    id: 'GRD1F',
+    name: 'Grader 1st Floor',
+    shortName: 'GRD 1F',
+    worldZ: 0,
+    layerIds: ['layer_group5_1'],   // G5 — amber
+    color: '#6ee7b7',
+  },
   {
     id: 'GRD2F',
     name: 'Grader 2nd Floor',
     shortName: 'GRD 2F',
-    worldZ: 8,
-    layerIds: ['layer_mncs3a33'],   // G5 — amber
+    worldZ: 2.5,
+    layerIds: ['layer_group5_2'],   // G5 — amber
     color: '#6ee7b7',
   },
   {
@@ -49,11 +57,11 @@ export const FLOOR_DEFS: FloorDef[] = [
     shortName: '7F',
     worldZ: 0,
     layerIds: [
-      'layer_mncrxsud',  // G1 — blue
-      'layer_mncs2tlq',  // G2 — cyan
-      'layer_mncs2zk3',  // G3 — green
-      'layer_mncs35c8',  // G4 — purple
-      'layer_mncs3hsr',  // G7 — pink
+      'layer_group1',  // G1 — blue
+      'layer_group2',  // G2 — cyan
+      'layer_group3',  // G3 — green
+      'layer_group4',  // G4 — purple
+      'layer_group7',  // G7 — pink
     ],
     color: '#90cdf4',
   },
@@ -62,7 +70,7 @@ export const FLOOR_DEFS: FloorDef[] = [
     name: '6th Floor',
     shortName: '6F',
     worldZ: -5,
-    layerIds: ['layer_mncs3e54'],   // G6 — red
+    layerIds: ['layer_group6'],   // G6 — red
     color: '#fca5a5',
   },
 ];

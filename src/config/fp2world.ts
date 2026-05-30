@@ -20,7 +20,7 @@
  *   HAG  aisle centre:  ( 475,1090) → (-45.2, 27.2)
  */
 
-/** Pixels per metre in the fms_prime.json canvas. */
+/** Pixels per metre in the floor plan canvas. */
 export const FP_SCALE = 25;
 
 /** 2D canvas X pixel that maps to 3D world X = 0 (CDC crane aisle centre). */

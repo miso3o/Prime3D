@@ -118,7 +118,7 @@ export interface HomeStandConfig {
 
 // ── Floor Plan (2D) Types ──────────────────────────────────────────────────────
 
-/** One display layer in the 2D floor plan (matches fms_prime.json) */
+/** One display layer in the 2D floor plan */
 export interface FPLayer {
   id: string;
   name: string;
@@ -131,7 +131,8 @@ export interface FPLayer {
  * FPTrack visual/functional type.
  *   Default     → flat conveyor slab
  *   Lift        → vertical column connecting floor levels
- *   Palletizer  → elevated palletizer platform
+ *   Palletizer    → elevated palletizer platform
+ *   Depalletizer  → elevated depalletizer platform (same 3D shape as Palletizer)
  *   InboundHs   → inbound HomeStand (staging position for crane pick-up)
  *   OutboundHs  → outbound HomeStand (staging position for crane deposit)
  *   BCRRead     → barcode reader position
@@ -140,6 +141,7 @@ export type FPTrackType =
   | 'Default'
   | 'Lift'
   | 'Palletizer'
+  | 'Depalletizer'
   | 'InboundHs'
   | 'OutboundHs'
   | 'BCRRead';
@@ -166,6 +168,8 @@ export interface FPTrack {
   lift3dRef?: string;
   /** 3D only: track IDs that should shift to the primary lift's XY when this track is suppressed. */
   lift3dSatellites?: string[];
+  /** 3D only: explicit shaft height (metres). Overrides the floor Z-span calculation. */
+  lift3dShaftHeight?: number;
 }
 
 /** One AS/RS crane zone in the 2D floor plan */
@@ -217,6 +221,12 @@ export interface FPBox {
   unitId?: string;
   /** Optional layer assignment (determines 3D floor Z, editable in Designer) */
   layerId?: string;
+  /** 3D only: if true, this box is omitted from the 3D scene. */
+  invisible3d?: boolean;
+  /** 3D only: override x position in floor plan pixel coords (2D keeps original x). */
+  x3d?: number;
+  /** 3D only: override y position in floor plan pixel coords (2D keeps original y). */
+  y3d?: number;
 }
 
 /** Legend configuration for the 2D floor plan */
@@ -230,7 +240,7 @@ export interface FPLegend {
 }
 
 /**
- * FloorPlanData — 2D factory floor plan derived from fms_prime.json.
+ * FloorPlanData — 2D factory floor plan.
  * Pixel coordinate space: width × height (default 2549 × 1500).
  * Embedded under the `floorPlan` key in LayoutConfig / defaultLayout.json.
  */
@@ -246,6 +256,20 @@ export interface FloorPlanData {
   layers: FPLayer[];
 }
 
+/** One step in a TrackCycle — the tray moves to this floor-plan track unitId. */
+export interface CycleStep {
+  unitId: string;     // floor plan track unitId
+  dwellMs?: number;   // override dwell at this step (default: cycle.intervalMs)
+}
+
+/** A named cycle that moves a single tray through a sequence of track positions. */
+export interface CycleConfig {
+  id: string;
+  steps: CycleStep[];
+  intervalMs?: number;   // default dwell between steps (ms), default 1000
+  loop?: boolean;        // restart after last step, default true
+}
+
 /**
  * LayoutConfig — the root JSON schema object.
  * This is the single source of truth for the entire 3D scene layout.
@@ -258,6 +282,7 @@ export interface LayoutConfig {
   equipment?: EquipmentConfig[];
   homeStands?: HomeStandConfig[];
   floorPlan?: FloorPlanData;
+  cycles?: CycleConfig[];
 }
 
 // ── Runtime State Types ────────────────────────────────────────────────────────
@@ -294,9 +319,10 @@ export interface CraneState {
  *  - rack   → tray is stored in a specific rack cell
  */
 export type TrayLocation =
-  | { type: 'track'; trackId: string; segmentId: string }
-  | { type: 'crane'; craneId: string }
-  | { type: 'rack';  rackId: string; bank: number; bay: number; level: number };
+  | { type: 'track';   trackId: string; segmentId: string }
+  | { type: 'crane';   craneId: string }
+  | { type: 'rack';    rackId: string; bank: number; bay: number; level: number }
+  | { type: 'fptrack'; unitId: string };
 
 export interface TrayState {
   id: string;

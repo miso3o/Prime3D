@@ -2,7 +2,6 @@
 import { CELL_COLORS, TRACK_COLORS, CRANE_STATUS_COLORS, EQUIPMENT_COLORS } from '../../utils/colors';
 import type { LayoutConfig } from '../../config/types';
 import { cellKey, trackSegKey } from '../../config/types';
-import { getFloorForLayer } from '../../config/layerConfig';
 
 interface SelectionPopupProps {
   layout: LayoutConfig;
@@ -14,8 +13,8 @@ const TYPE_META = {
   crane: { label: 'CRANE', accent: '#e6952b', icon: '[CR]' },
   tray: { label: 'TRAY', accent: '#48bb78', icon: '[T]' },
   track: { label: 'TRACK SEGMENT', accent: '#90a4ae', icon: '[TR]' },
-  fptrack: { label: 'TRACK SEGMENT', accent: '#6ee7b7', icon: '[FP]' },
-  fpbox: { label: 'ZONE', accent: '#94a3b8', icon: '[Z]' },
+  fptrack: { label: 'TRACK SEGMENT', accent: '#6ee7b7', icon: '' },
+  fpbox: { label: 'EQUIPMENT', accent: '#f6ad55', icon: '' },
   equipment: { label: 'EQUIPMENT', accent: '#f6ad55', icon: '[E]' },
   homestand: { label: 'HOME STAND', accent: '#f6e05e', icon: '[H]' },
 } as const;
@@ -124,7 +123,7 @@ function TrayContent({ layout }: { layout: LayoutConfig }) {
     locDetail = loc.craneId;
   } else {
     locLabel = 'Rack cell';
-    locDetail = `${loc.rackId} B${loc.bay} L${loc.level}`;
+    locDetail = loc.type === 'rack' ? `${loc.rackId} B${loc.bay} L${loc.level}` : '';
   }
   return (
     <>
@@ -171,6 +170,27 @@ function EquipmentContent({ layout }: { layout: LayoutConfig }) {
   );
 }
 
+function FPBoxContent({ layout }: { layout: LayoutConfig }) {
+  const sel = useWarehouseStore((s) => s.selectedObject);
+  if (sel?.type !== 'fpbox') return null;
+  const eq    = (layout.equipment ?? []).find((e) => e.id === sel.id);
+  const box   = layout.floorPlan?.boxes.find((b) => b.id === sel.id);
+  const crane = layout.floorPlan?.cranes.find((c) => c.id === sel.id);
+  const unitId = eq?.unitId ?? eq?.name ?? box?.text ?? crane?.id ?? sel.id;
+  const rawId = sel.id.toUpperCase();
+  const eqType = rawId.startsWith('CDC')
+    ? 'CDC Rack'
+    : (rawId.startsWith('HAG') || rawId.startsWith('AG'))
+    ? 'Rack'
+    : 'Equipment';
+  return (
+    <>
+      <Row label="Unit ID" value={unitId} />
+      <Row label="Type" value={eqType} />
+    </>
+  );
+}
+
 function FPTrackContent({ layout }: { layout: LayoutConfig }) {
   const sel = useWarehouseStore((s) => s.selectedObject);
   const trackStatuses = useWarehouseStore((s) => s.trackSegmentStatuses);
@@ -180,15 +200,12 @@ function FPTrackContent({ layout }: { layout: LayoutConfig }) {
     ? Object.keys(trackStatuses).find((k) => k.includes(fpTrack.unitId) || k.endsWith(`:${fpTrack.id}`))
     : undefined;
   const status = statusKey ? trackStatuses[statusKey] : undefined;
-  const floorName = getFloorForLayer(sel.layerId)?.shortName ?? '-';
   return (
     <>
       <Row label="Unit ID" value={sel.unitId} />
-      <Row label="Segment" value={sel.id} />
-      <Row label="Layer" value={sel.layerId} />
-      <Row label="Floor" value={floorName} />
-      {fpTrack && <Row label="Type" value={fpTrack.trackType ?? 'Default'} />}
-      {fpTrack && <Row label="Dir" value={fpTrack.direction?.toUpperCase() ?? 'auto'} />}
+      {fpTrack?.trackType && fpTrack.trackType !== 'Default' && (
+        <Row label="Type" value={fpTrack.trackType} />
+      )}
       {status && <Row label="Status" value={status} badge={TRACK_COLORS[status as keyof typeof TRACK_COLORS] ?? '#888'} />}
     </>
   );
@@ -210,15 +227,36 @@ function HomeStandContent({ layout }: { layout: LayoutConfig }) {
   );
 }
 
+const POPUP_W = 140;
+const POPUP_H = 180; // approximate
+const OFFSET  = 12;
+
 export function SelectionPopup({ layout }: SelectionPopupProps) {
-  const sel = useWarehouseStore((s) => s.selectedObject);
+  const sel      = useWarehouseStore((s) => s.selectedObject);
+  const clickPos = useWarehouseStore((s) => s.clickPosition);
   const setSelected = useWarehouseStore((s) => s.setSelectedObject);
   if (!sel) return null;
 
   const meta = TYPE_META[sel.type as keyof typeof TYPE_META] ?? TYPE_META.track;
 
+  // Position near click if available, otherwise fall back to bottom-center
+  let posStyle: React.CSSProperties;
+  if (clickPos) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const left = clickPos.x + OFFSET + POPUP_W > vw
+      ? clickPos.x - POPUP_W - OFFSET
+      : clickPos.x + OFFSET;
+    const top = clickPos.y + OFFSET + POPUP_H > vh
+      ? clickPos.y - POPUP_H - OFFSET
+      : clickPos.y + OFFSET;
+    posStyle = { position: 'fixed', left, top };
+  } else {
+    posStyle = { position: 'absolute', bottom: 72, left: '50%', transform: 'translateX(-50%)' };
+  }
+
   return (
-    <div style={{ position: 'absolute', bottom: 72, left: '50%', transform: 'translateX(-50%)', minWidth: 270, maxWidth: 360, background: 'rgba(11,15,26,0.96)', border: `1px solid ${meta.accent}55`, borderRadius: 8, overflow: 'hidden', boxShadow: `0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px ${meta.accent}22`, fontFamily: 'monospace', fontSize: 12, backdropFilter: 'blur(10px)', zIndex: 20 }}>
+    <div style={{ ...posStyle, minWidth: POPUP_W, maxWidth: 180, background: 'rgba(11,15,26,0.96)', border: `1px solid ${meta.accent}55`, borderRadius: 8, overflow: 'hidden', boxShadow: `0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px ${meta.accent}22`, fontFamily: 'monospace', fontSize: 12, backdropFilter: 'blur(10px)', zIndex: 20 }}>
       <div style={{ background: `${meta.accent}22`, borderBottom: `1px solid ${meta.accent}44`, padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ color: meta.accent, fontWeight: 700, letterSpacing: 1, fontSize: 11 }}>{meta.icon} {meta.label}</span>
         <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', color: '#718096', cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: '0 2px' }}>x</button>
@@ -229,6 +267,7 @@ export function SelectionPopup({ layout }: SelectionPopupProps) {
         {sel.type === 'crane' && <CraneContent layout={layout} />}
         {sel.type === 'tray' && <TrayContent layout={layout} />}
         {sel.type === 'track' && <TrackContent layout={layout} />}
+        {sel.type === 'fpbox' && <FPBoxContent layout={layout} />}
         {sel.type === 'fptrack' && <FPTrackContent layout={layout} />}
         {sel.type === 'equipment' && <EquipmentContent layout={layout} />}
         {sel.type === 'homestand' && <HomeStandContent layout={layout} />}

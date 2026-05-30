@@ -20,13 +20,14 @@ import { getFloorForLayer } from '../../config/layerConfig';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
 
 const LAYER_COLORS: Record<string, { fill: string; stroke: string }> = {
-  layer_mncrxsud: { fill: '#93c5fd', stroke: '#2563eb' },
-  layer_mncs2tlq: { fill: '#67e8f9', stroke: '#0891b2' },
-  layer_mncs2zk3: { fill: '#6ee7b7', stroke: '#059669' },
-  layer_mncs35c8: { fill: '#c4b5fd', stroke: '#7c3aed' },
-  layer_mncs3a33: { fill: '#fcd34d', stroke: '#b45309' },
-  layer_mncs3e54: { fill: '#fca5a5', stroke: '#dc2626' },
-  layer_mncs3hsr: { fill: '#f9a8d4', stroke: '#be185d' },
+  layer_group1: { fill: '#93c5fd', stroke: '#2563eb' },
+  layer_group2: { fill: '#67e8f9', stroke: '#0891b2' },
+  layer_group3: { fill: '#6ee7b7', stroke: '#059669' },
+  layer_group4: { fill: '#c4b5fd', stroke: '#7c3aed' },
+  layer_group5_1: { fill: '#fcd34d', stroke: '#b45309' },
+  layer_group5_2: { fill: '#fcd34d', stroke: '#b45309' },
+  layer_group6: { fill: '#fca5a5', stroke: '#dc2626' },
+  layer_group7: { fill: '#f9a8d4', stroke: '#be185d' },
   default: { fill: '#d1d5db', stroke: '#6b7280' },
 };
 
@@ -900,22 +901,29 @@ export function Designer2D({ layout, onApply }: Designer2DProps) {
                 </>
               )}
 
-              {selectedTrack && (
-                <>
+              {selectedTracks.length > 0 && (() => {
+                const types = selectedTracks.map((t) => t.trackType ?? 'Default');
+                const commonType = types.every((t) => t === types[0]) ? types[0] : undefined;
+                return (
                   <SelectField<FPTrackType>
-                    label="Type"
-                    value={selectedTrack.trackType ?? 'Default'}
+                    label={`Type${selectedTracks.length > 1 ? ` (${selectedTracks.length})` : ''}`}
+                    value={commonType ?? 'Default'}
                     options={[
-                      { value: 'Default', label: 'Default' },
+                      { value: 'Default', label: commonType === undefined ? '— mixed —' : 'Default' },
                       { value: 'Lift', label: 'Lift' },
                       { value: 'Palletizer', label: 'Palletizer' },
+                      { value: 'Depalletizer', label: 'Depalletizer' },
                       { value: 'InboundHs', label: 'Inbound HS' },
                       { value: 'OutboundHs', label: 'Outbound HS' },
                       { value: 'BCRRead', label: 'BCR Read' },
                     ]}
-                    onChange={(v) => updateTrack(selectedTrack.id, { trackType: v })}
+                    onChange={(v) => selectedTracks.forEach((t) => updateTrack(t.id, { trackType: v }))}
                   />
+                );
+              })()}
 
+              {selectedTrack && (
+                <>
                   <div style={{ fontSize: 10, color: '#718096', marginBottom: 4 }}>
                     Floor: {getFloorForLayer(selectedTrack.layerId)?.shortName ?? '??'}{' '}
                     (Z = {getFloorForLayer(selectedTrack.layerId)?.worldZ ?? 0} m)

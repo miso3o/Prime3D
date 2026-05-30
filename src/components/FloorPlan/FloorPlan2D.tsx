@@ -20,13 +20,14 @@ const DEFAULT_LAYOUT = defaultLayoutJson as unknown as LayoutConfig;
 
 // ── Layer → color ──────────────────────────────────────────────────────────────
 const LAYER_COLORS: Record<string, { fill: string; stroke: string }> = {
-  layer_mncrxsud: { fill: '#93c5fd', stroke: '#2563eb' },
-  layer_mncs2tlq: { fill: '#67e8f9', stroke: '#0891b2' },
-  layer_mncs2zk3: { fill: '#6ee7b7', stroke: '#059669' },
-  layer_mncs35c8: { fill: '#c4b5fd', stroke: '#7c3aed' },
-  layer_mncs3a33: { fill: '#fcd34d', stroke: '#b45309' },
-  layer_mncs3e54: { fill: '#fca5a5', stroke: '#dc2626' },
-  layer_mncs3hsr: { fill: '#f9a8d4', stroke: '#be185d' },
+  layer_group1: { fill: '#93c5fd', stroke: '#2563eb' },
+  layer_group2: { fill: '#67e8f9', stroke: '#0891b2' },
+  layer_group3: { fill: '#6ee7b7', stroke: '#059669' },
+  layer_group4: { fill: '#c4b5fd', stroke: '#7c3aed' },
+  layer_group5_1: { fill: '#fcd34d', stroke: '#b45309' },
+  layer_group5_2: { fill: '#fcd34d', stroke: '#b45309' },
+  layer_group6: { fill: '#fca5a5', stroke: '#dc2626' },
+  layer_group7: { fill: '#f9a8d4', stroke: '#be185d' },
   default:        { fill: '#d1d5db', stroke: '#6b7280' },
 };
 
@@ -34,7 +35,6 @@ const LAYER_COLORS: Record<string, { fill: string; stroke: string }> = {
 const TRACK_TYPE_FILL: Record<string, string> = {
   InboundHs:  '#34d399',  // green
   OutboundHs: '#fb923c',  // orange
-  BCRRead:    '#f472b6',  // pink
 };
 
 const STATUS_FILL: Record<string, string> = {
@@ -66,7 +66,7 @@ function clampVB(vb: VB, cw: number, ch: number): VB {
 function TrackRect({ track, selected, onClick }: {
   track: FPTrack;
   selected: boolean;
-  onClick: (t: FPTrack) => void;
+  onClick: (t: FPTrack, e: React.MouseEvent) => void;
 }) {
   const statuses = useWarehouseStore((s) => s.trackSegmentStatuses);
   const statusKey = Object.keys(statuses).find(
@@ -86,19 +86,32 @@ function TrackRect({ track, selected, onClick }: {
 
   const strokeColor = selected ? '#f59e0b' : stroke;
 
+  const isBCR = track.trackType === 'BCRRead';
+  const markerR = 7;
+  const markerCx = track.x + markerR + 2;
+  const markerCy = track.y + markerR + 2;
+
   return (
-    <rect
-      x={track.x} y={track.y} width={track.w} height={track.h}
-      fill={fillColor} stroke={strokeColor}
-      strokeWidth={selected ? 2 : 0.8} rx={2}
-      cursor="pointer"
-      onClick={() => onClick(track)}
-    />
+    <g cursor="pointer" onClick={(e) => onClick(track, e)}>
+      <rect
+        x={track.x} y={track.y} width={track.w} height={track.h}
+        fill={fillColor} stroke={strokeColor}
+        strokeWidth={selected ? 2 : 0.8} rx={2}
+      />
+      {isBCR && (
+        <>
+          <circle cx={markerCx} cy={markerCy} r={markerR} fill="#ea580c" opacity={0.95} pointerEvents="none" />
+          <text x={markerCx} y={markerCy + markerR * 0.38} textAnchor="middle"
+            fontSize={markerR * 1.3} fill="white" fontFamily="monospace" fontWeight="700" pointerEvents="none">
+            B
+          </text>
+        </>
+      )}
+    </g>
   );
 }
 
 // ── Floor tab bar ─────────────────────────────────────────────────────────────
-// Positioned at top=58 so it sits BELOW the ViewToggle (top=16, height≈36px)
 function FloorTabs({
   active, onChange,
 }: { active: FloorId | 'all'; onChange: (f: FloorId | 'all') => void }) {
@@ -109,7 +122,7 @@ function FloorTabs({
   return (
     <div style={{
       position: 'absolute',
-      top: 58,                          // ← below ViewToggle (was 10)
+      top: 16,
       left: '50%',
       transform: 'translateX(-50%)',
       display: 'flex',
@@ -141,6 +154,23 @@ function FloorTabs({
   );
 }
 
+// ── Equipment image map ────────────────────────────────────────────────────────
+const BOX_IMAGE_MAP: Record<string, string> = {
+  GRD_1F: '/images/Grader.png',
+  GRD_2F: '/images/Grader.png',
+  HAG:    '/images/HT Aging.png',
+  AG1:    '/images/Aging.png',
+  AG2:    '/images/Aging.png',
+  CDC1:   '/images/CDC.png',
+  CDC2:   '/images/CDC.png',
+  CDC3:   '/images/CDC.png',
+  OCV1:   '/images/OCV.png',
+  OCV2:   '/images/OCV.png',
+  NGR1:   '/images/NG Selector.png',
+  NGR2:   '/images/NG Selector.png',
+  ASSY:   '/images/Lot.png',
+};
+
 // ── Main component ─────────────────────────────────────────────────────────────
 interface FloorPlan2DProps {
   floorPlan: FloorPlanData;
@@ -155,6 +185,7 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
   const [isPanning, setIsPanning] = useState(false);
   const panStart                  = useRef<{ px: number; py: number; vb: VB } | null>(null);
   const [activeFloor, setActiveFloor] = useState<FloorId | 'all'>('all');
+  const [imagePopup, setImagePopup]   = useState<string | null>(null);
 
   const selectedObject = useWarehouseStore((s) => s.selectedObject);
   const setSelected    = useWarehouseStore((s) => s.setSelectedObject);
@@ -198,15 +229,24 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
   }, []);
 
   // ── Track click ───────────────────────────────────────────────────────────────
-  const onTrackClick = useCallback((track: FPTrack) => {
-    setSelected({ type: 'fptrack', id: track.id, unitId: track.unitId, layerId: track.layerId });
+  const onTrackClick = useCallback((track: FPTrack, e: React.MouseEvent) => {
+    setSelected(
+      { type: 'fptrack', id: track.id, unitId: track.unitId, layerId: track.layerId },
+      { x: e.clientX, y: e.clientY },
+    );
   }, [setSelected]);
 
-  // ── Equipment box click ───────────────────────────────────────────────────────
+  // ── Equipment box click / double-click ────────────────────────────────────────
   const onBoxClick = useCallback((box: FPBox, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelected({ type: 'fpbox', id: box.id });
+    setSelected({ type: 'fpbox', id: box.id }, { x: e.clientX, y: e.clientY });
   }, [setSelected]);
+
+  const onBoxDblClick = useCallback((box: FPBox, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const img = BOX_IMAGE_MAP[box.text ?? ''];
+    if (img) setImagePopup(img);
+  }, [setImagePopup]);
 
   // ── Selected IDs ──────────────────────────────────────────────────────────────
   let selectedTrackId: string | null = null;
@@ -254,8 +294,10 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
     }
   }, [focusRequest, floorPlan.tracks, vb]);
 
+  const canvasBg = floorPlan.backgroundColor ?? '#1a1f2e';
+
   return (
-    <div ref={wrapRef} style={{ position: 'absolute', inset: 0, background: '#1a1f2e', display: 'flex' }}>
+    <div ref={wrapRef} style={{ position: 'absolute', inset: 0, background: canvasBg, display: 'flex' }}>
 
       {/* Floor tabs — below ViewToggle */}
       <FloorTabs active={activeFloor} onChange={setActiveFloor} />
@@ -273,11 +315,22 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
         {/* Background */}
         <rect x={0} y={0} width={floorPlan.width} height={floorPlan.height} fill={floorPlan.backgroundColor} />
 
+        {/* Logo watermark */}
+        <image
+          href="/logo.png"
+          x={floorPlan.width / 2 - 200}
+          y={floorPlan.height / 2 - 100}
+          width={400}
+          height={200}
+          opacity={1}
+          style={{ pointerEvents: 'none' }}
+        />
+
         {/* Equipment boxes — clickable */}
         {floorPlan.boxes.map((box) => {
           const isSel = selectedBoxId === box.id;
           return (
-            <g key={box.id} onClick={(e) => onBoxClick(box, e)} style={{ cursor: 'pointer' }}>
+            <g key={box.id} onClick={(e) => onBoxClick(box, e)} onDoubleClick={(e) => onBoxDblClick(box, e)} style={{ cursor: 'pointer' }}>
               <rect
                 x={box.x} y={box.y} width={box.w} height={box.h}
                 fill={box.bgColor} fillOpacity={box.bgAlpha}
@@ -300,21 +353,29 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
         })}
 
         {/* Crane zones */}
-        {floorPlan.cranes.map((crane) => (
-          <g key={crane.id}>
-            <rect
-              x={crane.x} y={crane.bank2Y} width={crane.totalW} height={crane.totalH}
-              fill="rgba(37,99,235,0.10)" stroke="#3b82f6" strokeWidth={1.5} strokeDasharray="6 3" rx={3}
-            />
-            <text
-              x={crane.x + crane.totalW / 2} y={crane.bank2Y + 16}
-              textAnchor="middle" fill="#3b82f6"
-              fontSize={13} fontFamily="monospace" fontWeight="bold"
+        {floorPlan.cranes.map((crane) => {
+          const hasImage = crane.id in BOX_IMAGE_MAP;
+          return (
+            <g key={crane.id}
+              cursor="pointer"
+              onClick={(e) => setSelected({ type: 'fpbox', id: crane.id }, { x: e.clientX, y: e.clientY })}
+              onDoubleClick={hasImage ? () => setImagePopup(BOX_IMAGE_MAP[crane.id]) : undefined}
             >
-              {crane.id}
-            </text>
-          </g>
-        ))}
+              <rect
+                x={crane.x} y={crane.bank2Y} width={crane.totalW} height={crane.totalH}
+                fill="rgba(37,99,235,0.10)" stroke="#3b82f6" strokeWidth={1.5} strokeDasharray="6 3" rx={3}
+              />
+              <text
+                x={crane.x + crane.totalW / 2} y={crane.bank2Y + 16}
+                textAnchor="middle" fill="#3b82f6"
+                fontSize={13} fontFamily="monospace" fontWeight="bold"
+                pointerEvents="none"
+              >
+                {crane.id}
+              </text>
+            </g>
+          );
+        })}
 
         {/* Track segments */}
         {visibleTracks.map((track) => (
@@ -387,34 +448,39 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
           );
         })}
 
-        {/* Layer legend */}
-        <g transform={`translate(${floorPlan.legend.x}, ${floorPlan.legend.y})`}>
-          <rect x={-6} y={-16} width={110} height={floorPlan.legend.items.length * 17 + 30}
-            fill={floorPlan.legend.bgColor} stroke="#ccc" strokeWidth={0.5} rx={4} />
-          <text x={0} y={0} fontSize={floorPlan.legend.fontSize + 1} fontWeight="bold" fill="#303050" fontFamily="Tahoma, Arial, sans-serif">
-            {floorPlan.legend.title}
-          </text>
-          {floorPlan.legend.items.map((item, i) => (
-            <g key={i} transform={`translate(0, ${16 + i * 17})`}>
-              <rect x={0} y={-10} width={12} height={12} fill={item.color} rx={2} />
-              <text x={17} y={0} fontSize={floorPlan.legend.fontSize} fill="#303050" fontFamily="Tahoma, Arial, sans-serif">
-                {item.label}
-              </text>
-            </g>
-          ))}
-        </g>
       </svg>
 
-      {/* Hints */}
-      <div style={{ position: 'absolute', bottom: 80, right: 16, color: '#4a5568', fontFamily: 'monospace', fontSize: 11, pointerEvents: 'none' }}>
-        Scroll: zoom · Drag: pan · Click: select
-      </div>
+      {/* Equipment image popup */}
+      {imagePopup && (
+        <div
+          style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.78)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 30, cursor: 'pointer' }}
+          onClick={() => setImagePopup(null)}
+        >
+          <div
+            style={{ position: 'relative', maxWidth: '82vw', maxHeight: '82vh', background: '#0f1726', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.85)', border: '1px solid rgba(255,255,255,0.15)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setImagePopup(null)}
+              style={{ position: 'absolute', top: 8, right: 8, zIndex: 1, background: 'rgba(0,0,0,0.65)', color: '#e2e8f0', border: 'none', borderRadius: '50%', width: 28, height: 28, fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}
+            >×</button>
+            <img src={imagePopup} alt="Equipment" style={{ display: 'block', maxWidth: '82vw', maxHeight: '82vh', objectFit: 'contain' }} />
+          </div>
+        </div>
+      )}
+
+      {/* Reset View — bottom center */}
       <button
         onClick={() => setVB(FULL_VB)}
-        style={{ position: 'absolute', bottom: 80, left: '50%', transform: 'translateX(-50%)', padding: '4px 14px', background: '#2d3748', color: '#a0aec0', border: 'none', borderRadius: 5, fontFamily: 'monospace', fontSize: 11, cursor: 'pointer' }}
+        style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', padding: '4px 14px', background: '#2d3748', color: '#90cdf4', border: 'none', borderRadius: 5, fontFamily: 'monospace', fontSize: 11, cursor: 'pointer', zIndex: 10 }}
       >
-        Reset View
+        ↺ Reset View
       </button>
+
+      {/* Hints — bottom right */}
+      <div style={{ position: 'absolute', bottom: 16, right: 16, color: '#374151', fontFamily: 'monospace', fontSize: 11, pointerEvents: 'none' }}>
+        Scroll: zoom · Drag: pan · Click: select
+      </div>
     </div>
   );
 }

@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MES Interactive Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;800;900&family=Nunito+Sans:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════ */
+:root {
+  --bg:     #F0F4F8;
+  --card:   #FFFFFF;
+  --border: #E2E8F0;
+  --text:   #1A1A2E;
+  --muted:  #64748B;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.10);
+
+  --c-mes:  #1B3A6B;
+  --c-cim:  #0E7490;
+  --c-eis:  #6D28D9;
+  --c-rms:  #B45309;
+  --c-fms:  #065F46;
+  --c-func: #374151;
+}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', 'Noto Sans KR', sans-serif;
+  background-color: var(--bg);
+  color: var(--text); min-height: 100vh; font-size: 16px;
+}
+/* 로고 랜덤 패턴 */
+#logoBg {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+#logoBg img {
+  position: absolute;
+  width: 80px; height: auto;
+  opacity: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.screen { display: none; position: relative; z-index: 1; }
+.screen.active { display: block; }
+
+/* ══════════════════════════════════════════
+   TOP NAV
+══════════════════════════════════════════ */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.nav-title { font-size: 15px; font-weight: 700; color: var(--c-mes); transition: opacity 0.15s; }
+.nav-title:hover { opacity: 0.7; }
+.nav-right { display: flex; gap: 8px; }
+.nav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: white; color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: all 0.15s;
+}
+.nav-btn:hover { background: var(--bg); }
+.nav-btn.active { background: var(--c-mes); color: white; border-color: var(--c-mes); }
+.nav-btn.danger { border-color: #FCA5A5; color: #B91C1C; }
+.nav-btn.danger:hover { background: #FEF2F2; }
+
+/* ══════════════════════════════════════════
+   HOME — IMAGE MAP
+══════════════════════════════════════════ */
+#home { padding: 20px 20px 40px; max-width: 1000px; margin: 0 auto; }
+
+.img-wrap {
+  position: relative;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  user-select: none;
+}
+.img-wrap img { width: 100%; display: block; pointer-events: none; }
+
+/* 핫스팟 */
+.hs {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.hs:hover {
+  background: rgba(255,107,53,0.16);
+  box-shadow: inset 0 0 0 2px rgba(255,107,53,0.7);
+}
+/* 에디터 모드: 핫스팟 항상 표시 */
+.edit-mode .hs {
+  background: rgba(59,130,246,0.12);
+  box-shadow: inset 0 0 0 2px rgba(59,130,246,0.55);
+}
+.edit-mode .hs:hover {
+  background: rgba(59,130,246,0.22);
+  box-shadow: inset 0 0 0 2px rgba(59,130,246,0.9);
+}
+.edit-mode .hs.selected {
+  background: rgba(234,179,8,0.2);
+  box-shadow: inset 0 0 0 2.5px #CA8A04;
+}
+/* 핫스팟 라벨 (에디터 모드) */
+.hs-label {
+  display: none;
+  position: absolute;
+  top: 4px; left: 4px;
+  background: rgba(30,58,138,0.85);
+  color: white;
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.edit-mode .hs-label { display: block; }
+.edit-mode .hs { cursor: move; }
+
+/* 리사이즈 핸들 */
+.resize-handle {
+  position: absolute;
+  width: 12px; height: 12px;
+  background: white;
+  border: 2.5px solid #2563EB;
+  border-radius: 3px;
+  z-index: 20;
+  box-sizing: border-box;
+}
+.resize-handle.tl { top: -6px; left: -6px; cursor: nw-resize; }
+.resize-handle.tr { top: -6px; right: -6px; cursor: ne-resize; }
+.resize-handle.bl { bottom: -6px; left: -6px; cursor: sw-resize; }
+.resize-handle.br { bottom: -6px; right: -6px; cursor: se-resize; }
+
+/* 저장 버튼 */
+.save-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px;
+  padding: 8px 20px; border-radius: 8px;
+  background: #16A34A; color: white;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.15s;
+}
+.save-btn:hover { background: #15803D; }
+.save-notice {
+  display: inline-block;
+  font-size: 12px; color: #16A34A; font-weight: 600;
+  margin-left: 10px; opacity: 0; transition: opacity 0.3s;
+}
+.save-notice.show { opacity: 1; }
+
+/* 툴팁 (일반 모드) */
+.hs::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  background: rgba(27,58,107,0.9);
+  color: white;
+  font-size: 11px; font-weight: 700;
+  white-space: nowrap;
+  padding: 4px 10px; border-radius: 999px;
+  pointer-events: none;
+  opacity: 0; transition: opacity 0.15s;
+}
+.hs:hover::after { opacity: 1; }
+.edit-mode .hs::after { display: none; }
+/* 이미지 있는 핫스팟: 줌 커서, 텍스트 툴팁 숨김 */
+.hs[data-image] { cursor: zoom-in; }
+.hs[data-image]::after { display: none; }
+
+.hint-bar {
+  text-align: center; font-size: 12px; color: var(--muted);
+  padding: 9px; background: white;
+  border-top: 1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════
+   EDITOR PANEL
+══════════════════════════════════════════ */
+.editor-panel {
+  display: none;
+  background: white;
+  border: 1.5px solid #BFDBFE;
+  border-radius: var(--radius);
+  margin-top: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(59,130,246,0.10);
+}
+.editor-panel.open { display: block; }
+
+.editor-header {
+  background: #EFF6FF;
+  border-bottom: 1px solid #BFDBFE;
+  padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.editor-header h3 { font-size: 14px; font-weight: 700; color: #1E40AF; }
+.editor-header p  { font-size: 12px; color: #3B82F6; margin-top: 2px; }
+
+.editor-body { padding: 18px; }
+
+.editor-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin-bottom: 14px;
+}
+.editor-list-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.12s;
+  background: white;
+}
+.editor-list-item:hover { border-color: #93C5FD; background: #EFF6FF; }
+.editor-list-item.selected { border-color: #2563EB; background: #DBEAFE; color: #1E40AF; }
+.editor-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  background: #9CA3AF;
+}
+
+.pos-editor {
+  display: none;
+  background: #F8FAFC;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+.pos-editor.open { display: block; }
+.pos-editor h4 { font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #1E40AF; }
+
+.pos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.pos-field label {
+  display: block; font-size: 11px; font-weight: 600;
+  color: var(--muted); margin-bottom: 4px; letter-spacing: 0.05em;
+}
+.pos-field input[type=range] { width: 100%; }
+.pos-field .val-display {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500; color: #2563EB;
+  margin-left: 6px;
+}
+.pos-row { display: flex; align-items: center; gap: 8px; }
+
+.copy-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px;
+  padding: 8px 16px; border-radius: 8px;
+  background: #1D4ED8; color: white;
+  font-size: 12px; font-weight: 700;
+  cursor: pointer; border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.15s;
+}
+.copy-btn:hover { background: #1E40AF; }
+.copy-notice {
+  display: inline-block;
+  font-size: 12px; color: #16A34A; font-weight: 600;
+  margin-left: 10px; opacity: 0; transition: opacity 0.3s;
+}
+.copy-notice.show { opacity: 1; }
+
+/* ══════════════════════════════════════════
+   DETAIL SCREEN
+══════════════════════════════════════════ */
+#detail { min-height: 100vh; }
+
+.detail-hero {
+  padding: 32px 24px 28px; color: white;
+  position: relative; overflow: hidden;
+}
+.detail-hero::after {
+  content: attr(data-emoji);
+  position: absolute; right: 28px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 72px; opacity: 0.14; line-height: 1;
+}
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.2); color: white;
+  border: none; border-radius: 999px;
+  padding: 7px 16px; font-size: 13px; font-weight: 700;
+  cursor: pointer; margin-bottom: 18px;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.15s;
+}
+.back-btn:hover { background: rgba(255,255,255,0.3); }
+.detail-hero h2 { font-size: clamp(24px,4vw,34px); font-weight: 900; margin-bottom: 2px; }
+.detail-hero .title-ko { font-size: 15px; opacity: 0.55; margin-bottom: 12px; font-weight: 500; }
+.detail-hero .sub { font-size: 17px; opacity: 0.92; line-height: 1.7; max-width: 640px; }
+.detail-hero .sub-ko { font-size: 14px; opacity: 0.55; margin-top: 6px; line-height: 1.65; max-width: 640px; }
+
+.detail-body { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+
+/* info cards */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px,1fr));
+  gap: 16px; margin-bottom: 20px;
+}
+.info-card {
+  background: white; border-radius: var(--radius);
+  padding: 22px 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  border: 1.5px solid var(--border);
+  min-width: 340px;
+}
+.info-card h4 {
+  font-size: 17px; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.info-card h4 .card-title-ko {
+  display: block;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0; text-transform: none;
+  color: var(--muted); opacity: 0.6;
+  margin-top: 3px; margin-bottom: 10px;
+}
+.info-card p { font-size: 15px; line-height: 1.8; }
+.info-card .card-text-ko {
+  font-size: 13px; line-height: 1.75;
+  color: #94A3B8;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed #E2E8F0;
+}
+
+/* step list */
+.step-list {
+  background: white; border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  overflow: hidden; margin-bottom: 20px;
+}
+.step-list-title {
+  font-size: 14px; font-weight: 800;
+  padding: 14px 20px;
+  background: #F8FAFC; border-bottom: 1px solid var(--border);
+  color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.step-title-ko {
+  display: block;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0; text-transform: none;
+  opacity: 0.6; margin-top: 3px;
+}
+.step-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px; border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+.step-row:last-child { border-bottom: none; }
+.step-row:hover { background: #F8FAFC; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+  font-family: 'DM Mono', monospace;
+}
+.step-code {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  font-weight: 500; min-width: 46px; color: var(--muted);
+}
+.step-name { font-size: 15px; font-weight: 600; }
+.step-note {
+  margin-left: auto; font-size: 11px; font-weight: 600;
+  padding: 2px 9px; border-radius: 999px;
+}
+.note-key  { background: #FEF9C3; color: #92400E; }
+.note-last { background: #FCE7F3; color: #9D174D; }
+
+/* rms sub cards */
+.rms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 12px; margin-bottom: 20px;
+}
+.rms-card {
+  background: white; border-radius: 12px;
+  padding: 16px 14px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.rms-card-name { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--c-rms); margin-bottom: 6px; }
+.rms-card-comm {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 2px 9px; border-radius: 999px;
+  background: #FEF3C7; color: #92400E; margin-bottom: 8px;
+}
+.rms-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* comm-flow diagram */
+.cf-wrap {
+  background: white; border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  padding: 20px; margin-bottom: 20px; overflow-x: auto;
+}
+.cf-header {
+  font-size: 13px; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.cf-title-ko {
+  display: block; font-size: 11px; font-weight: 500;
+  letter-spacing: 0; text-transform: none; opacity: 0.6; margin-top: 2px;
+}
+.cf-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto auto;
+  align-items: center;
+  gap: 8px; min-width: 460px;
+}
+.cf-peer {
+  background: #F1F5F9; border: 1.5px solid #CBD5E1;
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 12px; font-weight: 600; line-height: 1.45;
+}
+.cf-peer-sub {
+  display: block; font-size: 10px; font-weight: 400;
+  color: #94A3B8; margin-top: 3px;
+}
+.cf-arrow {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 0 6px; color: #CBD5E1; font-size: 13px; flex-shrink: 0;
+}
+.cf-arrow span {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: #94A3B8;
+}
+.cf-prog {
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 12px; font-weight: 700;
+  font-family: 'DM Mono', monospace;
+}
+[data-cf-theme="cim"] .cf-prog { background:#ECFEFF; border:1.5px solid #A5F3FC; color:#0E7490; }
+[data-cf-theme="eis"] .cf-prog { background:#F5F3FF; border:1.5px solid #DDD6FE; color:#6D28D9; }
+[data-cf-theme="rms"] .cf-prog { background:#FFFBEB; border:1.5px solid #FDE68A; color:#B45309; }
+.cf-db-arrow {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 6px; color: #CBD5E1; font-size: 13px; flex-shrink: 0;
+}
+.cf-db-arrow span {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: #94A3B8;
+}
+.cf-db-node {
+  background: #0F172A; color: white; border-radius: 8px;
+  padding: 10px 14px; font-size: 13px; font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+
+/* theme gradients */
+.theme-mes  { background: linear-gradient(135deg,#1B3A6B,#2563EB); }
+.theme-cim  { background: linear-gradient(135deg,#0E7490,#06B6D4); }
+.theme-eis  { background: linear-gradient(135deg,#6D28D9,#8B5CF6); }
+.theme-rms  { background: linear-gradient(135deg,#B45309,#F59E0B); }
+.theme-fms  { background: linear-gradient(135deg,#065F46,#059669); }
+.theme-func { background: linear-gradient(135deg,#374151,#6B7280); }
+
+/* num colors */
+.num-cim { background:#CFFAFE; color:#0E7490; }
+.num-eis { background:#EDE9FE; color:#6D28D9; }
+.num-rms { background:#FEF3C7; color:#B45309; }
+
+/* ══════════════════════════════════════════
+   ANIM
+══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes previewIn {
+  from { opacity:0; transform:scale(0.93); }
+  to   { opacity:1; transform:scale(1); }
+}
+@keyframes lightboxIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+
+/* 카드 이미지 hover 프리뷰 */
+#cardImgPreview {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  max-width: 420px;
+  animation: previewIn 0.15s ease;
+}
+#cardImgPreview.visible { display: block; }
+#cardImgPreviewImg {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+}
+.info-card.wide { grid-column: 1 / -1; }
+.info-card[data-image],
+.rms-card[data-image] { cursor: zoom-in; }
+.card-inline-img {
+  display: block; width: 100%;
+  border-radius: 8px; margin-top: 12px;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+
+/* 전체화면 라이트박스 */
+#lightbox {
+  display: none;
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(0,0,0,0.88);
+  align-items: center; justify-content: center;
+  animation: lightboxIn 0.2s ease;
+}
+#lightbox.open { display: flex; }
+#lightboxImg {
+  max-width: 92vw; max-height: 92vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 8px 60px rgba(0,0,0,0.5);
+}
+#lightboxClose {
+  position: fixed; top: 20px; right: 28px;
+  background: rgba(255,255,255,0.15);
+  color: white; border: none;
+  font-size: 24px; font-weight: 700;
+  width: 44px; height: 44px; border-radius: 50%;
+  cursor: pointer; line-height: 1;
+  transition: background 0.15s;
+}
+#lightboxClose:hover { background: rgba(255,255,255,0.3); }
+.detail-body > * { animation: fadeUp 0.3s ease both; }
+.detail-body > *:nth-child(1){animation-delay:.04s}
+.detail-body > *:nth-child(2){animation-delay:.09s}
+.detail-body > *:nth-child(3){animation-delay:.14s}
+.detail-body > *:nth-child(4){animation-delay:.19s}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:600px){
+  .rms-grid{ grid-template-columns:1fr 1fr; }
+  .detail-hero h2{ font-size:19px; }
+  .detail-hero::after{ font-size:52px; }
+  .editor-list{ grid-template-columns:1fr 1fr; }
+  .pos-grid{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="top-nav">
+  <span class="nav-title" id="navTitle" onclick="goHome()" style="cursor:pointer" title="Go to Home">🏭 MES Interactive Guide</span>
+  <div class="nav-right">
+    <!-- 위치조정 필요할때 수정해 쓰기 -->
+    <button class="nav-btn" id="editToggleBtn" onclick="toggleEditMode()" style="display:none">✏️ 위치 조정</button>
+    <!-- <button class="nav-btn" id="editToggleBtn" onclick="toggleEditMode()" >✏️ 위치 조정</button> -->
+    <button class="nav-btn" id="navBackBtn" onclick="goHome()" style="visibility:hidden">← Back</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HOME SCREEN
+══════════════════════════════════════════ -->
+<div id="home" class="screen active">
+  <div id="homeInner" style="max-width:1000px;margin:0 auto;padding:20px 20px 40px;">
+
+    <!-- 이미지 맵 -->
+    <div class="img-wrap" id="imgWrap">
+      <img src="Main.png" alt="MES 시스템 구조도" id="mainImg" draggable="false">
+      <!-- 핫스팟은 JS가 HOTSPOTS 데이터 읽어서 동적 생성 -->
+    </div>
+    <div class="hint-bar" id="hintBar">💡 Click any area to learn more.</div>
+
+    <!-- 에디터 패널 -->
+    <div class="editor-panel" id="editorPanel">
+      <div class="editor-header">
+        <div>
+          <h3>✏️ 핫스팟 위치 조정 모드</h3>
+          <p>이미지에서 직접 드래그해 이동 · 모서리 핸들로 크기 조정 · 슬라이더로 미세 조정 후 💾 저장</p>
+        </div>
+      </div>
+      <div class="editor-body">
+        <div class="editor-list" id="editorList"></div>
+        <div class="pos-editor" id="posEditor">
+          <h4 id="posTitle">항목 선택</h4>
+          <div class="pos-grid">
+            <div class="pos-field">
+              <label>TOP (%)</label>
+              <div class="pos-row">
+                <input type="range" min="0" max="95" step="0.5" id="sTop" oninput="updatePos()">
+                <span class="val-display" id="vTop">–</span>
+              </div>
+            </div>
+            <div class="pos-field">
+              <label>LEFT (%)</label>
+              <div class="pos-row">
+                <input type="range" min="0" max="95" step="0.5" id="sLeft" oninput="updatePos()">
+                <span class="val-display" id="vLeft">–</span>
+              </div>
+            </div>
+            <div class="pos-field">
+              <label>WIDTH (%)</label>
+              <div class="pos-row">
+                <input type="range" min="2" max="60" step="0.5" id="sWidth" oninput="updatePos()">
+                <span class="val-display" id="vWidth">–</span>
+              </div>
+            </div>
+            <div class="pos-field">
+              <label>HEIGHT (%)</label>
+              <div class="pos-row">
+                <input type="range" min="2" max="60" step="0.5" id="sHeight" oninput="updatePos()">
+                <span class="val-display" id="vHeight">–</span>
+              </div>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copyValues()">📋 값 복사</button>
+          <span class="copy-notice" id="copyNotice">✅ 복사됨!</span>
+          <button class="save-btn" onclick="saveHotspots()" style="margin-left:4px;">💾 hotspots.js 저장</button>
+          <span class="save-notice" id="saveNotice">✅ 저장됨!</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DETAIL SCREEN
+══════════════════════════════════════════ -->
+<div id="detail" class="screen">
+  <div class="detail-hero theme-mes" id="detailHero" data-emoji="🏭">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <h2 id="detailTitle"></h2>
+    <p class="sub" id="detailSub"></p>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+</div>
+
+<!-- 카드 이미지 hover 프리뷰 -->
+<div id="cardImgPreview">
+  <img id="cardImgPreviewImg" src="" alt="">
+</div>
+
+<!-- 전체화면 라이트박스 -->
+<div id="lightbox">
+  <button id="lightboxClose">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- hotspots 데이터 로드 -->
+<script src="hotspots.js"></script>
+
+<script>
+/* ══════════════════════════════
+   STATE
+══════════════════════════════ */
+let editMode   = false;
+let selectedId = null;
+let dragState  = null;
+
+/* ══════════════════════════════
+   BUILD HOTSPOTS
+══════════════════════════════ */
+function buildHotspots() {
+  const wrap = document.getElementById('imgWrap');
+  // 기존 핫스팟 제거
+  wrap.querySelectorAll('.hs').forEach(el => el.remove());
+
+  HOTSPOTS.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'hs';
+    div.id = 'hs_' + h.id;
+    div.dataset.label = h.labelEn || h.label;
+    div.dataset.id    = h.id;
+    div.style.top    = h.top    + '%';
+    div.style.left   = h.left   + '%';
+    div.style.width  = h.width  + '%';
+    div.style.height = h.height + '%';
+    if (h.image) div.dataset.image = h.image;
+
+    // 라벨 스팬 (에디터용)
+    const lbl = document.createElement('span');
+    lbl.className = 'hs-label';
+    lbl.textContent = h.label;
+    div.appendChild(lbl);
+
+    div.addEventListener('mousedown', (e) => {
+      if (!editMode) return;
+      if (e.target.classList.contains('resize-handle')) return;
+      e.preventDefault();
+      selectHotspot(h.id);
+      const rect = document.getElementById('imgWrap').getBoundingClientRect();
+      dragState = { type:'move', id:h.id, imgW:rect.width, imgH:rect.height,
+        startX:e.clientX, startY:e.clientY, origTop:h.top, origLeft:h.left,
+        origWidth:h.width, origHeight:h.height };
+    });
+
+    div.addEventListener('click', (e) => {
+      if (!editMode) {
+        if (h.image) {
+          openLightbox(h.image);
+        } else {
+          showDetail(h.id);
+        }
+      }
+    });
+
+    wrap.appendChild(div);
+  });
+}
+
+/* ══════════════════════════════
+   EDIT MODE
+══════════════════════════════ */
+function toggleEditMode() {
+  editMode = !editMode;
+  const btn   = document.getElementById('editToggleBtn');
+  const wrap  = document.getElementById('imgWrap');
+  const panel = document.getElementById('editorPanel');
+  const hint  = document.getElementById('hintBar');
+
+  if (editMode) {
+    btn.textContent = '✅ 조정 완료';
+    btn.classList.add('active');
+    wrap.classList.add('edit-mode');
+    panel.classList.add('open');
+    hint.textContent = '✏️ 박스를 드래그해 이동 · 모서리 핸들로 크기 조정 · 조정 후 💾 저장';
+    buildEditorList();
+  } else {
+    btn.textContent = '✏️ 위치 조정';
+    btn.classList.remove('active');
+    wrap.classList.remove('edit-mode');
+    panel.classList.remove('open');
+    hint.textContent = '💡 Click any area to learn more.';
+    selectedId = null;
+    dragState  = null;
+    document.getElementById('posEditor').classList.remove('open');
+    document.querySelectorAll('.hs').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.resize-handle').forEach(el => el.remove());
+  }
+}
+
+function buildEditorList() {
+  const list = document.getElementById('editorList');
+  list.innerHTML = '';
+  const themeColors = { mes:'#1B3A6B', cim:'#0E7490', eis:'#6D28D9', rms:'#B45309', fms:'#065F46', func:'#374151' };
+
+  HOTSPOTS.forEach(h => {
+    const item = document.createElement('div');
+    item.className = 'editor-list-item';
+    item.id = 'eli_' + h.id;
+    item.innerHTML = `<span class="editor-dot" style="background:${themeColors[h.theme]||'#9CA3AF'}"></span>${h.label}`;
+    item.onclick = () => selectHotspot(h.id);
+    list.appendChild(item);
+  });
+}
+
+function selectHotspot(id) {
+  selectedId = id;
+  const h = HOTSPOTS.find(x => x.id === id);
+  if (!h) return;
+
+  // 리스트 하이라이트
+  document.querySelectorAll('.editor-list-item').forEach(el => el.classList.remove('selected'));
+  const eli = document.getElementById('eli_' + id);
+  if (eli) { eli.classList.add('selected'); eli.scrollIntoView({ block:'nearest' }); }
+
+  // 핫스팟 하이라이트 + 리사이즈 핸들
+  document.querySelectorAll('.hs').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.resize-handle').forEach(el => el.remove());
+  const hsEl = document.getElementById('hs_' + id);
+  if (hsEl) {
+    hsEl.classList.add('selected');
+    ['tl','tr','bl','br'].forEach(pos => {
+      const rh = document.createElement('div');
+      rh.className = 'resize-handle ' + pos;
+      rh.addEventListener('mousedown', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        const rect = document.getElementById('imgWrap').getBoundingClientRect();
+        dragState = { type:'resize', handle:pos, id:h.id, imgW:rect.width, imgH:rect.height,
+          startX:e.clientX, startY:e.clientY, origTop:h.top, origLeft:h.left,
+          origWidth:h.width, origHeight:h.height };
+      });
+      hsEl.appendChild(rh);
+    });
+  }
+
+  // 슬라이더 초기화
+  document.getElementById('posTitle').textContent = '📍 ' + h.label;
+  document.getElementById('sTop').value    = h.top;
+  document.getElementById('sLeft').value   = h.left;
+  document.getElementById('sWidth').value  = h.width;
+  document.getElementById('sHeight').value = h.height;
+  updateDisplays(h.top, h.left, h.width, h.height);
+
+  document.getElementById('posEditor').classList.add('open');
+}
+
+function updatePos() {
+  if (!selectedId) return;
+  const h = HOTSPOTS.find(x => x.id === selectedId);
+  if (!h) return;
+
+  h.top    = parseFloat(document.getElementById('sTop').value);
+  h.left   = parseFloat(document.getElementById('sLeft').value);
+  h.width  = parseFloat(document.getElementById('sWidth').value);
+  h.height = parseFloat(document.getElementById('sHeight').value);
+
+  updateDisplays(h.top, h.left, h.width, h.height);
+
+  // DOM 즉시 반영
+  const el = document.getElementById('hs_' + selectedId);
+  if (el) {
+    el.style.top    = h.top    + '%';
+    el.style.left   = h.left   + '%';
+    el.style.width  = h.width  + '%';
+    el.style.height = h.height + '%';
+  }
+}
+
+function updateDisplays(t,l,w,h) {
+  document.getElementById('vTop').textContent    = t.toFixed(1) + '%';
+  document.getElementById('vLeft').textContent   = l.toFixed(1) + '%';
+  document.getElementById('vWidth').textContent  = w.toFixed(1) + '%';
+  document.getElementById('vHeight').textContent = h.toFixed(1) + '%';
+}
+
+/* ══════════════════════════════
+   COPY HELPERS
+══════════════════════════════ */
+function copyValues() {
+  if (!selectedId) return;
+  const h = HOTSPOTS.find(x => x.id === selectedId);
+  const txt = `  // ${h.label}\n  top: ${h.top}, left: ${h.left}, width: ${h.width}, height: ${h.height},`;
+  navigator.clipboard.writeText(txt).then(() => flashNotice());
+}
+
+function copyAllValues() {
+  const lines = HOTSPOTS.map(h =>
+    `  // ${h.label}\n  { id:'${h.id}', top:${h.top}, left:${h.left}, width:${h.width}, height:${h.height} },`
+  ).join('\n');
+  const txt = `// ── 조정된 위치 값 (hotspots.js에 붙여넣기) ──\n${lines}`;
+  navigator.clipboard.writeText(txt).then(() => flashNotice());
+}
+
+function flashNotice() {
+  const n = document.getElementById('copyNotice');
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 2000);
+}
+
+/* ══════════════════════════════
+   DRAG / RESIZE
+══════════════════════════════ */
+document.addEventListener('mousemove', (e) => {
+  if (!dragState) return;
+  const h = HOTSPOTS.find(x => x.id === dragState.id);
+  if (!h) return;
+
+  const dx = (e.clientX - dragState.startX) / dragState.imgW * 100;
+  const dy = (e.clientY - dragState.startY) / dragState.imgH * 100;
+
+  if (dragState.type === 'move') {
+    h.top  = Math.max(0, Math.min(94, dragState.origTop  + dy));
+    h.left = Math.max(0, Math.min(94, dragState.origLeft + dx));
+  } else {
+    const hnd = dragState.handle;
+    if (hnd === 'br') {
+      h.width  = Math.max(2, dragState.origWidth  + dx);
+      h.height = Math.max(2, dragState.origHeight + dy);
+    } else if (hnd === 'bl') {
+      h.width  = Math.max(2, dragState.origWidth  - dx);
+      h.left   = dragState.origLeft + dragState.origWidth - h.width;
+      h.height = Math.max(2, dragState.origHeight + dy);
+    } else if (hnd === 'tr') {
+      h.width  = Math.max(2, dragState.origWidth  + dx);
+      h.height = Math.max(2, dragState.origHeight - dy);
+      h.top    = dragState.origTop + dragState.origHeight - h.height;
+    } else if (hnd === 'tl') {
+      h.width  = Math.max(2, dragState.origWidth  - dx);
+      h.height = Math.max(2, dragState.origHeight - dy);
+      h.left   = dragState.origLeft + dragState.origWidth  - h.width;
+      h.top    = dragState.origTop  + dragState.origHeight - h.height;
+    }
+  }
+
+  const el = document.getElementById('hs_' + h.id);
+  if (el) {
+    el.style.top    = h.top    + '%';
+    el.style.left   = h.left   + '%';
+    el.style.width  = h.width  + '%';
+    el.style.height = h.height + '%';
+  }
+
+  if (selectedId === h.id) {
+    document.getElementById('sTop').value    = h.top;
+    document.getElementById('sLeft').value   = h.left;
+    document.getElementById('sWidth').value  = h.width;
+    document.getElementById('sHeight').value = h.height;
+    updateDisplays(h.top, h.left, h.width, h.height);
+  }
+});
+
+document.addEventListener('mouseup', () => { dragState = null; });
+
+/* ══════════════════════════════
+   SAVE hotspots.js
+══════════════════════════════ */
+let _fileHandle = null;
+
+function buildHotspotsContent() {
+  const lines = HOTSPOTS.map(h => {
+    return JSON.stringify(h, null, 2)
+      .replace(/"top":[^,\n]+/,    `"top": ${+h.top.toFixed(2)}`)
+      .replace(/"left":[^,\n]+/,   `"left": ${+h.left.toFixed(2)}`)
+      .replace(/"width":[^,\n]+/,  `"width": ${+h.width.toFixed(2)}`)
+      .replace(/"height":[^,\n]+/, `"height": ${+h.height.toFixed(2)}`);
+  }).join(',\n');
+
+  return `// ============================================================
+//  hotspots.js
+//  핫스팟 위치(%) 및 카드 내용을 여기서 수정하세요.
+//
+//  top, left, width, height : 이미지 대비 % 값 (0~100)
+//  theme : 'cim' | 'eis' | 'rms' | 'fms' | 'mes' | 'func'
+//  (저장됨: ${new Date().toLocaleString('ko-KR')})
+// ============================================================
+
+const HOTSPOTS = [
+${lines}
+];
+`;
+}
+
+function flashSaveNotice() {
+  const n = document.getElementById('saveNotice');
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+async function saveHotspots() {
+  const content = buildHotspotsContent();
+
+  // File System Access API 지원 시 직접 저장
+  if (window.showOpenFilePicker) {
+    try {
+      if (!_fileHandle) {
+        const [fh] = await window.showOpenFilePicker({
+          types: [{ description: 'JavaScript', accept: { 'text/javascript': ['.js'] } }],
+          multiple: false,
+        });
+        _fileHandle = fh;
+      }
+      const writable = await _fileHandle.createWritable();
+      await writable.write(content);
+      await writable.close();
+      flashSaveNotice();
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') return; // 사용자가 취소
+      _fileHandle = null; // 오류 시 핸들 초기화 후 다운로드로 fallback
+    }
+  }
+
+  // fallback: 다운로드
+  const blob = new Blob([content], { type: 'text/javascript; charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'hotspots.js';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  flashSaveNotice();
+}
+
+/* ══════════════════════════════
+   DETAIL RENDER
+══════════════════════════════ */
+function showDetail(id) {
+  const h = HOTSPOTS.find(x => x.id === id);
+  if (!h) return;
+
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('detail').classList.add('active');
+  document.getElementById('navBackBtn').style.visibility = 'visible';
+
+  const hero = document.getElementById('detailHero');
+  hero.className = 'detail-hero theme-' + h.theme;
+  hero.dataset.emoji = h.emoji;
+  document.getElementById('detailTitle').textContent = h.titleEn || h.title;
+  document.getElementById('detailSub').innerHTML   = h.subEn || h.sub;
+
+  // 이전 한글 주석 제거 후 재삽입
+  document.querySelectorAll('.title-ko, .sub-ko').forEach(el => el.remove());
+  if (h.titleEn) {
+    document.getElementById('detailTitle')
+      .insertAdjacentHTML('afterend', `<span class="title-ko">${h.title}</span>`);
+  }
+  if (h.subEn) {
+    document.getElementById('detailSub')
+      .insertAdjacentHTML('afterend', `<p class="sub sub-ko">${h.sub}</p>`);
+  }
+
+  const body = document.getElementById('detailBody');
+  body.innerHTML = renderContent(h);
+  window.scrollTo(0, 0);
+}
+
+function renderContent(h) {
+  const themeNum = { cim:'num-cim', eis:'num-eis', rms:'num-rms', func:'num-cim' };
+  const numClass = themeNum[h.theme] || 'num-cim';
+
+  let html = '';
+  let cards = [];
+
+  h.content.forEach(block => {
+    if (block.type === 'card') {
+      const mainTitle = block.titleEn || block.title;
+      const titleKo = (block.titleEn && block.titleEn !== block.title)
+        ? `<small class="card-title-ko">${block.title}</small>` : '';
+      const mainText = block.textEn || block.text;
+      const koLine = block.textEn
+        ? `<p class="card-text-ko">${block.text}</p>` : '';
+      const imgAttr     = block.image       ? ` data-image="${block.image}"` : '';
+      const wideAttr    = block.wide        ? ' wide' : '';
+      const inlineImg   = block.inlineImage ? `<img src="${block.inlineImage}" class="card-inline-img" alt="">` : '';
+      const titleHtml   = (mainTitle) ? `<h4>${mainTitle}${titleKo}</h4>` : '';
+      const textHtml    = mainText    ? `<p>${mainText}</p>` : '';
+      cards.push(`
+        <div class="info-card${wideAttr}"${imgAttr}>
+          ${titleHtml}
+          ${textHtml}
+          ${koLine}
+          ${inlineImg}
+        </div>`);
+    }
+
+    if (block.type === 'steps') {
+      // 먼저 쌓인 카드 flush
+      if (cards.length) { html += `<div class="info-grid">${cards.join('')}</div>`; cards = []; }
+
+      const rows = block.rows.map(r => {
+        const note = r.note
+          ? `<span class="step-note note-${r.noteStyle||'key'}">${r.note}</span>` : '';
+        return `
+          <div class="step-row">
+            <div class="step-num ${numClass}">${r.num}</div>
+            <div class="step-code">${r.code}</div>
+            <div class="step-name">${r.name}</div>
+            ${note}
+          </div>`;
+      }).join('');
+
+      const stepTitle = block.titleEn || block.title;
+      const stepTitleKo = (block.titleEn && block.titleEn !== block.title)
+        ? `<span class="step-title-ko">${block.title}</span>` : '';
+      html += `
+        <div class="step-list">
+          <div class="step-list-title">${stepTitle}${stepTitleKo}</div>
+          ${rows}
+        </div>`;
+    }
+
+    if (block.type === 'rms-subs') {
+      if (cards.length) { html += `<div class="info-grid">${cards.join('')}</div>`; cards = []; }
+      const subs = block.subs.map(s => {
+        const mainDesc = s.descEn || s.desc;
+        const koLine = s.descEn
+          ? `<p class="card-text-ko">${s.desc}</p>` : '';
+        const imgAttr = s.image ? ` data-image="${s.image}"` : '';
+        return `
+        <div class="rms-card"${imgAttr}>
+          <div class="rms-card-name">${s.name}</div>
+          <div class="rms-card-comm">${s.comm}</div>
+          <p>${mainDesc}</p>
+          ${koLine}
+        </div>`;
+      }).join('');
+      html += `<div class="rms-grid">${subs}</div>`;
+    }
+
+    if (block.type === 'comm-flow') {
+      if (cards.length) { html += `<div class="info-grid">${cards.join('')}</div>`; cards = []; }
+      const cfTitle = block.titleEn || block.title;
+      const cfTitleKo = (block.titleEn && block.titleEn !== block.title)
+        ? `<span class="cf-title-ko">${block.title}</span>` : '';
+      const n = block.peers.length;
+      const rows = block.peers.map((peer, i) => {
+        const prog = block.programs[i] || '';
+        const row = i + 1;
+        const subHtml = peer.sub ? `<span class="cf-peer-sub">${peer.sub}</span>` : '';
+        return `
+          <div class="cf-peer" style="grid-column:1;grid-row:${row}">${peer.label}${subHtml}</div>
+          <div class="cf-arrow" style="grid-column:2;grid-row:${row}">↔<span>${peer.proto}</span></div>
+          <div class="cf-prog" style="grid-column:3;grid-row:${row}">${prog}</div>`;
+      }).join('');
+      html += `
+        <div class="cf-wrap">
+          <div class="cf-header">${cfTitle}${cfTitleKo}</div>
+          <div class="cf-grid" data-cf-theme="${h.theme}">
+            ${rows}
+            <div class="cf-db-arrow" style="grid-column:4;grid-row:1/${n+1}">↔<span>${block.dbProto}</span></div>
+            <div class="cf-db-node" style="grid-column:5;grid-row:1/${n+1}">${block.db}</div>
+          </div>
+        </div>`;
+    }
+  });
+
+  if (cards.length) html += `<div class="info-grid">${cards.join('')}</div>`;
+  return html;
+}
+
+function goHome() {
+  document.getElementById('detail').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+  document.getElementById('navBackBtn').style.visibility = 'hidden';
+  window.scrollTo(0, 0);
+}
+
+/* ══════════════════════════════
+   CARD IMAGE PREVIEW
+══════════════════════════════ */
+const preview    = document.getElementById('cardImgPreview');
+const previewImg = document.getElementById('cardImgPreviewImg');
+
+const CARD_SEL    = '.info-card[data-image], .rms-card[data-image]';
+const PREVIEW_SEL = '.info-card[data-image], .rms-card[data-image], .hs[data-image]';
+const lightbox  = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightboxImg.src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('card-inline-img')) {
+    openLightbox(e.target.src);
+    return;
+  }
+  if (e.target.closest(CARD_SEL)) {
+    openLightbox(e.target.closest(CARD_SEL).dataset.image);
+    return;
+  }
+  if (e.target === lightbox || e.target === document.getElementById('lightboxClose')) {
+    closeLightbox();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+document.addEventListener('mouseover', e => {
+  const card = e.target.closest(PREVIEW_SEL);
+  if (!card) return;
+  previewImg.src = card.dataset.image;
+  preview.classList.add('visible');
+  positionPreview(e);
+});
+
+document.addEventListener('mousemove', e => {
+  if (!preview.classList.contains('visible')) return;
+  if (!e.target.closest(PREVIEW_SEL)) return;
+  positionPreview(e);
+});
+
+document.addEventListener('mouseout', e => {
+  const card = e.target.closest(PREVIEW_SEL);
+  if (!card) return;
+  if (!card.contains(e.relatedTarget)) {
+    preview.classList.remove('visible');
+    previewImg.src = '';
+  }
+});
+
+function positionPreview(e) {
+  const pw = preview.offsetWidth  || 420;
+  const ph = preview.offsetHeight || 300;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const gap = 16;
+
+  let x = e.clientX + gap;
+  let y = e.clientY + gap;
+
+  if (x + pw > vw - gap) x = e.clientX - pw - gap;
+  if (y + ph > vh - gap) y = e.clientY - ph - gap;
+
+  preview.style.left = x + 'px';
+  preview.style.top  = y + 'px';
+}
+
+/* ══════════════════════════════
+   INIT
+══════════════════════════════ */
+// 로고 랜덤 배경 패턴
+(function() {
+  const bg = document.createElement('div');
+  bg.id = 'logoBg';
+  document.body.insertBefore(bg, document.body.firstChild);
+
+  function renderLogos() {
+    bg.innerHTML = '';
+    const W = window.innerWidth, H = window.innerHeight;
+    const logoW = 80, minGap = 60;
+    const cols = Math.floor(W / (logoW + minGap));
+    const rows = Math.floor(H / (logoW + minGap));
+    const count = Math.max(12, cols * rows);
+
+    // 포아송 디스크 샘플링 대신 간단한 그리드+랜덤 오프셋
+    const cellW = W / cols, cellH = H / rows;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const img = document.createElement('img');
+        img.src = 'logo.png';
+        img.draggable = false;
+
+        const x = c * cellW + Math.random() * (cellW - logoW);
+        const y = r * cellH + Math.random() * (cellH - logoW);
+        const angle = (Math.random() - 0.5) * 40; // -20 ~ +20도
+
+        img.style.left    = Math.round(x) + 'px';
+        img.style.top     = Math.round(y) + 'px';
+        img.style.transform = `rotate(${angle}deg)`;
+        bg.appendChild(img);
+      }
+    }
+  }
+
+  renderLogos();
+  window.addEventListener('resize', renderLogos);
+})();
+
+buildHotspots();
+</script>
+
+<!-- Prime3D 이동 캐릭터 -->
+<img
+  id="prime3dChar"
+  src="character2.png"
+  alt=""
+  title="Let's go check out the PRIME3D factory!"
+  onclick="window.open('/', 'prime3d')"
+  style="
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    cursor: pointer;
+    z-index: 9999;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+    transition: filter .2s;
+    user-select: none;
+  "
+  onmouseover="this.style.filter='drop-shadow(0 0 10px #90cdf4)'"
+  onmouseout="this.style.filter='drop-shadow(0 2px 8px rgba(0,0,0,0.4))'"
+/>
+
+</body>
+</html>

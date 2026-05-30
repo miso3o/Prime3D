@@ -65,6 +65,14 @@ function getVisibleTrackAnchor(trackId: string, segmentId: string, layout: Layou
 }
 
 export function computeTrayWorldPos(location: TrayLocation, layout: LayoutConfig): THREE.Vector3 {
+  // ── Floor-plan track by unitId ─────────────────────────────────────────────
+  if (location.type === 'fptrack') {
+    const fpTrack = layout.floorPlan?.tracks.find((t) => t.unitId === location.unitId);
+    if (!fpTrack) return new THREE.Vector3();
+    const [wx, wy] = fp2world(fpTrack.x + fpTrack.w / 2, fpTrack.y + fpTrack.h / 2);
+    return new THREE.Vector3(wx, wy, getLayerZ(fpTrack.layerId) + TRAY_Z_OFF);
+  }
+
   // ── On a conveyor track ────────────────────────────────────────────────────
   if (location.type === 'track') {
     const visibleTrackPos = getVisibleTrackAnchor(location.trackId, location.segmentId, layout);

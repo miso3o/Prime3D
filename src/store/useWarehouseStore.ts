@@ -33,6 +33,7 @@ interface WarehouseStore {
 
   // ── Selection ─────────────────────────────────────────────────────────────────
   selectedObject: SelectedObject | null;
+  clickPosition: { x: number; y: number } | null;
 
   // ── Playback ─────────────────────────────────────────────────────────────────
   /** When false, useMockData simulation pauses (no crane/tray movement) */
@@ -50,7 +51,7 @@ interface WarehouseStore {
   setTrackStatus: (key: string, status: TrackSegmentStatus) => void;
   setTrayLocation: (trayId: string, location: TrayLocation) => void;
   addTray: (tray: TrayState) => void;
-  setSelectedObject: (obj: SelectedObject | null) => void;
+  setSelectedObject: (obj: SelectedObject | null, pos?: { x: number; y: number }) => void;
   setPlaying: (playing: boolean) => void;
   setDesignerMode: (enabled: boolean) => void;
   requestFocus: (selection: SelectedObject) => void;
@@ -63,6 +64,7 @@ export const useWarehouseStore = create<WarehouseStore>((set) => ({
   trackSegmentStatuses: {},
   trays: [],
   selectedObject: null,
+  clickPosition: null,
   isPlaying: true,   // simulation runs by default
   designerMode: false,
   focusRequest: null,
@@ -92,8 +94,8 @@ export const useWarehouseStore = create<WarehouseStore>((set) => ({
   addTray: (tray) =>
     set((s) => ({ trays: [...s.trays, tray] })),
 
-  setSelectedObject: (obj) =>
-    set({ selectedObject: obj }),
+  setSelectedObject: (obj, pos) =>
+    set({ selectedObject: obj, clickPosition: pos ?? null }),
 
   setPlaying: (playing) =>
     set({ isPlaying: playing }),

@@ -11,7 +11,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Grid, Html, Stats } from '@react-three/drei';
+import { OrbitControls, Grid, Html } from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import type { LayoutConfig } from '../../config/types';
 import { getRackHeight, getWorldPointForSelection } from '../../config/layoutGeometry';
@@ -253,7 +253,6 @@ function WarehouseScene({ layout, showTrackIds }: { layout: LayoutConfig; showTr
       ))}
       </group>
 
-      <Stats />
     </>
   );
 }
@@ -261,13 +260,31 @@ function WarehouseScene({ layout, showTrackIds }: { layout: LayoutConfig; showTr
 // ── Canvas wrapper ─────────────────────────────────────────────────────────────
 export function Scene({ layout, showTrackIds = false }: SceneProps) {
   return (
-    <Canvas
-      shadows
-      camera={{ position: DEFAULT_CAM_POS, fov: 50, near: 0.5, far: 600 }}
-      style={{ background: '#0b0f1a' }}
-      onPointerMissed={() => useWarehouseStore.getState().setSelectedObject(null)}
-    >
-      <WarehouseScene layout={layout} showTrackIds={showTrackIds} />
-    </Canvas>
+    <div style={{ position: 'absolute', inset: 0, background: '#0b0f1a' }}>
+      <Canvas
+        shadows
+        camera={{ position: DEFAULT_CAM_POS, fov: 50, near: 0.5, far: 600 }}
+        style={{ background: '#0b0f1a' }}
+        onPointerMissed={() => useWarehouseStore.getState().setSelectedObject(null)}
+      >
+        <WarehouseScene layout={layout} showTrackIds={showTrackIds} />
+      </Canvas>
+
+      {/* Logo watermark */}
+      <img
+        src="/logo.png"
+        alt=""
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 320,
+          opacity: 0.05,
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      />
+    </div>
   );
 }

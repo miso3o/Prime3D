@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Prime3D
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+공장 도면(2D Floor Plan)을 3D로 렌더링하는 뷰어.  
+React + Three.js (React Three Fiber) + TypeScript + Vite
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 개발 서버 실행
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+브라우저에서 http://localhost:5173 열기
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 빌드
+
+```bash
+npm run build
 ```
+
+빌드 결과물은 `dist/` 폴더에 생성됨
+
+---
+
+## 빌드 결과물 미리보기
+
+```bash
+npm run preview
+```
+
+---
+
+## 처음 설치할 때
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 주요 파일
+
+| 경로 | 설명 |
+|------|------|
+| `src/config/defaultLayout.json` | 도면 데이터 (트랙, 크레인, 박스, 레이어 등) |
+| `src/config/types.ts` | 도면 관련 타입 정의 |
+| `src/config/fp2world.ts` | 2D 픽셀 좌표 → 3D 월드 좌표 변환 상수 |
+| `src/components/Scene/FPScene3D.tsx` | 3D 씬 렌더링 메인 컴포넌트 |
