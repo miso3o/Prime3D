@@ -144,9 +144,10 @@ function FloorTabs({
 // ── Main component ─────────────────────────────────────────────────────────────
 interface FloorPlan2DProps {
   floorPlan: FloorPlanData;
+  showTrackIds?: boolean;
 }
 
-export function FloorPlan2D({ floorPlan }: FloorPlan2DProps) {
+export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProps) {
   const svgRef  = useRef<SVGSVGElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
 
@@ -208,10 +209,9 @@ export function FloorPlan2D({ floorPlan }: FloorPlan2DProps) {
   }, [setSelected]);
 
   // ── Selected IDs ──────────────────────────────────────────────────────────────
-  const selectedTrackId =
-    selectedObject?.type === 'fptrack' ? selectedObject.id
-    : selectedObject?.type === 'track'  ? selectedObject.segmentId
-    : null;
+  let selectedTrackId: string | null = null;
+  if (selectedObject?.type === 'fptrack') selectedTrackId = selectedObject.id;
+  if (selectedObject?.type === 'track') selectedTrackId = selectedObject.segmentId;
 
   const selectedBoxId = selectedObject?.type === 'fpbox' ? selectedObject.id : null;
 
@@ -222,12 +222,19 @@ export function FloorPlan2D({ floorPlan }: FloorPlan2DProps) {
     : new Set(FLOOR_DEFS.find((f) => f.id === activeFloor)?.layerIds ?? []);
 
   const showTrack = (t: FPTrack) => visibleLayers.has(t.layerId) && floorLayerIds.has(t.layerId);
+  const visibleTracks = floorPlan.tracks.filter(showTrack);
+  const trackIdFontSize = visibleTracks.reduce((minSize, track) => {
+    const label = track.unitId || track.id;
+    const size = Math.max(9, Math.min(18, Math.min(track.w / Math.max(label.length, 1), track.h * 0.7)));
+    return Math.min(minSize, size);
+  }, 18);
 
   const viewBox = `${vb.x} ${vb.y} ${vb.w} ${vb.h}`;
 
   useEffect(() => {
     if (!focusRequest || focusRequest.selection.type !== 'fptrack') return;
-    const track = floorPlan.tracks.find((item) => item.id === focusRequest.selection.id);
+    const selection = focusRequest.selection;
+    const track = floorPlan.tracks.find((item) => item.id === selection.id);
     const rect = svgRef.current?.getBoundingClientRect();
     if (!track || !rect) return;
     const margin = 120;
@@ -310,9 +317,42 @@ export function FloorPlan2D({ floorPlan }: FloorPlan2DProps) {
         ))}
 
         {/* Track segments */}
-        {floorPlan.tracks.filter(showTrack).map((track) => (
+        {visibleTracks.map((track) => (
           <TrackRect key={track.id} track={track} selected={selectedTrackId === track.id} onClick={onTrackClick} />
         ))}
+
+        {showTrackIds && visibleTracks.map((track) => {
+          const label = track.unitId || track.id;
+          const labelW = Math.min(track.w - 4, label.length * trackIdFontSize * 0.68 + 8);
+          const labelH = trackIdFontSize + 6;
+          const cx = track.x + track.w / 2;
+          const cy = track.y + track.h / 2;
+          return (
+            <g key={`id-${track.id}`} pointerEvents="none">
+              <rect
+                x={cx - labelW / 2}
+                y={cy - labelH / 2}
+                width={labelW}
+                height={labelH}
+                fill="rgba(255, 255, 255, 0.33)"
+                stroke="rgba(15,23,42,0.12)"
+                strokeWidth={0.5}
+                rx={3}
+              />
+              <text
+                x={cx}
+                y={cy + trackIdFontSize * 0.35}
+                textAnchor="middle"
+                fill="#0f172a"
+                fontSize={trackIdFontSize}
+                fontFamily="monospace"
+                fontWeight={700}
+              >
+                {label}
+              </text>
+            </g>
+          );
+        })}
 
         {trays.map((tray) => {
           const point = computeTrayWorldPos(tray.location, DEFAULT_LAYOUT);

@@ -76,7 +76,7 @@ export function LayoutEditor({ layout, onApply }: LayoutEditorProps) {
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement('a');
       a.href     = url;
-      a.download = 'layout.json';
+      a.download = 'defaultLayout.json';
       a.click();
       URL.revokeObjectURL(url);
     } catch {

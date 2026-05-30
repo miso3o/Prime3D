@@ -41,6 +41,8 @@ export interface CraneConfig {
   id: string;
   unitId?: string;
   railPosition: [number, number, number];
+  railMinX?: number;
+  railMaxX?: number;
   rackIds: [string] | [string, string];
   forkSide?: 'front' | 'back' | 'Both';
   leftOffset?: number;
@@ -154,8 +156,16 @@ export interface FPTrack {
   layerId: string;
   /** Conveyor travel direction in 2D: 'x' = left-right, 'y' = front-back */
   direction?: 'x' | 'y';
+  /** Designer-facing 2D direction with sign. */
+  fpDirection?: 'left' | 'right' | 'up' | 'down';
+  /** Designer-facing 2D directions for merge/diverge tracks. */
+  fpDirections?: Array<'left' | 'right' | 'up' | 'down'>;
   /** 3D rendering type (Default if omitted). Lift renders as a vertical column. */
   trackType?: FPTrackType;
+  /** 3D only: ID of the primary Lift track this one defers to. When set, this track is suppressed in 3D and its satellites are repositioned. */
+  lift3dRef?: string;
+  /** 3D only: track IDs that should shift to the primary lift's XY when this track is suppressed. */
+  lift3dSatellites?: string[];
 }
 
 /** One AS/RS crane zone in the 2D floor plan */
@@ -169,12 +179,6 @@ export interface FPCrane {
   forkCount: number;
   totalW: number;
   totalH: number;
-}
-
-/** A conveyor line path (ordered list of track IDs) */
-export interface FPConveyorLine {
-  dir: number;
-  trackIds: string[];
 }
 
 /** A text label in the 2D floor plan */
@@ -236,7 +240,6 @@ export interface FloorPlanData {
   backgroundColor: string;
   tracks: FPTrack[];
   cranes: FPCrane[];
-  conveyorLines: FPConveyorLine[];
   labels: FPLabel[];
   boxes: FPBox[];
   legend: FPLegend;

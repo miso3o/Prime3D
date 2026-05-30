@@ -9,9 +9,9 @@
         0
       ],
       "banks": 1,
-      "bays": 27,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 10,
+      "levels": 8,
+      "cellWidth": 2.97,
       "cellHeight": 1.1,
       "cellDepth": 1.4,
       "orientation": "x"
@@ -24,9 +24,9 @@
         0
       ],
       "banks": 1,
-      "bays": 27,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 10,
+      "levels": 8,
+      "cellWidth": 2.97,
       "cellHeight": 1.1,
       "cellDepth": 1.4,
       "orientation": "x"
@@ -39,9 +39,9 @@
         0
       ],
       "banks": 1,
-      "bays": 27,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 10,
+      "levels": 8,
+      "cellWidth": 2.97,
       "cellHeight": 1.1,
       "cellDepth": 1.4,
       "orientation": "x"
@@ -54,9 +54,9 @@
         0
       ],
       "banks": 1,
-      "bays": 34,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 30,
+      "levels": 11,
+      "cellWidth": 1.25,
       "cellHeight": 1.3,
       "cellDepth": 2,
       "orientation": "x"
@@ -69,9 +69,9 @@
         0
       ],
       "banks": 1,
-      "bays": 34,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 30,
+      "levels": 11,
+      "cellWidth": 1.25,
       "cellHeight": 1.3,
       "cellDepth": 2,
       "orientation": "x"
@@ -84,9 +84,9 @@
         0
       ],
       "banks": 1,
-      "bays": 34,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 30,
+      "levels": 11,
+      "cellWidth": 1.25,
       "cellHeight": 1.3,
       "cellDepth": 2,
       "orientation": "x"
@@ -99,9 +99,9 @@
         0
       ],
       "banks": 1,
-      "bays": 34,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 30,
+      "levels": 11,
+      "cellWidth": 1.25,
       "cellHeight": 1.3,
       "cellDepth": 2,
       "orientation": "x"
@@ -110,13 +110,13 @@
       "id": "HAG-L",
       "position": [
         -45.2,
-        25.4,
+        27.8,
         0
       ],
       "banks": 1,
-      "bays": 16,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 10,
+      "levels": 11,
+      "cellWidth": 1.76,
       "cellHeight": 1.2,
       "cellDepth": 2.1,
       "orientation": "x"
@@ -125,13 +125,13 @@
       "id": "HAG-R",
       "position": [
         -45.2,
-        29,
+        32.2,
         0
       ],
       "banks": 1,
-      "bays": 16,
-      "levels": 5,
-      "cellWidth": 1.1,
+      "bays": 10,
+      "levels": 11,
+      "cellWidth": 1.76,
       "cellHeight": 1.2,
       "cellDepth": 2.1,
       "orientation": "x"
@@ -145,6 +145,8 @@
         -1,
         0
       ],
+      "railMinX": -19.8,
+      "railMaxX": 14.85,
       "rackIds": [
         "CDC1-R"
       ],
@@ -164,6 +166,8 @@
         7.4,
         0
       ],
+      "railMinX": -19.8,
+      "railMaxX": 14.85,
       "rackIds": [
         "CDC2-R"
       ],
@@ -183,6 +187,8 @@
         15,
         0
       ],
+      "railMinX": -19.8,
+      "railMaxX": 14.85,
       "rackIds": [
         "CDC3-R"
       ],
@@ -199,9 +205,11 @@
       "id": "AG1",
       "railPosition": [
         1.8,
-        21.6,
+        24.6,
         0
       ],
+      "railMinX": -20.2,
+      "railMaxX": 23,
       "rackIds": [
         "AG1-L",
         "AG1-R"
@@ -221,9 +229,11 @@
       "id": "AG2",
       "railPosition": [
         1.8,
-        27.6,
+        30.6,
         0
       ],
+      "railMinX": -20.2,
+      "railMaxX": 23,
       "rackIds": [
         "AG2-L",
         "AG2-R"
@@ -231,11 +241,11 @@
       "homeStandTracks": {
         "inbound": [
           "2135",
-          "1113"
+          "1117"
         ],
         "outbound": [
-          "2138",
-          "1117"
+          "2136",
+          "1113"
         ]
       }
     },
@@ -243,17 +253,18 @@
       "id": "HAG",
       "railPosition": [
         -45.2,
-        27.2,
+        30,
         0
       ],
+      "railMinX": -54,
+      "railMaxX": -34.2,
       "rackIds": [
         "HAG-L",
         "HAG-R"
       ],
       "homeStandTracks": {
         "inbound": [
-          "3146",
-          "1113"
+          "3146"
         ],
         "outbound": [
           "3100"
@@ -711,158 +722,99 @@
   ],
   "equipment": [
     {
-      "id": "EQ-CONV-IN-A",
-      "name": "Input Conveyor A",
-      "type": "input",
+      "id": "OCV1",
+      "unitId": "OCV1",
+      "name": "OCV1",
+      "type": "output",
       "position": [
-        -22.5,
-        0,
-        0
-      ],
-      "size": [
-        2.2,
-        0.45,
-        0.9
-      ]
-    },
-    {
-      "id": "EQ-CONV-IN-B",
-      "name": "Input Conveyor B",
-      "type": "input",
-      "position": [
-        -22.5,
-        8.4,
-        0
-      ],
-      "size": [
-        2.2,
-        0.45,
-        0.9
-      ]
-    },
-    {
-      "id": "EQ-CONV-IN-C",
-      "name": "Input Conveyor C",
-      "type": "input",
-      "position": [
-        -22.5,
+        -54.4,
         16,
         0
       ],
       "size": [
-        2.2,
-        0.45,
-        0.9
+        2.8,
+        0.4,
+        1.6
       ]
     },
     {
-      "id": "EQ-XFER-Z",
-      "name": "Z-Transfer Conveyor",
-      "type": "conveyor",
-      "position": [
-        -21,
-        8.2,
-        0
-      ],
-      "rotation": [
-        0,
-        1.5708,
-        0
-      ],
-      "size": [
-        18,
-        0.45,
-        0.9
-      ]
-    },
-    {
-      "id": "EQ-LIFT-1",
-      "name": "Vertical Lift 1",
-      "type": "lift",
-      "position": [
-        -20.8,
-        18.5,
-        0
-      ],
-      "size": [
-        1.8,
-        4,
-        1.8
-      ]
-    },
-    {
-      "id": "EQ-CONV-OUT-AG1",
-      "name": "AG1 Output Station",
+      "id": "OCV2",
+      "unitId": "OCV2",
+      "name": "OCV2",
       "type": "output",
       "position": [
-        25.2,
-        21.6,
-        0
-      ],
-      "size": [
-        3,
-        0.45,
-        0.9
-      ]
-    },
-    {
-      "id": "EQ-CONV-OUT-AG2",
-      "name": "AG2 Output Station",
-      "type": "output",
-      "position": [
-        25.2,
-        27.6,
-        0
-      ],
-      "size": [
-        3,
-        0.45,
-        0.9
-      ]
-    },
-    {
-      "id": "EQ-BUF-AG",
-      "name": "AG Buffer Zone",
-      "type": "buffer",
-      "position": [
-        24,
-        24.6,
-        0
-      ],
-      "size": [
-        2.5,
-        0.8,
-        3
-      ]
-    },
-    {
-      "id": "EQ-CONV-HAG",
-      "name": "HAG Input Conveyor",
-      "type": "input",
-      "position": [
-        -62.5,
-        27.2,
+        -48,
+        16,
         0
       ],
       "size": [
         2.8,
-        0.45,
-        0.9
+        0.4,
+        1.6
       ]
     },
     {
-      "id": "EQ-BUF-HAG",
-      "name": "HAG Buffer Station",
+      "id": "NGR1",
+      "unitId": "NGR1",
+      "name": "NGR1",
       "type": "buffer",
       "position": [
-        -64.8,
-        27.2,
+        -42.2,
+        17.2,
         0
       ],
       "size": [
-        2.2,
-        1.2,
+        4.8,
+        0.4,
         2.4
+      ]
+    },
+    {
+      "id": "NGR2",
+      "unitId": "NGR2",
+      "name": "NGR2",
+      "type": "buffer",
+      "position": [
+        -33.4,
+        17.2,
+        0
+      ],
+      "size": [
+        4.8,
+        0.4,
+        2.4
+      ]
+    },
+    {
+      "id": "BOX_MNCRKG8MJ",
+      "unitId": "GRD",
+      "name": "GRD_1F",
+      "type": "other",
+      "position": [
+        -43.4,
+        3.8,
+        0
+      ],
+      "size": [
+        12.8,
+        0.4,
+        10
+      ]
+    },
+    {
+      "id": "BOX_MNCRLNX3K",
+      "unitId": "GRD",
+      "name": "GRD_2F",
+      "type": "other",
+      "position": [
+        -43.4,
+        -9.8,
+        0
+      ],
+      "size": [
+        12.8,
+        0.4,
+        10
       ]
     }
   ],
@@ -911,7 +863,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1104",
@@ -932,7 +889,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1109",
@@ -943,7 +905,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G1_1110",
@@ -953,7 +920,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncrxsud"
+        "layerId": "layer_mncrxsud",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G1_1111",
@@ -963,7 +935,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncrxsud"
+        "layerId": "layer_mncrxsud",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G1_1112",
@@ -974,7 +951,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1108",
@@ -985,7 +967,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1122",
@@ -996,7 +983,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1113",
@@ -1007,7 +999,7 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "trackType": "InboundHs"
+        "trackType": "OutboundHs"
       },
       {
         "id": "T_G1_1114",
@@ -1039,7 +1031,12 @@
         "h": 60,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1117",
@@ -1050,7 +1047,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "trackType": "OutboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G1_1118",
@@ -1060,7 +1062,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncrxsud"
+        "layerId": "layer_mncrxsud",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G1_1119",
@@ -1070,7 +1077,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncrxsud"
+        "layerId": "layer_mncrxsud",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G1_1120",
@@ -1081,7 +1093,12 @@
         "h": 70,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1123",
@@ -1092,7 +1109,12 @@
         "h": 60,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1125",
@@ -1103,7 +1125,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1124",
@@ -1114,7 +1141,12 @@
         "h": 70,
         "colorSet": "conv",
         "layerId": "layer_mncrxsud",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G1_1121",
@@ -1124,7 +1156,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncrxsud"
+        "layerId": "layer_mncrxsud",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2136",
@@ -1134,7 +1171,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "trackType": "OutboundHs",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2137",
@@ -1144,7 +1187,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2138",
@@ -1155,7 +1203,11 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "OutboundHs"
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2139",
@@ -1165,7 +1217,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2135",
@@ -1176,7 +1233,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2134",
@@ -1186,7 +1248,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2133",
@@ -1196,7 +1264,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2132",
@@ -1206,7 +1279,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2128",
@@ -1217,7 +1295,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "OutboundHs"
+        "trackType": "OutboundHs",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2129",
@@ -1227,7 +1310,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2130",
@@ -1237,7 +1325,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2131",
@@ -1247,7 +1340,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2127",
@@ -1258,7 +1356,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2126",
@@ -1268,7 +1371,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2125",
@@ -1278,7 +1387,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2124",
@@ -1288,7 +1402,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2113",
@@ -1299,7 +1418,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G2_2111",
@@ -1310,7 +1434,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "OutboundHs"
+        "trackType": "OutboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2109",
@@ -1320,7 +1449,13 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2146",
@@ -1330,7 +1465,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2108",
@@ -1340,7 +1480,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2112",
@@ -1350,7 +1495,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2110",
@@ -1361,7 +1511,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2041",
@@ -1372,7 +1527,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2143",
@@ -1382,7 +1538,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2144",
@@ -1392,7 +1553,12 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2145",
@@ -1402,7 +1568,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2107",
@@ -1412,7 +1583,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2106",
@@ -1422,7 +1598,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2105",
@@ -1433,7 +1615,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G2_2103",
@@ -1444,7 +1631,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "OutboundHs"
+        "trackType": "OutboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2101",
@@ -1454,7 +1646,13 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2142",
@@ -1464,7 +1662,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2100",
@@ -1475,7 +1678,12 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": -4,
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2104",
@@ -1486,7 +1694,12 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": 0,
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2022",
@@ -1497,7 +1710,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2021",
@@ -1508,7 +1722,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2020",
@@ -1519,7 +1734,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2102",
@@ -1530,7 +1746,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2040",
@@ -1541,7 +1762,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2147",
@@ -1551,7 +1773,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2148",
@@ -1561,7 +1788,12 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2149",
@@ -1571,7 +1803,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2115",
@@ -1581,7 +1818,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2114",
@@ -1591,7 +1833,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2025",
@@ -1602,7 +1850,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2024",
@@ -1613,7 +1862,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2023",
@@ -1624,7 +1874,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2121",
@@ -1634,7 +1885,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G2_2119",
@@ -1645,7 +1901,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "OutboundHs"
+        "trackType": "OutboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2117",
@@ -1655,7 +1916,13 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2150",
@@ -1665,7 +1932,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2116",
@@ -1675,7 +1947,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2120",
@@ -1685,7 +1962,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2118",
@@ -1696,7 +1978,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2042",
@@ -1707,7 +1994,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2151",
@@ -1718,7 +2006,12 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": -3,
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2152",
@@ -1728,7 +2021,12 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2153",
@@ -1738,7 +2036,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2123",
@@ -1748,7 +2051,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G2_2122",
@@ -1758,7 +2066,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2tlq"
+        "layerId": "layer_mncs2tlq",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G2_2028",
@@ -1769,7 +2083,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2027",
@@ -1780,7 +2095,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G2_2026",
@@ -1791,7 +2107,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2tlq",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G3_3123",
@@ -1801,7 +2118,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "down",
+        "fpDirections": [
+          "down",
+          "right"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3124",
@@ -1812,7 +2135,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3125",
@@ -1823,7 +2151,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3126",
@@ -1834,7 +2167,12 @@
         "h": 70,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3127",
@@ -1845,7 +2183,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3128",
@@ -1856,7 +2199,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3129",
@@ -1867,7 +2215,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3130",
@@ -1878,7 +2231,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3132",
@@ -1889,7 +2247,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3131",
@@ -1900,7 +2263,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3133",
@@ -1911,7 +2279,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3134",
@@ -1922,7 +2295,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3135",
@@ -1933,7 +2311,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3136",
@@ -1944,7 +2327,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3137",
@@ -1955,7 +2343,12 @@
         "h": 70,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3138",
@@ -1966,7 +2359,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3140",
@@ -1977,7 +2375,13 @@
         "h": 70,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down",
+          "left"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3139",
@@ -1988,7 +2392,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3141",
@@ -1998,7 +2407,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G3_3121",
@@ -2008,7 +2422,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G3_3120",
@@ -2019,7 +2438,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3119",
@@ -2030,7 +2454,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3118",
@@ -2041,7 +2470,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3117",
@@ -2052,7 +2486,12 @@
         "h": 60,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3116",
@@ -2063,7 +2502,12 @@
         "h": 60,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3114",
@@ -2074,7 +2518,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3115",
@@ -2085,7 +2534,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3113",
@@ -2096,7 +2550,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3111",
@@ -2106,7 +2565,12 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3110",
@@ -2116,7 +2580,12 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3109",
@@ -2127,7 +2596,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3107",
@@ -2138,7 +2612,13 @@
         "h": 60,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up",
+          "left"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3106",
@@ -2149,7 +2629,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G3_3142",
@@ -2160,7 +2646,12 @@
         "h": 60,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3104",
@@ -2171,7 +2662,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3103",
@@ -2191,7 +2687,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G3_3100",
@@ -2233,7 +2735,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "trackType": "InboundHs"
+        "trackType": "InboundHs",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G3_3144",
@@ -2243,7 +2750,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G3_3145",
@@ -2253,7 +2765,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs2zk3"
+        "layerId": "layer_mncs2zk3",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G3_3122",
@@ -2284,7 +2801,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G3_3105",
@@ -2295,7 +2817,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs2zk3",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4151",
@@ -2306,7 +2833,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4150",
@@ -2317,7 +2849,14 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down",
+          "up"
+        ],
+        "direction": "y",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G4_4157",
@@ -2328,7 +2867,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4148",
@@ -2349,7 +2893,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4100",
@@ -2359,7 +2908,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4147",
@@ -2389,7 +2943,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4101",
@@ -2399,7 +2959,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4102",
@@ -2409,7 +2974,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4103",
@@ -2419,7 +2989,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4104",
@@ -2429,7 +3004,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4105",
@@ -2439,7 +3019,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4140",
@@ -2450,7 +3035,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4139",
@@ -2460,7 +3050,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "down"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4024",
@@ -2470,7 +3066,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4143",
@@ -2481,7 +3078,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4144",
@@ -2492,7 +3094,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4156",
@@ -2503,7 +3111,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4043",
@@ -2513,7 +3126,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4142",
@@ -2524,7 +3138,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4141",
@@ -2535,7 +3154,14 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down",
+          "up"
+        ],
+        "direction": "y",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G4_4155",
@@ -2546,7 +3172,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4023",
@@ -2556,7 +3187,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4138",
@@ -2576,7 +3208,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4107",
@@ -2586,7 +3223,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4137",
@@ -2606,7 +3248,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4136",
@@ -2616,7 +3263,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4109",
@@ -2626,7 +3279,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4133",
@@ -2647,7 +3305,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4135",
@@ -2658,7 +3321,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4154",
@@ -2669,7 +3338,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4042",
@@ -2679,7 +3353,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4132",
@@ -2699,7 +3374,12 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4131",
@@ -2710,7 +3390,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G4_4153",
@@ -2721,7 +3407,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4022",
@@ -2731,7 +3422,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4126",
@@ -2741,7 +3433,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4041",
@@ -2751,7 +3449,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4128",
@@ -2762,7 +3461,13 @@
         "h": 80,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4159",
@@ -2773,7 +3478,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4127",
@@ -2784,7 +3495,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4129",
@@ -2794,7 +3511,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4110",
@@ -2804,7 +3526,12 @@
         "w": 80,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4111",
@@ -2814,7 +3541,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4112",
@@ -2825,7 +3558,12 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4125",
@@ -2856,7 +3594,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "down"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4123",
@@ -2867,7 +3611,13 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G4_4152",
@@ -2878,7 +3628,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4021",
@@ -2888,7 +3643,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4118",
@@ -2898,7 +3654,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4040",
@@ -2908,7 +3670,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4120",
@@ -2919,7 +3682,13 @@
         "h": 80,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up",
+          "right"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4158",
@@ -2930,7 +3699,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4119",
@@ -2941,7 +3715,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G4_4121",
@@ -2951,7 +3730,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4160",
@@ -2972,7 +3756,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G4_4117",
@@ -2993,7 +3778,13 @@
         "h": 50,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4114",
@@ -3003,7 +3794,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left",
+          "up"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4113",
@@ -3013,7 +3810,12 @@
         "w": 130,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G4_4116",
@@ -3023,7 +3825,12 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs35c8"
+        "layerId": "layer_mncs35c8",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5113",
@@ -3033,7 +3840,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5114",
@@ -3043,7 +3855,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5115",
@@ -3053,7 +3870,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5116",
@@ -3063,7 +3885,12 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5117",
@@ -3073,7 +3900,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5118",
@@ -3083,7 +3915,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5139",
@@ -3093,7 +3930,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5042",
@@ -3104,7 +3946,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G5_5119",
@@ -3114,7 +3957,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5121",
@@ -3124,7 +3972,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5123",
@@ -3134,7 +3987,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5125",
@@ -3144,7 +4002,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5120",
@@ -3155,7 +4018,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5122",
@@ -3166,7 +4034,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5124",
@@ -3177,7 +4050,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5126",
@@ -3188,7 +4066,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5110",
@@ -3198,7 +4081,12 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5138",
@@ -3208,7 +4096,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5111",
@@ -3218,7 +4111,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5041",
@@ -3229,7 +4127,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G5_5112",
@@ -3239,7 +4138,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5100",
@@ -3249,7 +4153,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G5_5137",
@@ -3259,7 +4169,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5101",
@@ -3269,7 +4184,12 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5102",
@@ -3279,7 +4199,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5040",
@@ -3290,7 +4215,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G5_5103",
@@ -3300,17 +4226,35 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "Default"
       },
       {
-        "id": "T_G5_5104",
+        "id": "T_G5_5104u",
         "unitId": "5104",
         "x": 780,
         "y": 150,
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "trackType": "Lift"
+      },
+      {
+        "id": "T_G5_5104",
+        "unitId": "5104",
+        "x": 780,
+        "y": 490,
+        "w": 70,
+        "h": 30,
+        "colorSet": "conv",
+        "layerId": "layer_mncs3a33",
+        "trackType": "Lift"
       },
       {
         "id": "T_G5_5109",
@@ -3320,7 +4264,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "up",
+        "fpDirections": [
+          "up",
+          "right"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5108",
@@ -3331,7 +4281,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5107",
@@ -3341,7 +4296,15 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "up",
+          "down"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G5_5106",
@@ -3352,7 +4315,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5105",
@@ -3362,7 +4330,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right",
+          "down"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5140",
@@ -3383,7 +4357,8 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G5_5128",
@@ -3393,7 +4368,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5130",
@@ -3403,7 +4383,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5132",
@@ -3413,7 +4398,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5134",
@@ -3423,7 +4413,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5127",
@@ -3434,7 +4429,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5129",
@@ -3445,7 +4445,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5131",
@@ -3456,7 +4461,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5133",
@@ -3467,7 +4477,12 @@
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3a33",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "down",
+        "fpDirections": [
+          "down"
+        ],
+        "direction": "y"
       },
       {
         "id": "T_G5_5135",
@@ -3477,7 +4492,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G5_5136",
@@ -3487,7 +4507,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3a33"
+        "layerId": "layer_mncs3a33",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G6_6103",
@@ -3498,7 +4523,7 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": -1,
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3hsr"
       },
       {
         "id": "T_G6_6102",
@@ -3508,17 +4533,23 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3hsr"
       },
       {
         "id": "T_G6_6001",
         "unitId": "6001",
         "x": 2460,
-        "y": 890,
+        "y": 910,
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3hsr",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "Lift"
       },
       {
         "id": "T_G6_6101",
@@ -3528,48 +4559,78 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G6_6104",
         "unitId": "6104",
-        "x": 2390,
+        "x": 2430,
         "y": 1300,
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G6_6100",
         "unitId": "6100",
-        "x": 2420,
+        "x": 2390,
         "y": 1300,
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G7_6001",
         "unitId": "6001",
         "x": 2460,
-        "y": 1240,
+        "y": 1255,
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_mncs3e54"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x",
+        "trackType": "Lift",
+        "lift3dRef": "T_G6_6001",
+        "lift3dSatellites": ["T_G6_6040", "T_G6_6104", "T_G6_6101", "T_G6_6100", "T_G7_7101", "T_G7_7104", "group6_7100", "group6_7020"]
       },
       {
         "id": "T_G6_6040",
         "unitId": "6040",
-        "x": 2390,
+        "x": 2430,
         "y": 1270,
         "w": 30,
         "h": 30,
         "colorSet": "conv",
         "layerId": "layer_mncs3e54",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up",
+          "down"
+        ],
+        "direction": "y",
+        "trackType": "Palletizer"
       },
       {
         "id": "T_G7_7103",
@@ -3579,7 +4640,12 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3hsr",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G7_7102",
@@ -3589,17 +4655,28 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3hsr",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G6_7001",
         "unitId": "7001",
         "x": 2460,
-        "y": 1050,
+        "y": 1035,
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3hsr",
+        "fpDirection": "left",
+        "fpDirections": [
+          "left"
+        ],
+        "direction": "x",
+        "trackType": "Lift"
       },
       {
         "id": "T_G7_7101",
@@ -3609,60 +4686,77 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "T_G7_7104",
         "unitId": "7104",
-        "x": 2390,
+        "x": 2430,
         "y": 1370,
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       },
       {
         "id": "group6_7100",
         "unitId": "7100",
-        "x": 2420,
+        "x": 2390,
         "y": 1370,
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "BCRRead"
       },
       {
         "id": "T_G7_7001",
         "unitId": "7001",
         "x": 2460,
-        "y": 1370,
+        "y": 1355,
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr"
+        "layerId": "layer_mncs3e54",
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x",
+        "trackType": "Lift"
       },
       {
         "id": "group6_7020",
         "unitId": "7020",
-        "x": 2390,
+        "x": 2430,
         "y": 1400,
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_mncs3hsr",
-        "vertical": true
-      },
-      {
-        "id": "TRAC_MN8H5Q3T3",
-        "unitId": "7103",
-        "x": 2410,
-        "y": 1080,
-        "w": 50,
-        "h": 30,
-        "colorSet": "conv",
-        "zIndex": -2,
-        "layerId": "layer_mncs3hsr",
-        "vertical": true
+        "layerId": "layer_mncs3e54",
+        "vertical": true,
+        "fpDirection": "up",
+        "fpDirections": [
+          "up",
+          "down"
+        ],
+        "direction": "y",
+        "trackType": "Palletizer"
       },
       {
         "id": "TRAC_MNCRAAJC1",
@@ -3673,7 +4767,12 @@
         "h": 40,
         "colorSet": "conv",
         "layerId": "layer_mncs35c8",
-        "vertical": true
+        "vertical": true,
+        "fpDirection": "right",
+        "fpDirections": [
+          "right"
+        ],
+        "direction": "x"
       }
     ],
     "cranes": [
@@ -3761,12 +4860,7 @@
           "T_G1_1104",
           "T_G1_1105",
           "T_G6_6103",
-          "T_G6_6102"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G6_6102",
           "T_G3_3106",
           "T_G2_2131",
           "T_G2_2130",
@@ -3779,33 +4873,7 @@
           "T_G1_1123",
           "T_G7_7103",
           "T_G7_7102",
-          "T_G6_7001"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3137",
-          "T_G1_1108",
-          "T_G1_1122"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G2_2132",
-          "T_G2_2133",
-          "T_G2_2134",
-          "T_G2_2135",
-          "T_G1_1113",
-          "T_G1_1114",
-          "T_G1_1115",
-          "T_G1_1116"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G6_7001",
           "T_G3_3146",
           "T_G3_3145",
           "T_G3_3144",
@@ -3818,77 +4886,15 @@
           "T_G1_1117",
           "T_G1_1118",
           "T_G1_1119",
-          "T_G1_1121"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3140",
-          "T_G1_1120"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G1_1125"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G1_1124"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G1_1121",
           "T_G3_3116",
           "T_G3_3129",
-          "T_G2_2113"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3128",
-          "T_G2_2108",
-          "T_G2_2146",
-          "T_G2_2109",
-          "T_G2_2110",
-          "T_G2_2111",
-          "T_G2_2112"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G2_2113",
           "T_G3_3117",
-          "T_G2_2041"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3125",
-          "T_G2_2107",
-          "T_G2_2145",
-          "T_G2_2144",
-          "T_G2_2143",
-          "T_G2_2106"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G2_2041",
           "T_G3_3120",
           "T_G3_3124",
-          "T_G2_2105"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G2_2105",
           "T_G5_5102",
           "T_G5_5101",
           "T_G5_5137",
@@ -3901,79 +4907,17 @@
           "T_G2_2101",
           "T_G2_2102",
           "T_G2_2103",
-          "T_G2_2104"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3126",
-          "T_G2_2022",
-          "T_G2_2021",
-          "T_G2_2020"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G5_5040",
-          "T_G2_2040"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3130",
-          "T_G2_2115",
-          "T_G2_2149",
-          "T_G2_2148",
-          "T_G2_2147",
-          "T_G2_2114"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G2_2104",
           "T_G3_3115",
           "T_G2_2025",
           "T_G2_2024",
-          "T_G2_2023"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G2_2121"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3111",
-          "T_G3_3112",
-          "T_G3_3133",
-          "T_G2_2116",
-          "T_G2_2150",
-          "T_G2_2117",
-          "T_G2_2118",
-          "T_G2_2119",
-          "T_G2_2120"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G2_2023",
           "T_G4_4134",
           "T_G4_4142",
           "T_G4_4143",
           "T_G4_4151",
           "T_G3_3132",
-          "T_G2_2042"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
+          "T_G2_2042",
           "T_G4_4119",
           "T_G4_4021",
           "T_G4_4152",
@@ -3992,78 +4936,150 @@
           "T_G2_2153",
           "T_G2_2152",
           "T_G2_2151",
-          "T_G2_2122"
+          "T_G2_2122",
+          "T_G3_3104",
+          "T_G3_3139",
+          "T_G3_3118",
+          "T_G3_3114",
+          "T_G3_3113",
+          "T_G4_4116",
+          "T_G4_4114",
+          "T_G4_4113",
+          "T_G4_4111",
+          "T_G4_4110",
+          "T_G4_4109",
+          "T_G4_4108",
+          "T_G4_4107",
+          "T_G4_4106",
+          "T_G4_4105",
+          "T_G4_4104",
+          "T_G4_4103",
+          "T_G4_4102",
+          "T_G4_4101",
+          "T_G4_4100",
+          "T_G3_3107",
+          "T_G3_3142",
+          "T_G4_4158",
+          "T_G4_4040",
+          "T_G4_4123",
+          "T_G4_4159",
+          "T_G4_4041",
+          "T_G4_4131",
+          "T_G4_4135",
+          "T_G4_4141",
+          "T_G4_4144",
+          "T_G4_4150",
+          "T_G4_4115",
+          "T_G4_4112",
+          "T_G4_4140",
+          "T_G4_4149",
+          "T_G4_4120",
+          "T_G4_4121",
+          "T_G4_4122",
+          "T_G4_4128",
+          "T_G4_4129",
+          "T_G4_4130",
+          "TRAC_MNCRAAJC1",
+          "T_G5_5125",
+          "T_G5_5123",
+          "T_G5_5121",
+          "T_G5_5119",
+          "T_G5_5139",
+          "T_G5_5118",
+          "T_G5_5117",
+          "T_G5_5116",
+          "T_G5_5115",
+          "T_G5_5114",
+          "T_G5_5113",
+          "T_G5_5042",
+          "T_G5_5126",
+          "T_G5_5124",
+          "T_G5_5122",
+          "T_G5_5120",
+          "T_G5_5112",
+          "T_G5_5111",
+          "T_G5_5138",
+          "T_G5_5110",
+          "T_G5_5041",
+          "T_G5_5108",
+          "T_G5_5020",
+          "T_G5_5136",
+          "T_G5_5135",
+          "T_G5_5134",
+          "T_G5_5132",
+          "T_G5_5130",
+          "T_G5_5128",
+          "T_G6_6101",
+          "T_G6_6104",
+          "T_G6_6100",
+          "T_G7_6001",
+          "group6_7020"
         ]
       },
       {
         "dir": 1,
         "trackIds": [
+          "T_G3_3137",
+          "T_G1_1108",
+          "T_G1_1122",
+          "T_G2_2132",
+          "T_G2_2133",
+          "T_G2_2134",
+          "T_G2_2135",
+          "T_G1_1113",
+          "T_G1_1114",
+          "T_G1_1115",
+          "T_G1_1116",
+          "T_G3_3140",
+          "T_G1_1120",
+          "T_G1_1125",
+          "T_G1_1124",
+          "T_G3_3128",
+          "T_G2_2108",
+          "T_G2_2146",
+          "T_G2_2109",
+          "T_G2_2110",
+          "T_G2_2111",
+          "T_G2_2112",
+          "T_G3_3125",
+          "T_G2_2107",
+          "T_G2_2145",
+          "T_G2_2144",
+          "T_G2_2143",
+          "T_G2_2106",
+          "T_G3_3126",
+          "T_G2_2022",
+          "T_G2_2021",
+          "T_G2_2020",
+          "T_G5_5040",
+          "T_G2_2040",
+          "T_G3_3130",
+          "T_G2_2115",
+          "T_G2_2149",
+          "T_G2_2148",
+          "T_G2_2147",
+          "T_G2_2114",
+          "T_G2_2121",
+          "T_G3_3111",
+          "T_G3_3112",
+          "T_G3_3133",
+          "T_G2_2116",
+          "T_G2_2150",
+          "T_G2_2117",
+          "T_G2_2118",
+          "T_G2_2119",
+          "T_G2_2120",
           "T_G3_3135",
           "T_G2_2028",
           "T_G2_2027",
-          "T_G2_2026"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3127"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3131"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G2_2026",
+          "T_G3_3127",
+          "T_G3_3131",
           "T_G3_3110",
-          "T_G3_3134"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G3_3138"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G3_3104",
-          "T_G3_3139"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G3_3134",
+          "T_G3_3138",
           "T_G5_5103",
-          "T_G3_3119"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G3_3118"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G3_3114"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G3_3113"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G3_3119",
           "T_G4_4117",
           "T_G4_4160",
           "T_G4_4118",
@@ -4080,232 +5096,29 @@
           "T_G4_4146",
           "T_G4_4147",
           "T_G4_4148",
-          "T_G3_3109"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G4_4116",
-          "T_G4_4114",
-          "T_G4_4113",
-          "T_G4_4111",
-          "T_G4_4110",
-          "T_G4_4109",
-          "T_G4_4108",
-          "T_G4_4107",
-          "T_G4_4106",
-          "T_G4_4105",
-          "T_G4_4104",
-          "T_G4_4103",
-          "T_G4_4102",
-          "T_G4_4101",
-          "T_G4_4100",
-          "T_G3_3107"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G3_3142"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G3_3109",
           "T_G3_3100",
           "T_G3_3101",
           "T_G3_3102",
           "T_G3_3103",
-          "T_G3_3105"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G4_4158",
-          "T_G4_4040",
-          "T_G4_4123",
-          "T_G4_4159",
-          "T_G4_4041",
-          "T_G4_4131",
-          "T_G4_4135",
-          "T_G4_4141",
-          "T_G4_4144",
-          "T_G4_4150"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G4_4115",
-          "T_G4_4112",
-          "T_G4_4140",
-          "T_G4_4149"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G4_4120",
-          "T_G4_4121",
-          "T_G4_4122",
-          "T_G4_4128",
-          "T_G4_4129",
-          "T_G4_4130",
-          "TRAC_MNCRAAJC1"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G4_4020"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5125",
-          "T_G5_5123",
-          "T_G5_5121",
-          "T_G5_5119",
-          "T_G5_5139",
-          "T_G5_5118",
-          "T_G5_5117",
-          "T_G5_5116",
-          "T_G5_5115",
-          "T_G5_5114",
-          "T_G5_5113"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5042"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5126",
-          "T_G5_5124",
-          "T_G5_5122",
-          "T_G5_5120"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5112",
-          "T_G5_5111",
-          "T_G5_5138",
-          "T_G5_5110"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5041"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G3_3105",
+          "T_G4_4020",
           "T_G5_5107",
           "T_G5_5140",
-          "T_G5_5104"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G5_5109"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5108",
-          "T_G5_5020"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G5_5106"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G5_5105"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G5_5136",
-          "T_G5_5135",
-          "T_G5_5134",
-          "T_G5_5132",
-          "T_G5_5130",
-          "T_G5_5128"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G5_5104",
+          "T_G5_5109",
+          "T_G5_5106",
+          "T_G5_5105",
           "T_G5_5133",
           "T_G5_5131",
           "T_G5_5129",
-          "T_G5_5127"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G6_6001"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G6_6101",
-          "T_G6_6104",
-          "T_G6_6100"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "T_G7_6001"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
-          "T_G6_6040"
-        ]
-      },
-      {
-        "dir": 1,
-        "trackIds": [
+          "T_G5_5127",
+          "T_G6_6001",
+          "T_G6_6040",
           "T_G7_7101",
           "T_G7_7104",
           "group6_7100",
           "T_G7_7001"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "group6_7020"
-        ]
-      },
-      {
-        "dir": -1,
-        "trackIds": [
-          "TRAC_MN8H5Q3T3"
         ]
       }
     ],
@@ -4402,8 +5215,8 @@
       },
       {
         "id": "LBL_G7",
-        "x": 2360,
-        "y": 1030,
+        "x": 2365,
+        "y": 1025,
         "w": 80,
         "h": 20,
         "text": "Group 7",
@@ -4643,8 +5456,8 @@
       {
         "id": "_lbl_HAG",
         "text": "HAG",
-        "x": 690,
-        "y": 1145,
+        "x": 698,
+        "y": 1150,
         "w": 45,
         "h": 30,
         "fontSize": 12,

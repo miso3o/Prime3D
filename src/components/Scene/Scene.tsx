@@ -5,10 +5,8 @@
  *   X = left/right    Y = floor depth (south = larger Y)    Z = height (up)
  *   camera.up = [0,0,1]   Grid lies in XY plane
  *
- * Default view: near AG2 (Y≈52), looking north-west toward CDC1 (Y≈0).
- * This orientation matches the 2D floor plan where:
- *   - CDC1 appears at the top of the canvas (small fpY → small worldY → far from camera)
- *   - HAG/AG areas appear at the bottom (large fpY → large worldY → near camera)
+ * Default view: diagonal overview aligned to the 2D floor plan.
+ * GRD appears upper-left and Aging/AG appears lower-right after Reset View.
  */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
@@ -27,15 +25,18 @@ import { useWarehouseStore } from '../../store/useWarehouseStore';
 
 interface SceneProps {
   layout: LayoutConfig;
+  showTrackIds?: boolean;
   onLayoutChange?: (next: LayoutConfig) => void;
 }
 
-// ── Default camera (AG2 → CDC1 view) ──────────────────────────────────────────
-// AG2 rail is at world Y≈27.6; CDC1 is at Y≈0.
-// Camera placed south of AG2 (Y=52), elevated (Z=28), looking north toward CDC1.
-// This orientation makes the 3D view directionally consistent with the 2D floor plan.
+// ── Default camera (2D-aligned diagonal overview) ─────────────────────────────
 const DEFAULT_CAM_POS: [number, number, number]    = [8, 52, 28];
 const DEFAULT_CAM_TARGET: [number, number, number] = [-5, 8, 2];
+const WORLD_MIRROR_X = true;
+
+function toRenderedPoint(point: [number, number, number]): [number, number, number] {
+  return WORLD_MIRROR_X ? [-point[0], point[1], point[2]] : point;
+}
 
 // ── Z-up camera setup ──────────────────────────────────────────────────────────
 function CameraSetup() {
@@ -70,7 +71,8 @@ function CameraSync({ layout }: { layout: LayoutConfig }) {
     const point = getWorldPointForSelection(layout, focusRequest.selection);
     if (!point) return;
 
-    const projected = new THREE.Vector3(...point).project(camera);
+    const renderedPoint = toRenderedPoint(point);
+    const projected = new THREE.Vector3(...renderedPoint).project(camera);
     if (
       projected.z > -1 &&
       projected.z < 1 &&
@@ -81,8 +83,8 @@ function CameraSync({ layout }: { layout: LayoutConfig }) {
     }
 
     const offset = new THREE.Vector3().subVectors(camera.position, ctrl.target);
-    ctrl.target.set(...point);
-    camera.position.copy(new THREE.Vector3(...point).add(offset));
+    ctrl.target.set(...renderedPoint);
+    camera.position.copy(new THREE.Vector3(...renderedPoint).add(offset));
     ctrl.update();
   }, [camera, controls, focusRequest, layout]);
 
@@ -166,9 +168,10 @@ function CraneLabel({ craneId, position, mastH }: {
 }
 
 // ── Inner scene ────────────────────────────────────────────────────────────────
-function WarehouseScene({ layout }: { layout: LayoutConfig }) {
+function WarehouseScene({ layout, showTrackIds }: { layout: LayoutConfig; showTrackIds: boolean }) {
   const trays    = useWarehouseStore((s) => s.trays);
   const ctrlRef  = useRef<OrbitControlsImpl>(null);
+  const floorPlanBoxIds = new Set(layout.floorPlan?.boxes.map((box) => box.id) ?? []);
 
   return (
     <>
@@ -206,8 +209,9 @@ function WarehouseScene({ layout }: { layout: LayoutConfig }) {
       />
 
       {/* ── Floor plan tracks + equipment ────────────────────────────────── */}
-      {layout.floorPlan && <FPScene3D floorPlan={layout.floorPlan} />}
-      {(layout.equipment ?? []).map((equipment) => (
+      <group scale={WORLD_MIRROR_X ? [-1, 1, 1] : [1, 1, 1]}>
+      {layout.floorPlan && <FPScene3D floorPlan={layout.floorPlan} showTrackIds={showTrackIds} />}
+      {(layout.equipment ?? []).filter((equipment) => !floorPlanBoxIds.has(equipment.id)).map((equipment) => (
         <Equipment key={equipment.id} config={equipment} />
       ))}
 
@@ -247,6 +251,7 @@ function WarehouseScene({ layout }: { layout: LayoutConfig }) {
       {trays.map((tray) => (
         <Tray key={tray.id} trayId={tray.id} layout={layout} />
       ))}
+      </group>
 
       <Stats />
     </>
@@ -254,7 +259,7 @@ function WarehouseScene({ layout }: { layout: LayoutConfig }) {
 }
 
 // ── Canvas wrapper ─────────────────────────────────────────────────────────────
-export function Scene({ layout }: SceneProps) {
+export function Scene({ layout, showTrackIds = false }: SceneProps) {
   return (
     <Canvas
       shadows
@@ -262,7 +267,7 @@ export function Scene({ layout }: SceneProps) {
       style={{ background: '#0b0f1a' }}
       onPointerMissed={() => useWarehouseStore.getState().setSelectedObject(null)}
     >
-      <WarehouseScene layout={layout} />
+      <WarehouseScene layout={layout} showTrackIds={showTrackIds} />
     </Canvas>
   );
 }

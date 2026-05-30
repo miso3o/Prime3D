@@ -13,9 +13,10 @@
  * floorZ = getLayerZ(track.layerId) from layerConfig.ts.
  */
 import { useCallback } from 'react';
+import { Html } from '@react-three/drei';
 import type { FloorPlanData, FPTrack } from '../../config/types';
 import { fp2world, fpM } from '../../config/fp2world';
-import { getLayerZ, INTER_FLOOR_SPAN } from '../../config/layerConfig';
+import { getLayerZ } from '../../config/layerConfig';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -24,7 +25,7 @@ const HS_H       = 0.30;   // HomeStand platform height
 const BCR_H      = 0.10;   // BCR slab height
 const PALLET_H   = 0.38;   // palletizer platform height
 const LIFT_W_MIN = 0.35;
-const BOX_H      = 0.04;
+const BOX_H      = 3;
 
 // Layer fill → matches FloorPlan2D.tsx
 const LAYER_FILL: Record<string, string> = {
@@ -158,17 +159,20 @@ function PalletizerTrack({ track, color, selected, onClick }: {
   );
 }
 
-// ── Lift ───────────────────────────────────────────────────────────────────────
-function LiftTrack({ track, color, selected, onClick }: {
-  track: FPTrack; color: string; selected: boolean; onClick: () => void;
+// ── Lift (grouped: single shaft spanning all floors the unit connects) ─────────
+function GroupedLiftTrack({ tracks, selected, onClick }: {
+  tracks: FPTrack[]; selected: boolean; onClick: () => void;
 }) {
-  const [wx, wy] = fp2world(track.x + track.w / 2, track.y + track.h / 2);
-  const sw = Math.max(fpM(track.w), LIFT_W_MIN);
-  const sd = Math.max(fpM(track.h), LIFT_W_MIN);
-  const floorZ = getLayerZ(track.layerId);
-  const shaftH = INTER_FLOOR_SPAN + TRACK_H;
+  const topTrack   = tracks.reduce((a, b) => getLayerZ(a.layerId) >= getLayerZ(b.layerId) ? a : b);
+  const bottomZ    = Math.min(...tracks.map((t) => getLayerZ(t.layerId)));
+  const topZ       = getLayerZ(topTrack.layerId);
+  const shaftH     = topZ - bottomZ + TRACK_H;
+  const [wx, wy]   = fp2world(topTrack.x + topTrack.w / 2, topTrack.y + topTrack.h / 2);
+  const sw         = Math.max(fpM(topTrack.w), LIFT_W_MIN);
+  const sd         = Math.max(fpM(topTrack.h), LIFT_W_MIN);
+  const color      = LAYER_FILL[topTrack.layerId] ?? LAYER_FILL.default;
   return (
-    <group position={[wx, wy, floorZ]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+    <group position={[wx, wy, bottomZ]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
       <mesh position={[0, 0, shaftH / 2]}>
         <boxGeometry args={[sw * 0.6, sd * 0.6, shaftH]} />
         <meshStandardMaterial color={selected ? '#fbbf24' : color}
@@ -191,8 +195,33 @@ function LiftTrack({ track, color, selected, onClick }: {
 }
 
 // ── Dispatcher ─────────────────────────────────────────────────────────────────
-function TrackSegment3D({ track, selected, onSelect }: {
-  track: FPTrack; selected: boolean; onSelect: (t: FPTrack) => void;
+function TrackIdLabel({ track }: { track: FPTrack }) {
+  const [wx, wy] = fp2world(track.x + track.w / 2, track.y + track.h / 2);
+  const floorZ = getLayerZ(track.layerId);
+  const label = track.unitId || track.id;
+  return (
+    <group position={[wx, wy, floorZ + 0.55]}>
+      <Html center distanceFactor={34} style={{ pointerEvents: 'none' }}>
+        <div style={{
+          background: 'rgba(15,23,42,0.78)',
+          color: '#e2e8f0',
+          fontFamily: 'monospace',
+          fontSize: 9,
+          fontWeight: 700,
+          padding: '1px 5px',
+          borderRadius: 3,
+          whiteSpace: 'nowrap',
+          border: '1px solid rgba(226,232,240,0.24)',
+        }}>
+          {label}
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+function TrackSegment3D({ track, selected, showTrackId, onSelect }: {
+  track: FPTrack; selected: boolean; showTrackId: boolean; onSelect: (t: FPTrack) => void;
 }) {
   const statuses = useWarehouseStore((s) => s.trackSegmentStatuses);
   const statusKey = Object.keys(statuses).find(
@@ -207,20 +236,45 @@ function TrackSegment3D({ track, selected, onSelect }: {
   const type = track.trackType ?? 'Default';
 
   if (type === 'InboundHs' || type === 'OutboundHs')
-    return <HomeStandTrack track={track} type={type} selected={selected} onClick={onClick} />;
+    return (
+      <>
+        <HomeStandTrack track={track} type={type} selected={selected} onClick={onClick} />
+        {showTrackId && <TrackIdLabel track={track} />}
+      </>
+    );
   if (type === 'BCRRead')
-    return <BCRTrack track={track} selected={selected} onClick={onClick} />;
+    return (
+      <>
+        <BCRTrack track={track} selected={selected} onClick={onClick} />
+        {showTrackId && <TrackIdLabel track={track} />}
+      </>
+    );
   if (type === 'Lift')
-    return <LiftTrack track={track} color={baseColor} selected={selected} onClick={onClick} />;
+    return (
+      <>
+        <LiftTrack track={track} color={baseColor} selected={selected} onClick={onClick} />
+        {showTrackId && <TrackIdLabel track={track} />}
+      </>
+    );
   if (type === 'Palletizer')
-    return <PalletizerTrack track={track} color={color} selected={selected} onClick={onClick} />;
-  return <DefaultTrack track={track} color={color} selected={selected} onClick={onClick} />;
+    return (
+      <>
+        <PalletizerTrack track={track} color={color} selected={selected} onClick={onClick} />
+        {showTrackId && <TrackIdLabel track={track} />}
+      </>
+    );
+  return (
+    <>
+      <DefaultTrack track={track} color={color} selected={selected} onClick={onClick} />
+      {showTrackId && <TrackIdLabel track={track} />}
+    </>
+  );
 }
 
 // ── Main component ─────────────────────────────────────────────────────────────
-interface FPScene3DProps { floorPlan: FloorPlanData; }
+interface FPScene3DProps { floorPlan: FloorPlanData; showTrackIds?: boolean; }
 
-export function FPScene3D({ floorPlan }: FPScene3DProps) {
+export function FPScene3D({ floorPlan, showTrackIds = false }: FPScene3DProps) {
   const selectedObject = useWarehouseStore((s) => s.selectedObject);
   const setSelected    = useWarehouseStore((s) => s.setSelectedObject);
 
@@ -235,24 +289,100 @@ export function FPScene3D({ floorPlan }: FPScene3DProps) {
   );
 
   const visibleLayers = new Set(floorPlan.layers.filter((l) => l.visible).map((l) => l.id));
+  const trackById = new Map(floorPlan.tracks.map((t) => [t.id, t]));
+
+  // ── Lift grouping: group visible Lift tracks by unitId ──────────────────────
+  const liftGroups = new Map<string, FPTrack[]>();
+  for (const t of floorPlan.tracks) {
+    if (t.trackType === 'Lift' && visibleLayers.has(t.layerId)) {
+      const g = liftGroups.get(t.unitId) ?? [];
+      g.push(t);
+      liftGroups.set(t.unitId, g);
+    }
+  }
+
+  // Suppressed lift track IDs (non-topTrack within each group)
+  const suppressedLiftIds = new Set<string>();
+  for (const group of liftGroups.values()) {
+    const topTrack = group.reduce((a, b) => getLayerZ(a.layerId) >= getLayerZ(b.layerId) ? a : b);
+    for (const t of group) {
+      if (t.id !== topTrack.id) suppressedLiftIds.add(t.id);
+    }
+  }
+
+  // Primary lift track IDs (topTrack of each group with >1 member)
+  const primaryLiftIds = new Set<string>();
+  for (const group of liftGroups.values()) {
+    if (group.length > 1) {
+      const topTrack = group.reduce((a, b) => getLayerZ(a.layerId) >= getLayerZ(b.layerId) ? a : b);
+      primaryLiftIds.add(topTrack.id);
+    }
+  }
+
+  // Satellite offsets: tracks that move to the primary lift's XY
+  const satelliteOffsets = new Map<string, [number, number]>();
+  for (const suppressed of floorPlan.tracks) {
+    if (!suppressed.lift3dSatellites?.length) continue;
+    const refTrack = suppressed.lift3dRef ? trackById.get(suppressed.lift3dRef) : undefined;
+    if (!refTrack) continue;
+    const dx = refTrack.x - suppressed.x;
+    const dy = refTrack.y - suppressed.y;
+    for (const satId of suppressed.lift3dSatellites) {
+      satelliteOffsets.set(satId, [dx, dy]);
+    }
+  }
 
   return (
     <>
       {floorPlan.tracks
         .filter((t) => visibleLayers.has(t.layerId))
-        .map((t) => (
-          <TrackSegment3D key={t.id} track={t} selected={selectedSegId === t.id} onSelect={onSelect} />
-        ))}
+        .map((t) => {
+          // Suppressed secondary lift → skip
+          if (suppressedLiftIds.has(t.id)) return null;
+
+          // Primary grouped lift → render combined shaft
+          if (primaryLiftIds.has(t.id)) {
+            const group = liftGroups.get(t.unitId) ?? [t];
+            const groupSelected = group.some((g) => g.id === selectedSegId);
+            return (
+              <GroupedLiftTrack
+                key={t.id}
+                tracks={group}
+                selected={groupSelected}
+                onClick={() => onSelect(t)}
+              />
+            );
+          }
+
+          // Satellite track → shift XY to match primary lift position
+          const offset = satelliteOffsets.get(t.id);
+          const effectiveTrack = offset
+            ? { ...t, x: t.x + offset[0], y: t.y + offset[1] }
+            : t;
+
+          return (
+            <TrackSegment3D
+              key={t.id}
+              track={effectiveTrack}
+              selected={selectedSegId === t.id}
+              showTrackId={showTrackIds}
+              onSelect={onSelect}
+            />
+          );
+        })}
 
       {floorPlan.boxes.map((box) => {
         const [wx, wy] = fp2world(box.x + box.w / 2, box.y + box.h / 2);
         const ww = Math.max(fpM(box.w), 0.1);
         const wd = Math.max(fpM(box.h), 0.1);
+        const floorZ = box.layerId ? getLayerZ(box.layerId) : 0;
+        const opacity = Math.max(box.bgAlpha ?? 0.5, 0.55);
+        const transparent = opacity < 0.98;
         return (
-          <mesh key={box.id} position={[wx, wy, BOX_H / 2]}>
+          <mesh key={box.id} position={[wx, wy, floorZ + BOX_H / 2]}>
             <boxGeometry args={[ww, wd, BOX_H]} />
             <meshStandardMaterial color={box.bgColor || '#334155'}
-              transparent opacity={Math.max(box.bgAlpha ?? 0.5, 0.25)} roughness={0.8} metalness={0} />
+              transparent={transparent} opacity={opacity} depthWrite={!transparent} roughness={0.72} metalness={0.05} />
           </mesh>
         );
       })}

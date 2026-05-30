@@ -35,6 +35,7 @@ function App() {
   const [layout, setLayout] = useState<LayoutConfig>(DEFAULT_LAYOUT);
   const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
   const [searchUnitId, setSearchUnitId] = useState('');
+  const [showTrackIds, setShowTrackIds] = useState(false);
 
   useMockData(layout);
 
@@ -64,9 +65,9 @@ function App() {
 
       {/* ── Main view: 3D Scene or 2D SVG floor plan ─────────────────────────── */}
       {viewMode === '2d' && layout.floorPlan ? (
-        <FloorPlan2D floorPlan={layout.floorPlan} />
+        <FloorPlan2D floorPlan={layout.floorPlan} showTrackIds={showTrackIds} />
       ) : (
-        <Scene layout={layout} onLayoutChange={setLayout} />
+        <Scene layout={layout} showTrackIds={showTrackIds} onLayoutChange={setLayout} />
       )}
 
       {/* ── Status panel (top-right) ──────────────────────────────────────────── */}
@@ -83,6 +84,39 @@ function App() {
 
       {/* ── View toggle: 3D / 2D (top-center) ───────────────────────────────── */}
       <ViewToggle viewMode={viewMode} onToggle={() => setViewMode((m) => (m === '3d' ? '2d' : '3d'))} />
+
+      <label
+        title="Show TrackID labels"
+        style={{
+          position: 'absolute',
+          top: 16,
+          left: '50%',
+          transform: 'translateX(90px)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+          padding: '6px 10px',
+          borderRadius: 6,
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: 'rgba(15,20,30,0.85)',
+          color: showTrackIds ? '#bee3f8' : '#94a3b8',
+          fontFamily: 'monospace',
+          fontSize: 12,
+          fontWeight: 700,
+          cursor: 'pointer',
+          zIndex: 7,
+          userSelect: 'none',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <input
+          type="checkbox"
+          checked={showTrackIds}
+          onChange={(e) => setShowTrackIds(e.target.checked)}
+          style={{ margin: 0, accentColor: '#2b6cb0' }}
+        />
+        TrackID
+      </label>
 
       {/* ── Raw JSON editor (right side, advanced) ───────────────────────────── */}
       <LayoutEditor layout={layout} onApply={(next) => setLayout(normalizeLayout(next))} />

@@ -45,6 +45,10 @@ export function getRackBounds(rack: RackConfig) {
 }
 
 export function getCraneRailLength(crane: CraneConfig, layout: LayoutConfig): number {
+  if (crane.railMinX !== undefined && crane.railMaxX !== undefined) {
+    return Math.max(crane.railMaxX - crane.railMinX, 2);
+  }
+
   const servedRacks = crane.rackIds
     .map((rackId) => layout.racks.find((rack) => rack.id === rackId))
     .filter((rack): rack is RackConfig => Boolean(rack));
@@ -58,6 +62,10 @@ export function getCraneRailLength(crane: CraneConfig, layout: LayoutConfig): nu
 }
 
 export function getCraneRailXRange(crane: CraneConfig, layout: LayoutConfig): [number, number] {
+  if (crane.railMinX !== undefined && crane.railMaxX !== undefined) {
+    return [crane.railMinX, crane.railMaxX];
+  }
+
   const railLength = getCraneRailLength(crane, layout);
   const halfLength = railLength / 2;
   const leftOffset = crane.leftOffset ?? DEFAULT_RAIL_OFFSET;

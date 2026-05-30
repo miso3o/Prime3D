@@ -66,6 +66,7 @@ export function Crane({ config, layout }: CraneProps) {
   const [minX, maxX] = getCraneRailXRange(config, layout);
   const xRange = Math.max(maxX - minX - CAR_W, 0.1);
   const zMax   = mastHeight - CAR_H;
+  const railCenterX = (minX + maxX) / 2 - railPosition[0];
 
   const { carriageX, carriageZ } = useSpring({
     carriageX: minX - railPosition[0] + CAR_W / 2 + (craneState?.xPosition ?? 0) * xRange,
@@ -76,7 +77,7 @@ export function Crane({ config, layout }: CraneProps) {
   return (
     <group position={railPosition}>
       {/* Ground rail — lies along X in XY floor plane */}
-      <mesh position={[0, 0, RAIL_H / 2]}>
+      <mesh position={[railCenterX, 0, RAIL_H / 2]}>
         <boxGeometry args={[railLength, RAIL_D, RAIL_H]} />
         <meshStandardMaterial color={RAIL_COL} metalness={0.8} roughness={0.2} />
       </mesh>

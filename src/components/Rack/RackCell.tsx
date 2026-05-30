@@ -13,7 +13,7 @@ interface RackCellProps {
 }
 
 const PAD_X = 0.12;
-const PAD_Z = 0.10;
+const PAD_Y = 0.10;
 const ITEM_H_RATIO = 0.60;
 const FLOOR_OFFSET = 0.028;
 
@@ -40,7 +40,7 @@ export function RackCell({ rackId, bank, bay, level, position, size }: RackCellP
     const [cw, ch, cd] = size;
     return (
       <mesh position={position} onClick={onClick}>
-        <boxGeometry args={[cw - PAD_X, ch * 0.04, cd - PAD_Z]} />
+        <boxGeometry args={[cw - PAD_X, cd - PAD_Y, ch * 0.04]} />
         <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.6} transparent opacity={0.5} />
       </mesh>
     );
@@ -49,23 +49,23 @@ export function RackCell({ rackId, bank, bay, level, position, size }: RackCellP
   const color = CELL_COLORS[status];
   const [cw, ch, cd] = size;
   const itemW = cw - PAD_X;
-  const itemD = cd - PAD_Z;
+  const itemD = cd - PAD_Y;
   const itemH = ch * ITEM_H_RATIO;
-  const itemY = position[1] - ch / 2 + FLOOR_OFFSET + itemH / 2 ;
+  const itemZ = position[2] - ch / 2 + FLOOR_OFFSET + itemH / 2;
   const emissiveIntensity = isSelected ? 0.45 : (status === 'error' ? 0.25 : 0.1);
 
   return (
     <group onClick={onClick}>
-      <mesh position={[position[0], position[1], itemY]}>
+      <mesh position={[position[0], position[1], itemZ]}>
         <boxGeometry args={[itemW, itemD, itemH]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={emissiveIntensity} roughness={0.55} metalness={0.05} />
       </mesh>
-      <mesh position={[position[0], position[1], itemY - itemH / 2 + 0.01]}>
+      <mesh position={[position[0], position[1], itemZ - itemH / 2 + 0.01]}>
         <boxGeometry args={[itemW, itemD, 0.02]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.05} roughness={0.3} />
       </mesh>
       {isSelected && (
-        <mesh position={[position[0], position[1], itemY]}>
+        <mesh position={[position[0], position[1], itemZ]}>
           <boxGeometry args={[itemW + 0.04, itemD + 0.04, itemH + 0.04]} />
           <meshStandardMaterial color="#ffffff" wireframe />
         </mesh>

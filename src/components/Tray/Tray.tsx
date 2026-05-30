@@ -13,7 +13,9 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
 import type { LayoutConfig, TrayLocation } from '../../config/types';
-import { getCraneRailXRange, getRackCellHeight, getRackDepth, getRackHeight, getRackLength } from '../../config/layoutGeometry';
+import { getCraneRailXRange, getForkMaxExtension, getRackCellHeight, getRackDepth, getRackHeight, getRackLength } from '../../config/layoutGeometry';
+import { fp2world } from '../../config/fp2world';
+import { getLayerZ } from '../../config/layerConfig';
 
 interface TrayProps {
   trayId: string;
@@ -27,9 +29,47 @@ const TRAY_Z_OFF = 0.24;   // Z offset above track surface
 const TRAY_COLOR     = '#81c784';
 const TRAY_SEL_COLOR = '#c6f6d5';
 
+function getVisibleTrackAnchor(trackId: string, segmentId: string, layout: LayoutConfig) {
+  const track = layout.tracks.find((t) => t.id === trackId);
+  if (!track?.linkedCraneId || !layout.floorPlan) return null;
+  const crane = layout.cranes.find((c) => c.id === track.linkedCraneId);
+  if (!crane?.homeStandTracks) return null;
+  const seg = track.segments.find((s) => s.id === segmentId);
+  const homeSeg = track.segments.find((s) => s.type === 'HomeStand');
+  if (!seg || !homeSeg) return null;
+
+  const unitIds = [...crane.homeStandTracks.inbound, ...crane.homeStandTracks.outbound];
+  const candidates = layout.floorPlan.tracks.filter((fpTrack) => unitIds.includes(fpTrack.unitId));
+  if (candidates.length === 0) return null;
+
+  const [legacyHomeX, legacyHomeY] = [
+    track.direction === 'x'
+      ? track.position[0] + homeSeg.localIndex * track.segmentSize[0] + track.segmentSize[0] / 2
+      : track.position[0],
+    track.direction === 'y'
+      ? track.position[1] + homeSeg.localIndex * track.segmentSize[0] + track.segmentSize[0] / 2
+      : track.position[1],
+  ];
+
+  const anchor = candidates.reduce((best, fpTrack) => {
+    const [wx, wy] = fp2world(fpTrack.x + fpTrack.w / 2, fpTrack.y + fpTrack.h / 2);
+    const dist = Math.hypot(wx - legacyHomeX, wy - legacyHomeY);
+    return !best || dist < best.dist ? { fpTrack, wx, wy, dist } : best;
+  }, null as null | { fpTrack: NonNullable<LayoutConfig['floorPlan']>['tracks'][number]; wx: number; wy: number; dist: number });
+
+  if (!anchor) return null;
+  const delta = (seg.localIndex - homeSeg.localIndex) * track.segmentSize[0];
+  const x = track.direction === 'x' ? anchor.wx + delta : anchor.wx;
+  const y = track.direction === 'y' ? anchor.wy + delta : anchor.wy;
+  return new THREE.Vector3(x, y, getLayerZ(anchor.fpTrack.layerId) + TRAY_Z_OFF);
+}
+
 export function computeTrayWorldPos(location: TrayLocation, layout: LayoutConfig): THREE.Vector3 {
   // ── On a conveyor track ────────────────────────────────────────────────────
   if (location.type === 'track') {
+    const visibleTrackPos = getVisibleTrackAnchor(location.trackId, location.segmentId, layout);
+    if (visibleTrackPos) return visibleTrackPos;
+
     const track = layout.tracks.find((t) => t.id === location.trackId);
     if (!track) return new THREE.Vector3();
     const seg = track.segments.find((s) => s.id === location.segmentId);
@@ -63,7 +103,7 @@ export function computeTrayWorldPos(location: TrayLocation, layout: LayoutConfig
     const zMax   = mastH - 0.36;
 
     const cx = minX + 0.24 + (cs?.xPosition ?? 0) * xRange;
-    const cy = crane.railPosition[1];
+    const cy = crane.railPosition[1] + (cs?.forkExtension ?? 0) * getForkMaxExtension(crane, layout);
     const cz = crane.railPosition[2] + (cs?.yPosition ?? 0) * zMax + 0.18;
 
     return new THREE.Vector3(cx, cy, cz + TRAY_H / 2);

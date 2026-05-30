@@ -46,8 +46,8 @@ export function Equipment({ config, showLabels = true }: EquipmentProps) {
   return (
     <group position={position} rotation={rot as [number, number, number]}>
       {/* Main body — clickable */}
-      <mesh position={[0, h / 2, 0]} onClick={onClick}>
-        <boxGeometry args={[w, h, d]} />
+      <mesh position={[0, 0, h / 2]} onClick={onClick}>
+        <boxGeometry args={[w, d, h]} />
         <meshStandardMaterial
           color={isSelected ? '#90cdf4' : colors.body}
           emissive={isSelected ? '#90cdf4' : colors.emissive}
@@ -58,8 +58,8 @@ export function Equipment({ config, showLabels = true }: EquipmentProps) {
       </mesh>
 
       {/* Accent stripe on top — type indicator band */}
-      <mesh position={[0, h + 0.015, 0]}>
-        <boxGeometry args={[w, 0.03, d]} />
+      <mesh position={[0, 0, h + 0.015]}>
+        <boxGeometry args={[w, d, 0.03]} />
         <meshStandardMaterial
           color={colors.accent}
           emissive={colors.accent}
@@ -69,7 +69,7 @@ export function Equipment({ config, showLabels = true }: EquipmentProps) {
       </mesh>
 
       {/* Status indicator light (top-left corner) */}
-      <mesh position={[-w / 2 + 0.12, h + 0.10, -d / 2 + 0.12]}>
+      <mesh position={[-w / 2 + 0.12, -d / 2 + 0.12, h + 0.10]}>
         <sphereGeometry args={[0.07, 8, 8]} />
         <meshStandardMaterial
           color={isSelected ? '#90cdf4' : colors.accent}
@@ -83,9 +83,9 @@ export function Equipment({ config, showLabels = true }: EquipmentProps) {
         [[-1, -1], [-1, 1], [1, -1], [1, 1]].map(([sx, sz]) => (
           <mesh
             key={`leg-${sx}-${sz}`}
-            position={[sx * (w / 2 - 0.06), h / 4, sz * (d / 2 - 0.06)]}
+            position={[sx * (w / 2 - 0.06), sz * (d / 2 - 0.06), h / 4]}
           >
-            <boxGeometry args={[0.07, h / 2, 0.07]} />
+            <boxGeometry args={[0.07, 0.07, h / 2]} />
             <meshStandardMaterial color="#37474f" metalness={0.7} roughness={0.3} />
           </mesh>
         ))}
@@ -94,7 +94,7 @@ export function Equipment({ config, showLabels = true }: EquipmentProps) {
       {showLabels && (
         <Html
           center
-          position={[0, h + 0.55, 0]}
+          position={[0, 0, h + 0.55]}
           distanceFactor={22}
           style={{ pointerEvents: 'none' }}
         >
