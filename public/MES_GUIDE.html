@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MES Interactive Guide</title>
+<title>ZAIONSOFT MES Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;800;900&family=Nunito+Sans:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════
@@ -587,7 +587,9 @@ body {
 
 <!-- ── TOP NAV ── -->
 <nav class="top-nav">
-  <span class="nav-title" id="navTitle" onclick="goHome()" style="cursor:pointer" title="Go to Home">🏭 MES Interactive Guide</span>
+  <span class="nav-title" id="navTitle" onclick="goHome()" style="cursor:pointer" title="Go to Home">
+    <img src="Main_Logo.png" alt="ZAIONSOFT" style="height:22px;vertical-align:middle;margin-right:6px;object-fit:contain;"><span style="vertical-align:middle;position:relative;top:2px;">ZAIONSOFT&nbsp; MES Guide</span>
+  </span>
   <div class="nav-right">
     <!-- 위치조정 필요할때 수정해 쓰기 -->
     <button class="nav-btn" id="editToggleBtn" onclick="toggleEditMode()" style="display:none">✏️ 위치 조정</button>
@@ -667,7 +669,6 @@ body {
 ══════════════════════════════════════════ -->
 <div id="detail" class="screen">
   <div class="detail-hero theme-mes" id="detailHero" data-emoji="🏭">
-    <button class="back-btn" onclick="goHome()">← Back</button>
     <h2 id="detailTitle"></h2>
     <p class="sub" id="detailSub"></p>
   </div>
@@ -1285,8 +1286,8 @@ buildHotspots();
   id="prime3dChar"
   src="character2.png"
   alt=""
-  title="Let's go check out the PRIME3D factory!"
-  onclick="window.open('/', 'prime3d')"
+  title="Let's go check out the PRIME factory!"
+  onclick="window.open('/prime3d.html', 'prime3d')"
   style="
     position: fixed;
     bottom: 16px;
