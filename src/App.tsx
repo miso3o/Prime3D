@@ -25,6 +25,7 @@ import { useWarehouseStore } from './store/useWarehouseStore';
 import defaultLayoutJson    from './config/defaultLayout.json';
 import type { LayoutConfig } from './config/types';
 import { findByUnitId, normalizeLayout } from './config/layoutGeometry';
+import type { FloorId } from './config/layerConfig';
 
 const DEFAULT_LAYOUT = normalizeLayout(defaultLayoutJson as unknown as LayoutConfig);
 
@@ -68,6 +69,9 @@ function App() {
   const [searchUnitId, setSearchUnitId] = useState('');
   const [showTrackIds, setShowTrackIds] = useState(false);
   const [devMode, setDevMode] = useState(false);
+  const [activeFloor, setActiveFloor] = useState<FloorId | 'all'>('all');
+  const [notFound, setNotFound]       = useState(false);
+  const notFoundTimer                 = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const store = useWarehouseStore.getState();
@@ -87,9 +91,35 @@ function App() {
   const setSelected = useWarehouseStore((s) => s.setSelectedObject);
   const requestFocus = useWarehouseStore((s) => s.requestFocus);
 
+  // 층 탭 변경 — 선택 및 검색 초기화
+  const handleFloorChange = (floor: FloorId | 'all') => {
+    setActiveFloor(floor);
+    setSelected(null);
+    setSearchUnitId('');
+  };
+
   const handleSearch = () => {
     const match = findByUnitId(layout, searchUnitId);
-    if (!match) return;
+    if (!match) {
+      // 찾을 수 없음 — 입력창 흔들림 + 토스트
+      if (notFoundTimer.current) clearTimeout(notFoundTimer.current);
+      setNotFound(true);
+      notFoundTimer.current = setTimeout(() => setNotFound(false), 1800);
+      return;
+    }
+    // 현재 필터와 다른 층이면 해당 층으로 자동 전환
+    if (activeFloor !== 'all') {
+      let targetLayerId: string | undefined;
+      if (match.type === 'fptrack') targetLayerId = match.layerId;
+      if (match.type === 'fpbox') {
+        const box = layout.floorPlan?.boxes.find((b) => b.id === match.id);
+        const crane = layout.floorPlan?.cranes.find((c) => c.id === match.id);
+        targetLayerId = box?.layerId ?? crane?.layerId;
+      }
+      if (targetLayerId && targetLayerId !== activeFloor) {
+        setActiveFloor(targetLayerId as FloorId);
+      }
+    }
     setSelected(match);
     requestFocus(match);
   };
@@ -108,7 +138,7 @@ function App() {
 
       {/* ── Main view: 3D Scene or 2D SVG floor plan ─────────────────────────── */}
       {viewMode === '2d' && layout.floorPlan ? (
-        <FloorPlan2D floorPlan={layout.floorPlan} showTrackIds={showTrackIds} />
+        <FloorPlan2D floorPlan={layout.floorPlan} showTrackIds={showTrackIds} activeFloor={activeFloor} onFloorChange={handleFloorChange} />
       ) : (
         <Scene layout={layout} showTrackIds={showTrackIds} onLayoutChange={setLayout} />
       )}
@@ -127,7 +157,7 @@ function App() {
         src="/character1.png"
         alt=""
         title={devMode ? 'Dev mode ON — battery factory running at full capacity! (Ctrl+Click to exit)' : "Hi! I'm Zaion, guardian of the MES factory. Every single battery cell is under my watch!"}
-        onClick={(e) => { if (e.ctrlKey) setDevMode((d) => !d); else window.open('/MES_GUIDE.html', 'mes_guide'); }}
+        onClick={(e) => { if (e.ctrlKey) setDevMode((d) => !d); else if (window.opener && !window.opener.closed) { window.opener.focus(); } else { window.open('/MES_GUIDE.html', 'mes_guide'); } }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLImageElement).style.filter = devMode ? 'drop-shadow(0 0 10px #90cdf4)' : 'drop-shadow(0 0 10px #90cdf4)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLImageElement).style.filter = devMode ? 'drop-shadow(0 0 6px #90cdf4)' : 'none'; }}
         style={{
@@ -179,21 +209,43 @@ function App() {
           zIndex: 6,
         }}
       >
+        {/* Not-found 토스트 */}
+        {notFound && (
+          <div style={{
+            position: 'absolute',
+            top: 48,
+            right: 0,
+            background: 'rgba(185,28,28,0.92)',
+            color: '#fecaca',
+            fontFamily: 'monospace',
+            fontSize: 11,
+            fontWeight: 700,
+            padding: '5px 12px',
+            borderRadius: 6,
+            whiteSpace: 'nowrap',
+            animation: 'toast-fade 1.8s ease forwards',
+            pointerEvents: 'none',
+            zIndex: 20,
+          }}>
+            ✕ Unit ID not found
+          </div>
+        )}
         <div style={{ display: 'flex', gap: 6 }}>
           <input
             value={searchUnitId}
-            onChange={(e) => setSearchUnitId(e.target.value)}
+            onChange={(e) => { setSearchUnitId(e.target.value); if (notFound) setNotFound(false); }}
             onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
-            placeholder="Search TrackID"
+            placeholder="Search UnitID"
             style={{
               width: 160,
               padding: '6px 10px',
               borderRadius: 6,
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: notFound ? '1px solid #f87171' : '1px solid rgba(255,255,255,0.08)',
               background: 'rgba(15,20,30,0.85)',
               color: '#e2e8f0',
               fontFamily: 'monospace',
               fontSize: 12,
+              animation: notFound ? 'input-shake 0.4s ease' : 'none',
             }}
           />
           <button
@@ -217,8 +269,9 @@ function App() {
           style={{
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'flex-end',
             gap: 6,
-            padding: '5px 10px',
+            padding: '5px 8px',
             borderRadius: 6,
             border: '1px solid rgba(255,255,255,0.08)',
             background: 'rgba(15,20,30,0.85)',
@@ -228,6 +281,8 @@ function App() {
             fontWeight: 700,
             cursor: 'pointer',
             userSelect: 'none',
+            width: 'fit-content',
+            alignSelf: 'flex-end',
           }}
         >
           <input
