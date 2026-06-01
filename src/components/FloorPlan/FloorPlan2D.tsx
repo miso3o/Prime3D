@@ -11,27 +11,23 @@
 import { useRef, useState, useCallback, useEffect, type WheelEvent, type PointerEvent } from 'react';
 import type { FloorPlanData, FPTrack, FPBox, LayoutConfig } from '../../config/types';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
-import { FLOOR_DEFS, type FloorId, LAYER_FLOOR_MAP } from '../../config/layerConfig';
+import { FLOOR_DEFS, type FloorId } from '../../config/layerConfig';
+import { getGroupById } from '../../config/groupConfig';
 import { computeTrayWorldPos } from '../Tray/Tray';
 import { worldPointToFloorPlan } from '../../config/layoutGeometry';
 import defaultLayoutJson from '../../config/defaultLayout.json';
 
 const DEFAULT_LAYOUT = defaultLayoutJson as unknown as LayoutConfig;
 
-// ── Layer → color ──────────────────────────────────────────────────────────────
-const LAYER_COLORS: Record<string, { fill: string; stroke: string }> = {
-  layer_group1: { fill: '#93c5fd', stroke: '#2563eb' },
-  layer_group2: { fill: '#67e8f9', stroke: '#0891b2' },
-  layer_group3: { fill: '#6ee7b7', stroke: '#059669' },
-  layer_group4: { fill: '#c4b5fd', stroke: '#7c3aed' },
-  layer_group5_1: { fill: '#fcd34d', stroke: '#b45309' },
-  layer_group5_2: { fill: '#fcd34d', stroke: '#b45309' },
-  layer_group6: { fill: '#fca5a5', stroke: '#dc2626' },
-  layer_group7: { fill: '#f9a8d4', stroke: '#be185d' },
-  default:        { fill: '#d1d5db', stroke: '#6b7280' },
-};
+// ── Group → color ──────────────────────────────────────────────────────────────
+const GROUP_COLOR_DEFAULT = { fill: '#d1d5db', stroke: '#6b7280' };
 
-// HomeStand type accent colours (overlay on top of layer fill)
+function getTrackColor(groupId: string | undefined) {
+  const g = groupId ? getGroupById(groupId) : undefined;
+  return g ? { fill: g.color, stroke: g.stroke } : GROUP_COLOR_DEFAULT;
+}
+
+// HomeStand type accent colours (overlay on top of group fill)
 const TRACK_TYPE_FILL: Record<string, string> = {
   InboundHs:  '#34d399',  // green
   OutboundHs: '#fb923c',  // orange
@@ -43,10 +39,6 @@ const STATUS_FILL: Record<string, string> = {
   error:    '#f87171',
   disabled: '#6b7280',
 };
-
-function getLayerColor(layerId: string) {
-  return LAYER_COLORS[layerId] ?? LAYER_COLORS.default;
-}
 
 // ── ViewBox helpers ────────────────────────────────────────────────────────────
 interface VB { x: number; y: number; w: number; h: number }
@@ -63,9 +55,10 @@ function clampVB(vb: VB, cw: number, ch: number): VB {
 }
 
 // ── Track segment rect ─────────────────────────────────────────────────────────
-function TrackRect({ track, selected, onClick }: {
+function TrackRect({ track, selected, flashing, onClick }: {
   track: FPTrack;
   selected: boolean;
+  flashing: boolean;
   onClick: (t: FPTrack, e: React.MouseEvent) => void;
 }) {
   const statuses = useWarehouseStore((s) => s.trackSegmentStatuses);
@@ -73,24 +66,25 @@ function TrackRect({ track, selected, onClick }: {
     (k) => k.includes(track.unitId) || k.endsWith(`:${track.id}`)
   );
   const status = statusKey ? statuses[statusKey] : undefined;
-  const { fill, stroke } = getLayerColor(track.layerId);
+  const { fill, stroke } = getTrackColor(track.groupId);
 
   // Priority: selected > status > trackType > layer fill
   const fillColor = selected
-    ? '#fbbf24'
+    ? '#ff5400'
     : (status && STATUS_FILL[status])
     ? STATUS_FILL[status]
     : (track.trackType && TRACK_TYPE_FILL[track.trackType])
     ? TRACK_TYPE_FILL[track.trackType]
     : fill;
 
-  const strokeColor = selected ? '#f59e0b' : stroke;
+  const strokeColor = selected ? '#cc3300' : stroke;
 
   const isBCR = track.trackType === 'BCRRead';
   const markerR = 7;
   const markerCx = track.x + markerR + 2;
   const markerCy = track.y + markerR + 2;
 
+  const pad = 5;
   return (
     <g cursor="pointer" onClick={(e) => onClick(track, e)}>
       <rect
@@ -105,6 +99,24 @@ function TrackRect({ track, selected, onClick }: {
             fontSize={markerR * 1.3} fill="white" fontFamily="monospace" fontWeight="700" pointerEvents="none">
             B
           </text>
+        </>
+      )}
+      {flashing && (
+        <>
+          <rect
+            x={track.x} y={track.y} width={track.w} height={track.h}
+            fill="#fbbf24" rx={2} pointerEvents="none"
+            style={{ animation: 'track-blink 1.6s ease-in-out forwards' }}
+          />
+          {[0, 0.55, 1.1].map((delay) => (
+            <rect
+              key={delay}
+              x={track.x - pad} y={track.y - pad}
+              width={track.w + pad * 2} height={track.h + pad * 2}
+              fill="none" stroke="#fbbf24" rx={4} pointerEvents="none"
+              style={{ animation: `track-ring 0.65s ease-out ${delay}s forwards` }}
+            />
+          ))}
         </>
       )}
     </g>
@@ -158,6 +170,8 @@ function FloorTabs({
 const BOX_IMAGE_MAP: Record<string, string> = {
   GRD_1F: '/images/Grader.png',
   GRD_2F: '/images/Grader.png',
+  GRD1:   '/images/Grader.png',
+  GRD2:   '/images/Grader.png',
   HAG:    '/images/HT Aging.png',
   AG1:    '/images/Aging.png',
   AG2:    '/images/Aging.png',
@@ -175,17 +189,29 @@ const BOX_IMAGE_MAP: Record<string, string> = {
 interface FloorPlan2DProps {
   floorPlan: FloorPlanData;
   showTrackIds?: boolean;
+  activeFloor?: FloorId | 'all';
+  onFloorChange?: (floor: FloorId | 'all') => void;
 }
 
-export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProps) {
+export function FloorPlan2D({ floorPlan, showTrackIds = false, activeFloor: activeFloorProp, onFloorChange }: FloorPlan2DProps) {
   const svgRef  = useRef<SVGSVGElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   const [vb, setVB]              = useState<VB>(FULL_VB);
   const [isPanning, setIsPanning] = useState(false);
   const panStart                  = useRef<{ px: number; py: number; vb: VB } | null>(null);
-  const [activeFloor, setActiveFloor] = useState<FloorId | 'all'>('all');
+  const dragOccurred               = useRef(false);
+  // activeFloor는 App.tsx에서 제어 — prop 없으면 내부 fallback
+  const [activeFloorLocal, setActiveFloorLocal] = useState<FloorId | 'all'>('all');
+  const activeFloor    = activeFloorProp ?? activeFloorLocal;
+  const setActiveFloor = (f: FloorId | 'all') => {
+    setActiveFloorLocal(f);
+    onFloorChange?.(f);
+  };
   const [imagePopup, setImagePopup]   = useState<string | null>(null);
+  const [flashId, setFlashId]         = useState<string | null>(null);
+  const [flashBoxId, setFlashBoxId]   = useState<string | null>(null);
+  const flashTimer                    = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const selectedObject = useWarehouseStore((s) => s.selectedObject);
   const setSelected    = useWarehouseStore((s) => s.setSelectedObject);
@@ -211,16 +237,20 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
     if (e.button !== 0) return;
     (e.target as Element).setPointerCapture(e.pointerId);
     setIsPanning(true);
+    dragOccurred.current = false;
     panStart.current = { px: e.clientX, py: e.clientY, vb };
   }, [vb]);
 
   const onPointerMove = useCallback((e: PointerEvent<SVGSVGElement>) => {
     if (!isPanning || !panStart.current) return;
+    const dx = e.clientX - panStart.current.px;
+    const dy = e.clientY - panStart.current.py;
+    if (!dragOccurred.current && Math.hypot(dx, dy) > 3) dragOccurred.current = true;
     const rect = svgRef.current!.getBoundingClientRect();
-    const dx   = ((e.clientX - panStart.current.px) / rect.width)  * panStart.current.vb.w;
-    const dy   = ((e.clientY - panStart.current.py) / rect.height) * panStart.current.vb.h;
+    const dvx  = (dx / rect.width)  * panStart.current.vb.w;
+    const dvy  = (dy / rect.height) * panStart.current.vb.h;
     const base = panStart.current.vb;
-    setVB(clampVB({ x: base.x - dx, y: base.y - dy, w: base.w, h: base.h }, rect.width, rect.height));
+    setVB(clampVB({ x: base.x - dvx, y: base.y - dvy, w: base.w, h: base.h }, rect.width, rect.height));
   }, [isPanning]);
 
   const onPointerUp = useCallback(() => {
@@ -230,6 +260,7 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
 
   // ── Track click ───────────────────────────────────────────────────────────────
   const onTrackClick = useCallback((track: FPTrack, e: React.MouseEvent) => {
+    if (dragOccurred.current) return;
     setSelected(
       { type: 'fptrack', id: track.id, unitId: track.unitId, layerId: track.layerId },
       { x: e.clientX, y: e.clientY },
@@ -239,6 +270,7 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
   // ── Equipment box click / double-click ────────────────────────────────────────
   const onBoxClick = useCallback((box: FPBox, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (dragOccurred.current) return;
     setSelected({ type: 'fpbox', id: box.id }, { x: e.clientX, y: e.clientY });
   }, [setSelected]);
 
@@ -258,8 +290,8 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
   // ── Layer + floor filter ──────────────────────────────────────────────────────
   const visibleLayers = new Set(floorPlan.layers.filter((l) => l.visible).map((l) => l.id));
   const floorLayerIds: Set<string> = activeFloor === 'all'
-    ? new Set(Object.keys(LAYER_FLOOR_MAP))
-    : new Set(FLOOR_DEFS.find((f) => f.id === activeFloor)?.layerIds ?? []);
+    ? new Set(FLOOR_DEFS.map((f) => f.id))
+    : new Set([activeFloor]);
 
   const showTrack = (t: FPTrack) => visibleLayers.has(t.layerId) && floorLayerIds.has(t.layerId);
   const visibleTracks = floorPlan.tracks.filter(showTrack);
@@ -269,35 +301,119 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
     return Math.min(minSize, size);
   }, 18);
 
+  // ── Auto-fit viewBox to a floor (or full view when 'all') ────────────────────
+  const fitToFloor = useCallback((floor: FloorId | 'all') => {
+    const rect = svgRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+
+    if (floor === 'all') {
+      setVB(FULL_VB);
+      return;
+    }
+
+    const floorIds: Set<string>  = new Set([floor]);
+    const visLayers = new Set(floorPlan.layers.filter((l) => l.visible).map((l) => l.id));
+    const items: { x: number; y: number; r: number; b: number }[] = [];
+
+    floorPlan.tracks
+      .filter((t) => visLayers.has(t.layerId) && floorIds.has(t.layerId))
+      .forEach((t) => items.push({ x: t.x, y: t.y, r: t.x + t.w, b: t.y + t.h }));
+    floorPlan.boxes
+      .filter((b) => b.layerId && visLayers.has(b.layerId) && floorIds.has(b.layerId))
+      .forEach((b) => items.push({ x: b.x, y: b.y, r: b.x + b.w, b: b.y + b.h }));
+    floorPlan.cranes
+      .filter((c) => c.layerId && visLayers.has(c.layerId) && floorIds.has(c.layerId))
+      .forEach((c) => items.push({ x: c.x, y: c.bank2Y, r: c.x + c.totalW, b: c.bank2Y + c.totalH }));
+
+    if (items.length === 0) return;
+
+    const pad  = 120;
+    const minX = Math.min(...items.map((i) => i.x)) - pad;
+    const minY = Math.min(...items.map((i) => i.y)) - pad;
+    const maxX = Math.max(...items.map((i) => i.r)) + pad;
+    const maxY = Math.max(...items.map((i) => i.b)) + pad;
+    const cw   = maxX - minX;
+    const ch   = maxY - minY;
+    const aspect = rect.width / rect.height;
+    const fitW = cw / ch > aspect ? cw : ch * aspect;
+    const fitH = fitW / aspect;
+    const cx   = (minX + maxX) / 2;
+    const cy   = (minY + maxY) / 2;
+
+    setVB(clampVB({ x: cx - fitW / 2, y: cy - fitH / 2, w: fitW, h: fitH }, rect.width, rect.height));
+  }, [floorPlan]);
+
+  useEffect(() => { fitToFloor(activeFloor); }, [activeFloor, fitToFloor]);
+
+  // vb를 ref로도 유지 — focusRequest effect에서 최신값 읽되 deps에 포함 안 함
+  const vbRef = useRef(vb);
+  useEffect(() => { vbRef.current = vb; });
+
+  // 이미 처리한 token을 기억 — vb 변경으로 인한 재실행 방지
+  const lastFocusToken = useRef(-1);
+
   const viewBox = `${vb.x} ${vb.y} ${vb.w} ${vb.h}`;
 
   useEffect(() => {
-    if (!focusRequest || focusRequest.selection.type !== 'fptrack') return;
-    const selection = focusRequest.selection;
-    const track = floorPlan.tracks.find((item) => item.id === selection.id);
+    if (!focusRequest) return;
+    if (focusRequest.token === lastFocusToken.current) return;
+    lastFocusToken.current = focusRequest.token;
+
+    const sel = focusRequest.selection;
     const rect = svgRef.current?.getBoundingClientRect();
-    if (!track || !rect) return;
+    if (!rect) return;
+    const cur = vbRef.current;
     const margin = 120;
-    const next = {
-      x: track.x + track.w / 2 - vb.w / 2,
-      y: track.y + track.h / 2 - vb.h / 2,
-      w: vb.w,
-      h: vb.h,
-    };
-    const visible =
-      track.x >= vb.x + margin &&
-      track.x + track.w <= vb.x + vb.w - margin &&
-      track.y >= vb.y + margin &&
-      track.y + track.h <= vb.y + vb.h - margin;
-    if (!visible) {
-      setVB(clampVB(next, rect.width, rect.height));
+
+    if (sel.type === 'fptrack') {
+      const track = floorPlan.tracks.find((item) => item.id === sel.id);
+      if (!track) return;
+      const next = { x: track.x + track.w / 2 - cur.w / 2, y: track.y + track.h / 2 - cur.h / 2, w: cur.w, h: cur.h };
+      const visible =
+        track.x >= cur.x + margin && track.x + track.w <= cur.x + cur.w - margin &&
+        track.y >= cur.y + margin && track.y + track.h <= cur.y + cur.h - margin;
+      if (!visible) setVB(clampVB(next, rect.width, rect.height));
+      if (flashTimer.current) clearTimeout(flashTimer.current);
+      setFlashId(track.id);
+      flashTimer.current = setTimeout(() => setFlashId(null), 2000);
     }
-  }, [focusRequest, floorPlan.tracks, vb]);
+
+    if (sel.type === 'fpbox') {
+      const box = floorPlan.boxes.find((item) => item.id === sel.id)
+        ?? (() => { const c = floorPlan.cranes.find((item) => item.id === sel.id); return c ? { x: c.x, y: c.bank2Y, w: c.totalW, h: c.totalH } : null; })();
+      if (!box) return;
+      const next = { x: box.x + box.w / 2 - cur.w / 2, y: box.y + box.h / 2 - cur.h / 2, w: cur.w, h: cur.h };
+      const visible =
+        box.x >= cur.x + margin && box.x + box.w <= cur.x + cur.w - margin &&
+        box.y >= cur.y + margin && box.y + box.h <= cur.y + cur.h - margin;
+      if (!visible) setVB(clampVB(next, rect.width, rect.height));
+      if (flashTimer.current) clearTimeout(flashTimer.current);
+      setFlashBoxId(sel.id);
+      flashTimer.current = setTimeout(() => setFlashBoxId(null), 2000);
+    }
+  }, [focusRequest, floorPlan.tracks, floorPlan.boxes, floorPlan.cranes]);
 
   const canvasBg = floorPlan.backgroundColor ?? '#1a1f2e';
 
   return (
     <div ref={wrapRef} style={{ position: 'absolute', inset: 0, background: canvasBg, display: 'flex' }}>
+
+      {/* Logo watermark — fixed HTML overlay, always centered, full native resolution */}
+      <img
+        src="/logo.png"
+        alt=""
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 320,
+          opacity: 0.3,
+          pointerEvents: 'none',
+          userSelect: 'none',
+          imageRendering: 'crisp-edges',
+        }}
+      />
 
       {/* Floor tabs — below ViewToggle */}
       <FloorTabs active={activeFloor} onChange={setActiveFloor} />
@@ -315,26 +431,20 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
         {/* Background */}
         <rect x={0} y={0} width={floorPlan.width} height={floorPlan.height} fill={floorPlan.backgroundColor} />
 
-        {/* Logo watermark */}
-        <image
-          href="/logo.png"
-          x={floorPlan.width / 2 - 200}
-          y={floorPlan.height / 2 - 100}
-          width={400}
-          height={200}
-          opacity={1}
-          style={{ pointerEvents: 'none' }}
-        />
 
         {/* Equipment boxes — clickable */}
-        {floorPlan.boxes.map((box) => {
+        {floorPlan.boxes.filter((box) =>
+          !box.layerId || (visibleLayers.has(box.layerId) && floorLayerIds.has(box.layerId))
+        ).map((box) => {
           const isSel = selectedBoxId === box.id;
+          const isFlashingBox = flashBoxId === box.id;
+          const pad = 6;
           return (
             <g key={box.id} onClick={(e) => onBoxClick(box, e)} onDoubleClick={(e) => onBoxDblClick(box, e)} style={{ cursor: 'pointer' }}>
               <rect
                 x={box.x} y={box.y} width={box.w} height={box.h}
                 fill={box.bgColor} fillOpacity={box.bgAlpha}
-                stroke={isSel ? '#fbbf24' : box.borderColor}
+                stroke={isSel ? '#ff5400' : box.borderColor}
                 strokeWidth={isSel ? 2.5 : box.borderWidth}
                 rx={3}
               />
@@ -348,17 +458,35 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
                   {box.text}
                 </text>
               )}
+              {isFlashingBox && (
+                <>
+                  <rect x={box.x} y={box.y} width={box.w} height={box.h}
+                    fill="#ff5400" rx={3} pointerEvents="none"
+                    style={{ animation: 'track-blink 1.6s ease-in-out forwards' }}
+                  />
+                  {[0, 0.55, 1.1].map((delay) => (
+                    <rect key={delay}
+                      x={box.x - pad} y={box.y - pad}
+                      width={box.w + pad * 2} height={box.h + pad * 2}
+                      fill="none" stroke="#ff5400" rx={5} pointerEvents="none"
+                      style={{ animation: `track-ring 0.65s ease-out ${delay}s forwards` }}
+                    />
+                  ))}
+                </>
+              )}
             </g>
           );
         })}
 
         {/* Crane zones */}
-        {floorPlan.cranes.map((crane) => {
+        {floorPlan.cranes.filter((crane) =>
+          !crane.layerId || (visibleLayers.has(crane.layerId) && floorLayerIds.has(crane.layerId))
+        ).map((crane) => {
           const hasImage = crane.id in BOX_IMAGE_MAP;
           return (
             <g key={crane.id}
               cursor="pointer"
-              onClick={(e) => setSelected({ type: 'fpbox', id: crane.id }, { x: e.clientX, y: e.clientY })}
+              onClick={(e) => { if (!dragOccurred.current) setSelected({ type: 'fpbox', id: crane.id }, { x: e.clientX, y: e.clientY }); }}
               onDoubleClick={hasImage ? () => setImagePopup(BOX_IMAGE_MAP[crane.id]) : undefined}
             >
               <rect
@@ -373,13 +501,32 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
               >
                 {crane.id}
               </text>
+              {flashBoxId === crane.id && (() => {
+                const pad = 6;
+                return (
+                  <>
+                    <rect x={crane.x} y={crane.bank2Y} width={crane.totalW} height={crane.totalH}
+                      fill="#ff5400" rx={3} pointerEvents="none"
+                      style={{ animation: 'track-blink 1.6s ease-in-out forwards' }}
+                    />
+                    {[0, 0.55, 1.1].map((delay) => (
+                      <rect key={delay}
+                        x={crane.x - pad} y={crane.bank2Y - pad}
+                        width={crane.totalW + pad * 2} height={crane.totalH + pad * 2}
+                        fill="none" stroke="#ff5400" rx={5} pointerEvents="none"
+                        style={{ animation: `track-ring 0.65s ease-out ${delay}s forwards` }}
+                      />
+                    ))}
+                  </>
+                );
+              })()}
             </g>
           );
         })}
 
         {/* Track segments */}
         {visibleTracks.map((track) => (
-          <TrackRect key={track.id} track={track} selected={selectedTrackId === track.id} onClick={onTrackClick} />
+          <TrackRect key={track.id} track={track} selected={selectedTrackId === track.id} flashing={flashId === track.id} onClick={onTrackClick} />
         ))}
 
         {showTrackIds && visibleTracks.map((track) => {
@@ -432,21 +579,20 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
         })}
 
         {/* Labels */}
-        {floorPlan.labels.map((lbl) => {
-          if (lbl.layerId && (!visibleLayers.has(lbl.layerId) || !floorLayerIds.has(lbl.layerId))) return null;
-          return (
-            <text
-              key={lbl.id} x={lbl.x} y={lbl.y + lbl.fontSize}
-              fill={lbl.color} fontSize={lbl.fontSize}
-              fontFamily={lbl.fontFamily || 'Tahoma, Arial, sans-serif'}
-              fontWeight={lbl.bold ? 'bold' : 'normal'}
-              fontStyle={lbl.italic ? 'italic' : 'normal'}
-              pointerEvents="none"
-            >
-              {lbl.text}
-            </text>
-          );
-        })}
+        {floorPlan.labels.filter((lbl) =>
+          !lbl.layerId || (visibleLayers.has(lbl.layerId) && floorLayerIds.has(lbl.layerId))
+        ).map((lbl) => (
+          <text
+            key={lbl.id} x={lbl.x} y={lbl.y + lbl.fontSize}
+            fill={lbl.color} fontSize={lbl.fontSize}
+            fontFamily={lbl.fontFamily || 'Tahoma, Arial, sans-serif'}
+            fontWeight={lbl.bold ? 'bold' : 'normal'}
+            fontStyle={lbl.italic ? 'italic' : 'normal'}
+            pointerEvents="none"
+          >
+            {lbl.text}
+          </text>
+        ))}
 
       </svg>
 
@@ -471,7 +617,7 @@ export function FloorPlan2D({ floorPlan, showTrackIds = false }: FloorPlan2DProp
 
       {/* Reset View — bottom center */}
       <button
-        onClick={() => setVB(FULL_VB)}
+        onClick={() => fitToFloor(activeFloor)}
         style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', padding: '4px 14px', background: '#2d3748', color: '#90cdf4', border: 'none', borderRadius: 5, fontFamily: 'monospace', fontSize: 11, cursor: 'pointer', zIndex: 10 }}
       >
         ↺ Reset View

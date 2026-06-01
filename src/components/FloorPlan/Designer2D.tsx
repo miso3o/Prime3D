@@ -17,22 +17,18 @@ import type {
   FPTrackType,
 } from '../../config/types';
 import { getFloorForLayer } from '../../config/layerConfig';
+import { GROUP_DEFS, getGroupById } from '../../config/groupConfig';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
 
-const LAYER_COLORS: Record<string, { fill: string; stroke: string }> = {
-  layer_group1: { fill: '#93c5fd', stroke: '#2563eb' },
-  layer_group2: { fill: '#67e8f9', stroke: '#0891b2' },
-  layer_group3: { fill: '#6ee7b7', stroke: '#059669' },
-  layer_group4: { fill: '#c4b5fd', stroke: '#7c3aed' },
-  layer_group5_1: { fill: '#fcd34d', stroke: '#b45309' },
-  layer_group5_2: { fill: '#fcd34d', stroke: '#b45309' },
-  layer_group6: { fill: '#fca5a5', stroke: '#dc2626' },
-  layer_group7: { fill: '#f9a8d4', stroke: '#be185d' },
-  default: { fill: '#d1d5db', stroke: '#6b7280' },
-};
+const COLOR_DEFAULT = { fill: '#d1d5db', stroke: '#6b7280' };
 
-function layerColor(layerId: string) {
-  return LAYER_COLORS[layerId] ?? LAYER_COLORS.default;
+function trackColor(groupId: string | undefined) {
+  const g = groupId ? getGroupById(groupId) : undefined;
+  return g ? { fill: g.color, stroke: g.stroke } : COLOR_DEFAULT;
+}
+
+function layerColor(_layerId: string) {
+  return COLOR_DEFAULT;
 }
 
 interface VB { x: number; y: number; w: number; h: number }
@@ -314,9 +310,24 @@ export function Designer2D({ layout, onApply }: Designer2DProps) {
   const selectedBox = primarySelection?.kind === 'box'
     ? fp.boxes.find((b) => b.id === primarySelection.id) ?? null
     : null;
+  const selectedBoxes = selected
+    .filter((item) => item.kind === 'box')
+    .map((item) => fp.boxes.find((b) => b.id === item.id))
+    .filter((b): b is FPBox => Boolean(b));
   const selectedLabel = primarySelection?.kind === 'label'
     ? fp.labels.find((l) => l.id === primarySelection.id) ?? null
     : null;
+  const selectedLabels = selected
+    .filter((item) => item.kind === 'label')
+    .map((item) => fp.labels.find((l) => l.id === item.id))
+    .filter((l): l is FPLabel => Boolean(l));
+  const selectedCrane = primarySelection?.kind === 'crane'
+    ? fp.cranes.find((c) => c.id === primarySelection.id) ?? null
+    : null;
+  const selectedCranes = selected
+    .filter((item) => item.kind === 'crane')
+    .map((item) => fp.cranes.find((c) => c.id === item.id))
+    .filter((c): c is FPCrane => Boolean(c));
   const selectedBounds = getUnionBounds(selectedItems);
 
   const updateTrack = useCallback((id: string, patch: Partial<FPTrack>) => {
@@ -651,7 +662,7 @@ export function Designer2D({ layout, onApply }: Designer2DProps) {
           })}
 
           {fp.tracks.map((track) => {
-            const { fill, stroke } = layerColor(track.layerId);
+            const { fill, stroke } = trackColor(track.groupId);
             const isSel = selected.some((item) => item.kind === 'track' && item.id === track.id);
             return (
               <rect
@@ -893,71 +904,167 @@ export function Designer2D({ layout, onApply }: Designer2DProps) {
                     </div>
                   </div>
 
-                  {selectedTrack && (
-                    <div style={{ fontSize: 10, color: '#718096', marginBottom: 8 }}>
-                      Layer: {selectedTrack.layerId}
-                    </div>
-                  )}
                 </>
               )}
 
               {selectedTracks.length > 0 && (() => {
                 const types = selectedTracks.map((t) => t.trackType ?? 'Default');
                 const commonType = types.every((t) => t === types[0]) ? types[0] : undefined;
+                const layerIds = selectedTracks.map((t) => t.layerId);
+                const commonLayer = layerIds.every((l) => l === layerIds[0]) ? layerIds[0] : undefined;
+                const groupIds = selectedTracks.map((t) => t.groupId ?? '');
+                const commonGroup = groupIds.every((g) => g === groupIds[0]) ? groupIds[0] : undefined;
+                const n = selectedTracks.length > 1 ? ` (${selectedTracks.length})` : '';
                 return (
-                  <SelectField<FPTrackType>
-                    label={`Type${selectedTracks.length > 1 ? ` (${selectedTracks.length})` : ''}`}
-                    value={commonType ?? 'Default'}
-                    options={[
-                      { value: 'Default', label: commonType === undefined ? '— mixed —' : 'Default' },
-                      { value: 'Lift', label: 'Lift' },
-                      { value: 'Palletizer', label: 'Palletizer' },
-                      { value: 'Depalletizer', label: 'Depalletizer' },
-                      { value: 'InboundHs', label: 'Inbound HS' },
-                      { value: 'OutboundHs', label: 'Outbound HS' },
-                      { value: 'BCRRead', label: 'BCR Read' },
-                    ]}
-                    onChange={(v) => selectedTracks.forEach((t) => updateTrack(t.id, { trackType: v }))}
-                  />
+                  <>
+                    <SelectField<FPTrackType>
+                      label={`Type${n}`}
+                      value={commonType ?? 'Default'}
+                      options={[
+                        { value: 'Default', label: commonType === undefined ? '— mixed —' : 'Default' },
+                        { value: 'Lift', label: 'Lift' },
+                        { value: 'Palletizer', label: 'Palletizer' },
+                        { value: 'Depalletizer', label: 'Depalletizer' },
+                        { value: 'InboundHs', label: 'Inbound HS' },
+                        { value: 'OutboundHs', label: 'Outbound HS' },
+                        { value: 'BCRRead', label: 'BCR Read' },
+                      ]}
+                      onChange={(v) => selectedTracks.forEach((t) => updateTrack(t.id, { trackType: v }))}
+                    />
+                    <SelectField<string>
+                      label={`Layer${n}`}
+                      value={commonLayer ?? ''}
+                      options={[
+                        ...(commonLayer === undefined ? [{ value: '', label: '— mixed —' }] : []),
+                        ...fp.layers.filter((l) => l.id !== 'default').sort((a, b) => a.order - b.order).map((l) => ({ value: l.id, label: l.name })),
+                      ]}
+                      onChange={(v) => { if (v) selectedTracks.forEach((t) => updateTrack(t.id, { layerId: v })); }}
+                    />
+                    <SelectField<string>
+                      label={`Group${n}`}
+                      value={commonGroup ?? ''}
+                      options={[
+                        { value: '', label: commonGroup === undefined ? '— mixed —' : '— auto —' },
+                        ...GROUP_DEFS.map((g) => ({ value: g.id, label: `${g.shortName}` })),
+                      ]}
+                      onChange={(v) => selectedTracks.forEach((t) => updateTrack(t.id, { groupId: v || undefined }))}
+                    />
+                    {selectedTrack && (() => {
+                      const floor = getFloorForLayer(selectedTrack.layerId);
+                      const { fill, stroke } = trackColor(selectedTrack.groupId);
+                      return (
+                        <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 4 }}>
+                          <div style={{ width: 12, height: 12, borderRadius: 3, background: fill, border: `1px solid ${stroke}`, flexShrink: 0 }} />
+                          <span style={{ fontSize: 10, color: '#718096' }}>
+                            {floor ? `${floor.shortName} · Z=${floor.worldZ}m` : selectedTrack.layerId}
+                          </span>
+                        </div>
+                      );
+                    })()}
+                  </>
                 );
               })()}
 
-              {selectedTrack && (
-                <>
-                  <div style={{ fontSize: 10, color: '#718096', marginBottom: 4 }}>
-                    Floor: {getFloorForLayer(selectedTrack.layerId)?.shortName ?? '??'}{' '}
-                    (Z = {getFloorForLayer(selectedTrack.layerId)?.worldZ ?? 0} m)
-                  </div>
+              {selectedBoxes.length > 0 && (() => {
+                const n = selectedBoxes.length > 1 ? ` (${selectedBoxes.length})` : '';
+                const layerIds = selectedBoxes.map((b) => b.layerId ?? '');
+                const commonLayer = layerIds.every((l) => l === layerIds[0]) ? layerIds[0] : undefined;
+                const groupIds = selectedBoxes.map((b) => b.groupId ?? '');
+                const commonGroup = groupIds.every((g) => g === groupIds[0]) ? groupIds[0] : undefined;
+                return (
+                  <>
+                    <SelectField<string>
+                      label={`Layer${n}`}
+                      value={commonLayer ?? ''}
+                      options={[
+                        ...(commonLayer === undefined ? [{ value: '', label: '— mixed —' }] : [{ value: '', label: '— none —' }]),
+                        ...fp.layers.sort((a, b) => a.order - b.order).map((l) => ({ value: l.id, label: l.name })),
+                      ]}
+                      onChange={(v) => selectedBoxes.forEach((b) => updateBox(b.id, { layerId: v || undefined }))}
+                    />
+                    <SelectField<string>
+                      label={`Group${n}`}
+                      value={commonGroup ?? ''}
+                      options={[
+                        ...(commonGroup === undefined ? [{ value: '', label: '— mixed —' }] : [{ value: '', label: '— none —' }]),
+                        ...GROUP_DEFS.map((g) => ({ value: g.id, label: g.shortName })),
+                      ]}
+                      onChange={(v) => selectedBoxes.forEach((b) => updateBox(b.id, { groupId: v || undefined }))}
+                    />
+                  </>
+                );
+              })()}
 
-                  <div style={{ marginTop: 8, display: 'flex', gap: 6, alignItems: 'center' }}>
-                    <div style={{
-                      width: 14,
-                      height: 14,
-                      borderRadius: 3,
-                      background: layerColor(selectedTrack.layerId).fill,
-                      border: `1px solid ${layerColor(selectedTrack.layerId).stroke}`,
-                      flexShrink: 0,
-                    }} />
-                    <span style={{ fontSize: 10, color: '#718096' }}>{selectedTrack.colorSet}</span>
-                  </div>
-                </>
-              )}
+              {selectedCranes.length > 0 && (() => {
+                const n = selectedCranes.length > 1 ? ` (${selectedCranes.length})` : '';
+                const layerIds = selectedCranes.map((c) => c.layerId ?? '');
+                const commonLayer = layerIds.every((l) => l === layerIds[0]) ? layerIds[0] : undefined;
+                const groupIds = selectedCranes.map((c) => c.groupId ?? '');
+                const commonGroup = groupIds.every((g) => g === groupIds[0]) ? groupIds[0] : undefined;
+                return (
+                  <>
+                    <SelectField<string>
+                      label={`Layer${n}`}
+                      value={commonLayer ?? ''}
+                      options={[
+                        ...(commonLayer === undefined ? [{ value: '', label: '— mixed —' }] : [{ value: '', label: '— none —' }]),
+                        ...fp.layers.sort((a, b) => a.order - b.order).map((l) => ({ value: l.id, label: l.name })),
+                      ]}
+                      onChange={(v) => selectedCranes.forEach((c) => updateCrane(c.id, { layerId: v || undefined }))}
+                    />
+                    <SelectField<string>
+                      label={`Group${n}`}
+                      value={commonGroup ?? ''}
+                      options={[
+                        ...(commonGroup === undefined ? [{ value: '', label: '— mixed —' }] : [{ value: '', label: '— none —' }]),
+                        ...GROUP_DEFS.map((g) => ({ value: g.id, label: g.shortName })),
+                      ]}
+                      onChange={(v) => selectedCranes.forEach((c) => updateCrane(c.id, { groupId: v || undefined }))}
+                    />
+                  </>
+                );
+              })()}
 
-              {selectedBox?.layerId && (
-                <div style={{ fontSize: 10, color: '#718096', marginTop: 8 }}>
-                  Layer: {selectedBox.layerId}
-                </div>
-              )}
-
-              {selectedLabel && (
-                <>
-                  <NumField label="FS" value={selectedLabel.fontSize}
-                    onChange={(v) => updateLabel(selectedLabel.id, { fontSize: v })} />
-                  <div style={{ fontSize: 10, color: '#718096', marginTop: 8 }}>
-                    Text: {selectedLabel.text}
-                  </div>
-                </>
-              )}
+              {selectedLabels.length > 0 && (() => {
+                const n = selectedLabels.length > 1 ? ` (${selectedLabels.length})` : '';
+                const fontSizes = selectedLabels.map((l) => l.fontSize);
+                const commonFS = fontSizes.every((f) => f === fontSizes[0]) ? fontSizes[0] : undefined;
+                const layerIds = selectedLabels.map((l) => l.layerId ?? '');
+                const commonLayer = layerIds.every((l) => l === layerIds[0]) ? layerIds[0] : undefined;
+                const groupIds = selectedLabels.map((l) => l.groupId ?? '');
+                const commonGroup = groupIds.every((g) => g === groupIds[0]) ? groupIds[0] : undefined;
+                return (
+                  <>
+                    {commonFS !== undefined && (
+                      <NumField label={`FS${n}`} value={commonFS}
+                        onChange={(v) => selectedLabels.forEach((l) => updateLabel(l.id, { fontSize: v }))} />
+                    )}
+                    <SelectField<string>
+                      label={`Layer${n}`}
+                      value={commonLayer ?? ''}
+                      options={[
+                        ...(commonLayer === undefined ? [{ value: '', label: '— mixed —' }] : [{ value: '', label: '— none —' }]),
+                        ...fp.layers.sort((a, b) => a.order - b.order).map((l) => ({ value: l.id, label: l.name })),
+                      ]}
+                      onChange={(v) => selectedLabels.forEach((l) => updateLabel(l.id, { layerId: v || undefined }))}
+                    />
+                    <SelectField<string>
+                      label={`Group${n}`}
+                      value={commonGroup ?? ''}
+                      options={[
+                        ...(commonGroup === undefined ? [{ value: '', label: '— mixed —' }] : [{ value: '', label: '— none —' }]),
+                        ...GROUP_DEFS.map((g) => ({ value: g.id, label: g.shortName })),
+                      ]}
+                      onChange={(v) => selectedLabels.forEach((l) => updateLabel(l.id, { groupId: v || undefined }))}
+                    />
+                    {selectedLabel && (
+                      <div style={{ fontSize: 10, color: '#718096', marginTop: 4 }}>
+                        Text: {selectedLabel.text}
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </>
           ) : (
             <div style={{ color: '#4a5568', fontSize: 11, marginTop: 8 }}>

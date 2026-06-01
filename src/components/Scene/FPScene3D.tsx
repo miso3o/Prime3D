@@ -12,33 +12,185 @@
  * Every track is positioned at [worldX, worldY, floorZ + halfHeight] where
  * floorZ = getLayerZ(track.layerId) from layerConfig.ts.
  */
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Html, Text } from '@react-three/drei';
-import type { FloorPlanData, FPTrack } from '../../config/types';
+import { Html, Text, Billboard } from '@react-three/drei';
+import type { FloorPlanData, FPTrack, FPBox, RackConfig } from '../../config/types';
+import { getRackHeight } from '../../config/layoutGeometry';
 import { fp2world, fpM } from '../../config/fp2world';
 import { getLayerZ } from '../../config/layerConfig';
+import { getGroupById } from '../../config/groupConfig';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
+
+// ── FP Equipment Box (3D) — with selection pulsing ────────────────────────────
+function FPBoxMesh({ box, selected }: { box: FPBox; selected: boolean }) {
+  const bx = box.x3d ?? box.x;
+  const by = box.y3d ?? box.y;
+  const [wx, wy] = fp2world(bx + box.w / 2, by + box.h / 2);
+  const ww = Math.max(fpM(box.w), 0.1);
+  const wd = Math.max(fpM(box.h), 0.1);
+  const floorZ = box.layerId ? getLayerZ(box.layerId) : 0;
+  const opacity = Math.max(box.bgAlpha ?? 0.5, 0.55);
+  const transparent = opacity < 0.98;
+  const matRef = useRef<THREE.MeshStandardMaterial>(null);
+  const pad = 0.12;
+
+  useFrame(({ clock }) => {
+    if (!selected || !matRef.current) return;
+    matRef.current.emissiveIntensity = 0.55 + 0.45 * Math.sin(clock.getElapsedTime() * 5);
+  });
+
+  const label = box.unitId ?? box.text ?? '';
+
+  return (
+    <group position={[wx, wy, floorZ + BOX_H / 2]}>
+      <mesh>
+        <boxGeometry args={[ww, wd, BOX_H]} />
+        <meshStandardMaterial ref={matRef}
+          color={selected ? '#ff5400' : (box.bgColor || '#334155')}
+          emissive={selected ? '#ff5400' : '#000000'}
+          emissiveIntensity={selected ? 0.55 : 0}
+          transparent={transparent} opacity={opacity}
+          depthWrite={!transparent} roughness={0.72} metalness={0.05} />
+      </mesh>
+      {selected && (
+        <mesh>
+          <boxGeometry args={[ww + pad, wd + pad, BOX_H + pad]} />
+          <meshStandardMaterial color="#ff5400" emissive="#ff5400" emissiveIntensity={1}
+            transparent opacity={0.25} depthWrite={false} />
+        </mesh>
+      )}
+      {label && (
+        <Html center distanceFactor={28} position={[0, 0, BOX_H / 2 + 0.4]}
+          style={{ pointerEvents: 'none' }}>
+          <div style={{
+            background: 'rgba(0,0,0,0.72)', color: selected ? '#ff9966' : '#f6ad55',
+            fontFamily: 'monospace', fontSize: 10, fontWeight: 700,
+            padding: '1px 6px', borderRadius: 3, whiteSpace: 'nowrap',
+            border: `1px solid ${selected ? 'rgba(255,84,0,0.5)' : 'rgba(246,173,85,0.25)'}`,
+          }}>
+            {label}
+          </div>
+        </Html>
+      )}
+    </group>
+  );
+}
+
+// ── Search beacon — bouncing arrow that appears above a found track ────────────
+const BEACON_COLOR = '#ff5400';
+
+function SearchBeacon({ floorPlan, satelliteOffsets, racks = [] }: {
+  floorPlan: FloorPlanData;
+  satelliteOffsets: Map<string, [number, number]>;
+  racks?: RackConfig[];
+}) {
+  const focusRequest = useWarehouseStore((s) => s.focusRequest);
+  const groupRef     = useRef<THREE.Group>(null);
+  const lastToken    = useRef(-1);
+  const fadeTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // topZ = 객체 상단 높이 (비콘은 topZ 위에 떠있음)
+  const [beacon, setBeacon] = useState<{ x: number; y: number; topZ: number } | null>(null);
+
+  useEffect(() => {
+    if (!focusRequest) return;
+    if (focusRequest.token === lastToken.current) return;
+    lastToken.current = focusRequest.token;
+
+    const sel = focusRequest.selection;
+    let wx = 0, wy = 0, topZ = 0;
+
+    if (sel.type === 'fptrack') {
+      const track = floorPlan.tracks.find((t) => t.id === sel.id);
+      if (!track) return;
+      // satellite offset 적용 — 3D에서 XY가 이동된 트랙 처리
+      const off = satelliteOffsets.get(track.id);
+      const ex = track.x + (off?.[0] ?? 0);
+      const ey = track.y + (off?.[1] ?? 0);
+      [wx, wy] = fp2world(ex + track.w / 2, ey + track.h / 2);
+      const floorZ = getLayerZ(track.layerId);
+      // 트랙 타입별 높이 반영
+      const trackH = track.trackType === 'Palletizer' || track.trackType === 'Depalletizer'
+        ? PALLET_H + 0.1
+        : track.trackType === 'InboundHs' || track.trackType === 'OutboundHs'
+        ? HS_H + 0.6  // 폴 포함
+        : TRACK_H;
+      topZ = floorZ + trackH;
+    } else if (sel.type === 'fpbox') {
+      const box = floorPlan.boxes.find((b) => b.id === sel.id);
+      if (box) {
+        const bx = box.x3d ?? box.x;
+        const by = box.y3d ?? box.y;
+        [wx, wy] = fp2world(bx + box.w / 2, by + box.h / 2);
+        const floorZ = box.layerId ? getLayerZ(box.layerId) : 0;
+        topZ = floorZ + BOX_H; // 박스는 3m 높이
+      } else {
+        const crane = floorPlan.cranes.find((c) => c.id === sel.id);
+        if (!crane) return;
+        [wx, wy] = fp2world(crane.x + crane.totalW / 2, crane.bank2Y + crane.totalH / 2);
+        const craneFloorZ = crane.layerId ? getLayerZ(crane.layerId) : 0;
+        // 해당 크레인 존과 이름이 겹치는 3D 랙의 실제 높이를 반영
+        const craneId = crane.id; // e.g. "CDC1"
+        const pairedRacks = racks.filter((r) =>
+          r.id.startsWith(craneId) || craneId.startsWith(r.id.replace(/-[LR]$/, ''))
+        );
+        const maxRackH = pairedRacks.length
+          ? Math.max(...pairedRacks.map((r) => getRackHeight(r)))
+          : BOX_H;
+        topZ = craneFloorZ + maxRackH;
+      }
+    } else {
+      return;
+    }
+
+    setBeacon({ x: wx, y: wy, topZ });
+
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
+    fadeTimer.current = setTimeout(() => setBeacon(null), 3500);
+  }, [focusRequest, floorPlan]);
+
+  useFrame(({ clock }) => {
+    if (!groupRef.current || !beacon) return;
+    const t = clock.getElapsedTime();
+    groupRef.current.position.z = beacon.topZ + 1.5 + Math.sin(t * 5) * 0.3;
+  });
+
+  if (!beacon) return null;
+
+  return (
+    <group ref={groupRef} position={[beacon.x, beacon.y, beacon.topZ + 1.5]}>
+      {/* 아래를 향한 원뿔 — tip이 -Z 방향 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -0.35]}>
+        <coneGeometry args={[0.32, 1.1, 16]} />
+        <meshStandardMaterial color={BEACON_COLOR} emissive={BEACON_COLOR} emissiveIntensity={2.0} />
+      </mesh>
+      {/* 상단 구 (지도 핀 헤드) */}
+      <mesh position={[0, 0, 0.42]}>
+        <sphereGeometry args={[0.36, 20, 20]} />
+        <meshStandardMaterial color={BEACON_COLOR} emissive={BEACON_COLOR} emissiveIntensity={1.8} />
+      </mesh>
+      {/* 내부 밝은 하이라이트 구 */}
+      <mesh position={[0, 0, 0.55]}>
+        <sphereGeometry args={[0.18, 12, 12]} />
+        <meshStandardMaterial color="#fff0e8" emissive="#ffffff" emissiveIntensity={3.0} />
+      </mesh>
+    </group>
+  );
+}
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 const TRACK_H    = 0.22;   // default conveyor slab height (m)
 const HS_H       = 0.30;   // HomeStand platform height
 const PALLET_H   = 0.38;   // palletizer platform height
+const CLICK_DELTA_MAX = 4; // px — suppress click if pointer moved more than this (drag vs click)
 const LIFT_W_MIN = 0.35;
 const BOX_H      = 3;
 
-// Layer fill → matches FloorPlan2D.tsx
-const LAYER_FILL: Record<string, string> = {
-  layer_group1: '#93c5fd',
-  layer_group2: '#67e8f9',
-  layer_group3: '#6ee7b7',
-  layer_group4: '#c4b5fd',
-  layer_group5_1: '#fcd34d',
-  layer_group5_2: '#fcd34d',
-  layer_group6: '#fca5a5',
-  layer_group7: '#f9a8d4',
-  default:        '#d1d5db',
-};
+const GROUP_FILL_DEFAULT = '#d1d5db';
+function getTrackFill(groupId: string | undefined): string {
+  return (groupId ? getGroupById(groupId)?.color : undefined) ?? GROUP_FILL_DEFAULT;
+}
 
 const STATUS_COLOR: Record<string, string> = {
   running: '#4ade80',
@@ -78,14 +230,29 @@ function DefaultTrack({ track, color, selected, onClick }: {
   const ww = Math.max(fpM(track.w), 0.06);
   const wd = Math.max(fpM(track.h), 0.06);
   const floorZ = getLayerZ(track.layerId);
+  const matRef = useRef<THREE.MeshStandardMaterial>(null);
+  const pad = 0.06;
+
+  useFrame(({ clock }) => {
+    if (!selected || !matRef.current) return;
+    matRef.current.emissiveIntensity = 0.55 + 0.45 * Math.sin(clock.getElapsedTime() * 5);
+  });
+
   return (
-    <group position={[wx, wy, floorZ + TRACK_H / 2]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+    <group position={[wx, wy, floorZ + TRACK_H / 2]} onClick={(e) => { e.stopPropagation(); if (e.delta <= CLICK_DELTA_MAX) onClick(); }}>
       <mesh>
         <boxGeometry args={[ww, wd, TRACK_H]} />
-        <meshStandardMaterial color={color} roughness={0.55} metalness={selected ? 0.3 : 0.05}
-          emissive={selected ? '#fbbf24' : '#000'} emissiveIntensity={selected ? 0.3 : 0} />
+        <meshStandardMaterial ref={matRef} color={color} roughness={0.55} metalness={selected ? 0.3 : 0.05}
+          emissive={selected ? '#ff5400' : '#000'} emissiveIntensity={selected ? 0.55 : 0} />
       </mesh>
       <TrackEdges ww={ww} wd={wd} color={color} />
+      {selected && (
+        <mesh position={[0, 0, TRACK_H * 0.3]}>
+          <boxGeometry args={[ww + pad, wd + pad, TRACK_H * 0.4]} />
+          <meshStandardMaterial color="#ff5400" emissive="#ff5400" emissiveIntensity={1}
+            transparent opacity={0.35} depthWrite={false} />
+        </mesh>
+      )}
     </group>
   );
 }
@@ -103,11 +270,11 @@ function HomeStandTrack({ track, type, selected, onClick }: {
   const isInbound = type === 'InboundHs';
 
   return (
-    <group position={[wx, wy, floorZ]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+    <group position={[wx, wy, floorZ]} onClick={(e) => { e.stopPropagation(); if (e.delta <= CLICK_DELTA_MAX) onClick(); }}>
       {/* Platform base */}
       <mesh position={[0, 0, HS_H / 2]}>
         <boxGeometry args={[ww, wd, HS_H]} />
-        <meshStandardMaterial color={selected ? '#fbbf24' : c.body}
+        <meshStandardMaterial color={selected ? '#ff5400' : c.body}
           emissive={c.emissive} emissiveIntensity={selected ? 0.5 : 0.2} roughness={0.45} metalness={0.3} />
       </mesh>
       {/* Direction indicator pole */}
@@ -140,14 +307,14 @@ function BCRTrack({ track, color, selected, onClick }: {
   const markerX = -ww / 2 + r + 0.01;
   const markerY = -wd / 2 + r + 0.01;
   return (
-    <group position={[wx, wy, floorZ]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+    <group position={[wx, wy, floorZ]} onClick={(e) => { e.stopPropagation(); if (e.delta <= CLICK_DELTA_MAX) onClick(); }}>
       {/* Slab — identical to DefaultTrack */}
       <group position={[0, 0, TRACK_H / 2]}>
         <mesh>
           <boxGeometry args={[ww, wd, TRACK_H]} />
-          <meshStandardMaterial color={selected ? '#fbbf24' : color}
+          <meshStandardMaterial color={selected ? '#ff5400' : color}
             roughness={0.55} metalness={selected ? 0.3 : 0.05}
-            emissive={selected ? '#fbbf24' : '#000'} emissiveIntensity={selected ? 0.3 : 0} />
+            emissive={selected ? '#ff5400' : '#000'} emissiveIntensity={selected ? 0.3 : 0} />
         </mesh>
         <TrackEdges ww={ww} wd={wd} color={color} />
       </group>
@@ -179,10 +346,10 @@ function PalletizerTrack({ track, color, selected, onClick }: {
         <boxGeometry args={[ww * 0.85, wd * 0.85, PALLET_H * 0.7]} />
         <meshStandardMaterial color="#546e7a" metalness={0.7} roughness={0.3} />
       </mesh>
-      <mesh position={[0, 0, PALLET_H]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+      <mesh position={[0, 0, PALLET_H]} onClick={(e) => { e.stopPropagation(); if (e.delta <= CLICK_DELTA_MAX) onClick(); }}>
         <boxGeometry args={[ww, wd, TRACK_H]} />
-        <meshStandardMaterial color={selected ? '#fbbf24' : color}
-          emissive={selected ? '#fbbf24' : color} emissiveIntensity={selected ? 0.35 : 0.1}
+        <meshStandardMaterial color={selected ? '#ff5400' : color}
+          emissive={selected ? '#ff5400' : color} emissiveIntensity={selected ? 0.35 : 0.1}
           metalness={0.4} roughness={0.45} />
       </mesh>
     </group>
@@ -196,12 +363,12 @@ function GroupedLiftTrack({ primaryTrack, groupZ, shaftH, selected, onClick }: {
   const [wx, wy] = fp2world(primaryTrack.x + primaryTrack.w / 2, primaryTrack.y + primaryTrack.h / 2);
   const sw       = Math.max(fpM(primaryTrack.w), LIFT_W_MIN);
   const sd       = Math.max(fpM(primaryTrack.h), LIFT_W_MIN);
-  const color    = LAYER_FILL[primaryTrack.layerId] ?? LAYER_FILL.default;
+  const color    = getTrackFill(primaryTrack.groupId);
   return (
-    <group position={[wx, wy, groupZ]} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+    <group position={[wx, wy, groupZ]} onClick={(e) => { e.stopPropagation(); if (e.delta <= CLICK_DELTA_MAX) onClick(); }}>
       <mesh position={[0, 0, shaftH / 2]}>
         <boxGeometry args={[sw * 0.6, sd * 0.6, shaftH]} />
-        <meshStandardMaterial color={selected ? '#fbbf24' : color}
+        <meshStandardMaterial color={selected ? '#ff5400' : color}
           emissive={color} emissiveIntensity={0.2} metalness={0.5} roughness={0.35} transparent opacity={0.85} />
       </mesh>
       {[0, shaftH].map((z) => (
@@ -254,8 +421,8 @@ function TrackSegment3D({ track, selected, showTrackId, onSelect }: {
     (k) => k.includes(track.unitId) || k.endsWith(`:${track.id}`)
   );
   const status = statusKey ? statuses[statusKey] : undefined;
-  const baseColor = LAYER_FILL[track.layerId] ?? LAYER_FILL.default;
-  const color = selected ? '#fbbf24'
+  const baseColor = getTrackFill(track.groupId);
+  const color = selected ? '#ff5400'
     : (status && STATUS_COLOR[status]) ? STATUS_COLOR[status]
     : baseColor;
   const onClick = useCallback(() => onSelect(track), [track, onSelect]);
@@ -291,9 +458,9 @@ function TrackSegment3D({ track, selected, showTrackId, onSelect }: {
 }
 
 // ── Main component ─────────────────────────────────────────────────────────────
-interface FPScene3DProps { floorPlan: FloorPlanData; showTrackIds?: boolean; }
+interface FPScene3DProps { floorPlan: FloorPlanData; racks?: RackConfig[]; showTrackIds?: boolean; }
 
-export function FPScene3D({ floorPlan, showTrackIds = false }: FPScene3DProps) {
+export function FPScene3D({ floorPlan, racks = [], showTrackIds = false }: FPScene3DProps) {
   const selectedObject = useWarehouseStore((s) => s.selectedObject);
   const setSelected    = useWarehouseStore((s) => s.setSelectedObject);
 
@@ -402,23 +569,18 @@ export function FPScene3D({ floorPlan, showTrackIds = false }: FPScene3DProps) {
           );
         })}
 
-      {floorPlan.boxes.filter((box) => !box.invisible3d).map((box) => {
-        const bx = box.x3d ?? box.x;
-        const by = box.y3d ?? box.y;
-        const [wx, wy] = fp2world(bx + box.w / 2, by + box.h / 2);
-        const ww = Math.max(fpM(box.w), 0.1);
-        const wd = Math.max(fpM(box.h), 0.1);
-        const floorZ = box.layerId ? getLayerZ(box.layerId) : 0;
-        const opacity = Math.max(box.bgAlpha ?? 0.5, 0.55);
-        const transparent = opacity < 0.98;
-        return (
-          <mesh key={box.id} position={[wx, wy, floorZ + BOX_H / 2]}>
-            <boxGeometry args={[ww, wd, BOX_H]} />
-            <meshStandardMaterial color={box.bgColor || '#334155'}
-              transparent={transparent} opacity={opacity} depthWrite={!transparent} roughness={0.72} metalness={0.05} />
-          </mesh>
-        );
-      })}
+      {floorPlan.boxes.filter((box) =>
+        !box.invisible3d &&
+        (!box.layerId || visibleLayers.has(box.layerId))
+      ).map((box) => (
+        <FPBoxMesh
+          key={box.id}
+          box={box}
+          selected={selectedObject?.type === 'fpbox' && selectedObject.id === box.id}
+        />
+      ))}
+
+      <SearchBeacon floorPlan={floorPlan} satelliteOffsets={satelliteOffsets} racks={racks} />
     </>
   );
 }

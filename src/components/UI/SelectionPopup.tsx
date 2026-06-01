@@ -1,4 +1,5 @@
-﻿import { useWarehouseStore } from '../../store/useWarehouseStore';
+﻿import { useEffect, useRef } from 'react';
+import { useWarehouseStore } from '../../store/useWarehouseStore';
 import { CELL_COLORS, TRACK_COLORS, CRANE_STATUS_COLORS, EQUIPMENT_COLORS } from '../../utils/colors';
 import type { LayoutConfig } from '../../config/types';
 import { cellKey, trackSegKey } from '../../config/types';
@@ -8,15 +9,15 @@ interface SelectionPopupProps {
 }
 
 const TYPE_META = {
-  rack: { label: 'RACK', accent: '#60a5fa', icon: '[R]' },
-  cell: { label: 'RACK CELL', accent: '#2e7cf6', icon: '[C]' },
-  crane: { label: 'CRANE', accent: '#e6952b', icon: '[CR]' },
-  tray: { label: 'TRAY', accent: '#48bb78', icon: '[T]' },
-  track: { label: 'TRACK SEGMENT', accent: '#90a4ae', icon: '[TR]' },
-  fptrack: { label: 'TRACK SEGMENT', accent: '#6ee7b7', icon: '' },
+  rack: { label: 'RACK', accent: '#60a5fa', icon: '' },
+  cell: { label: 'RACK CELL', accent: '#2e7cf6', icon: '' },
+  crane: { label: 'CRANE', accent: '#e6952b', icon: '' },
+  tray: { label: 'TRAY', accent: '#48bb78', icon: '' },
+  track: { label: 'TRACK', accent: '#90a4ae', icon: '' },
+  fptrack: { label: 'TRACK', accent: '#6ee7b7', icon: '' },
   fpbox: { label: 'EQUIPMENT', accent: '#f6ad55', icon: '' },
-  equipment: { label: 'EQUIPMENT', accent: '#f6ad55', icon: '[E]' },
-  homestand: { label: 'HOME STAND', accent: '#f6e05e', icon: '[H]' },
+  equipment: { label: 'EQUIPMENT', accent: '#f6ad55', icon: '' },
+  homestand: { label: 'HOME STAND', accent: '#f6e05e', icon: '' },
 } as const;
 
 function Row({ label, value, badge }: { label: string; value: React.ReactNode; badge?: string }) {
@@ -227,14 +228,45 @@ function HomeStandContent({ layout }: { layout: LayoutConfig }) {
   );
 }
 
-const POPUP_W = 140;
-const POPUP_H = 180; // approximate
+const POPUP_W = 160;
+const POPUP_H = 180;
 const OFFSET  = 12;
 
 export function SelectionPopup({ layout }: SelectionPopupProps) {
   const sel      = useWarehouseStore((s) => s.selectedObject);
   const clickPos = useWarehouseStore((s) => s.clickPosition);
   const setSelected = useWarehouseStore((s) => s.setSelectedObject);
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  // Rack/cell popups need extra width to show the cell grid comfortably
+  const popupW = (() => {
+    if (!sel) return POPUP_W;
+    if (sel.type === 'rack') {
+      const rack = layout.racks.find((r) => r.id === sel.id);
+      return rack ? Math.max(260, Math.min(480, rack.bays * 24 + 80)) : 260;
+    }
+    if (sel.type === 'cell') {
+      const rack = layout.racks.find((r) => r.id === sel.rackId);
+      return rack ? Math.max(260, Math.min(480, rack.bays * 24 + 80)) : 260;
+    }
+    return POPUP_W;
+  })();
+
+  useEffect(() => {
+    if (!sel) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSelected(null); };
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.detail >= 2) return; // 더블클릭 시 close 차단 — dblclick 핸들러가 먼저 실행되도록
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) setSelected(null);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [sel, setSelected]);
+
   if (!sel) return null;
 
   const meta = TYPE_META[sel.type as keyof typeof TYPE_META] ?? TYPE_META.track;
@@ -244,8 +276,8 @@ export function SelectionPopup({ layout }: SelectionPopupProps) {
   if (clickPos) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const left = clickPos.x + OFFSET + POPUP_W > vw
-      ? clickPos.x - POPUP_W - OFFSET
+    const left = clickPos.x + OFFSET + popupW > vw
+      ? clickPos.x - popupW - OFFSET
       : clickPos.x + OFFSET;
     const top = clickPos.y + OFFSET + POPUP_H > vh
       ? clickPos.y - POPUP_H - OFFSET
@@ -256,7 +288,7 @@ export function SelectionPopup({ layout }: SelectionPopupProps) {
   }
 
   return (
-    <div style={{ ...posStyle, minWidth: POPUP_W, maxWidth: 180, background: 'rgba(11,15,26,0.96)', border: `1px solid ${meta.accent}55`, borderRadius: 8, overflow: 'hidden', boxShadow: `0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px ${meta.accent}22`, fontFamily: 'monospace', fontSize: 12, backdropFilter: 'blur(10px)', zIndex: 20 }}>
+    <div ref={popupRef} style={{ ...posStyle, minWidth: popupW, maxWidth: popupW, background: 'rgba(11,15,26,0.96)', border: `1px solid ${meta.accent}55`, borderRadius: 8, overflow: 'hidden', boxShadow: `0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px ${meta.accent}22`, fontFamily: 'monospace', fontSize: 12, backdropFilter: 'blur(10px)', zIndex: 20 }}>
       <div style={{ background: `${meta.accent}22`, borderBottom: `1px solid ${meta.accent}44`, padding: '8px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ color: meta.accent, fontWeight: 700, letterSpacing: 1, fontSize: 11 }}>{meta.icon} {meta.label}</span>
         <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', color: '#718096', cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: '0 2px' }}>x</button>

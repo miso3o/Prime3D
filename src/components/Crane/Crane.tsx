@@ -9,7 +9,9 @@
  *
  * railPosition is the world-space aisle centre (crane origin).
  */
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 import { useSpring, animated } from '@react-spring/three';
 import { useWarehouseStore } from '../../store/useWarehouseStore';
 import { CRANE_STATUS_COLORS } from '../../utils/colors';
@@ -39,7 +41,15 @@ export function Crane({ config, layout }: CraneProps) {
   const sel         = useWarehouseStore((s) => s.selectedObject);
   const setSelected = useWarehouseStore((s) => s.setSelectedObject);
   const statusColor = CRANE_STATUS_COLORS[craneState?.status ?? 'idle'];
-  const isSelected  = sel?.type === 'crane' && sel.id === id;
+  // crane 클릭 선택 OR fpbox(검색) 선택 모두 감지
+  const isSelected  = (sel?.type === 'crane' && sel.id === id) ||
+                      (sel?.type === 'fpbox'  && sel.id === id);
+  const matRef = useRef<THREE.MeshStandardMaterial>(null);
+
+  useFrame(({ clock }) => {
+    if (!isSelected || !matRef.current) return;
+    matRef.current.emissiveIntensity = 0.4 + 0.6 * Math.abs(Math.sin(clock.getElapsedTime() * 5));
+  });
 
   const onClick = useCallback(
     (e: { stopPropagation: () => void }) => {
@@ -97,9 +107,9 @@ export function Crane({ config, layout }: CraneProps) {
           {/* Carriage body — clickable */}
           <mesh onClick={onClick}>
             <boxGeometry args={[CAR_W, CAR_D, CAR_H]} />
-            <meshStandardMaterial
-              color={isSelected ? '#90cdf4' : CAR_COL}
-              emissive={isSelected ? '#90cdf4' : '#000000'}
+            <meshStandardMaterial ref={matRef}
+              color={isSelected ? '#ff5400' : CAR_COL}
+              emissive={isSelected ? '#ff5400' : '#000000'}
               emissiveIntensity={isSelected ? 0.35 : 0}
               metalness={0.5} roughness={0.4}
             />

@@ -1,4 +1,5 @@
 import { fp2world, fpM, world2fp } from './fp2world';
+import { getLayerZ } from './layerConfig';
 import type {
   CraneConfig,
   EquipmentConfig,
@@ -120,7 +121,8 @@ export function getWorldPointForSelection(layout: LayoutConfig, selection: Selec
   if (selection.type === 'fptrack') {
     const track = layout.floorPlan?.tracks.find((item) => item.id === selection.id);
     if (!track) return null;
-    return fp2world(track.x + track.w / 2, track.y + track.h / 2, 0.2);
+    const floorZ = getLayerZ(track.layerId);
+    return fp2world(track.x + track.w / 2, track.y + track.h / 2, floorZ + 0.2);
   }
   if (selection.type === 'rack') {
     const rack = layout.racks.find((item) => item.id === selection.id);
@@ -145,6 +147,21 @@ export function getWorldPointForSelection(layout: LayoutConfig, selection: Selec
   if (selection.type === 'equipment') {
     const equipment = (layout.equipment ?? []).find((item) => item.id === selection.id);
     return equipment ? [equipment.position[0], equipment.position[1], equipment.position[2] + equipment.size[1] / 2] : null;
+  }
+  if (selection.type === 'fpbox') {
+    const box = layout.floorPlan?.boxes.find((item) => item.id === selection.id);
+    if (box) {
+      const bx = box.x3d ?? box.x;
+      const by = box.y3d ?? box.y;
+      const floorZ = box.layerId ? getLayerZ(box.layerId) : 0;
+      return fp2world(bx + box.w / 2, by + box.h / 2, floorZ + 0.5);
+    }
+    // FP crane zone
+    const fpCrane = layout.floorPlan?.cranes.find((item) => item.id === selection.id);
+    if (fpCrane) {
+      const craneZ = fpCrane.layerId ? getLayerZ(fpCrane.layerId) : 0;
+      return fp2world(fpCrane.x + fpCrane.totalW / 2, fpCrane.bank2Y + fpCrane.totalH / 2, craneZ + 0.5);
+    }
   }
   return null;
 }
@@ -184,19 +201,30 @@ export function worldPointToFloorPlan(point: [number, number, number]) {
 export function findByUnitId(layout: LayoutConfig, rawUnitId: string): SelectedObject | null {
   const unitId = rawUnitId.trim();
   if (!unitId) return null;
+  const q = unitId.toLowerCase();
+  const eq = (v?: string) => v?.toLowerCase() === q;
 
-  const fpTrack = layout.floorPlan?.tracks.find((item) => item.unitId === unitId || item.id === unitId);
+  // FP tracks (unitId or id)
+  const fpTrack = layout.floorPlan?.tracks.find((item) => eq(item.unitId) || eq(item.id));
   if (fpTrack) {
     return { type: 'fptrack', id: fpTrack.id, unitId: fpTrack.unitId, layerId: fpTrack.layerId };
   }
 
-  const crane = layout.cranes.find((item) => item.unitId === unitId || item.id === unitId);
+  // FP boxes — match by text (e.g. "CDC1", "GRD1") or unitId
+  const fpBox = layout.floorPlan?.boxes.find((item) => eq(item.text) || eq(item.unitId) || eq(item.id));
+  if (fpBox) return { type: 'fpbox', id: fpBox.id };
+
+  // FP cranes
+  const fpCrane = layout.floorPlan?.cranes.find((item) => eq(item.id) || eq(item.unitId));
+  if (fpCrane) return { type: 'fpbox', id: fpCrane.id };
+
+  const crane = layout.cranes.find((item) => eq(item.unitId) || eq(item.id));
   if (crane) return { type: 'crane', id: crane.id };
 
-  const rack = layout.racks.find((item) => item.unitId === unitId || item.id === unitId);
+  const rack = layout.racks.find((item) => eq(item.unitId) || eq(item.id));
   if (rack) return { type: 'rack', id: rack.id };
 
-  const equipment = (layout.equipment ?? []).find((item) => item.unitId === unitId || item.id === unitId || item.name === unitId);
+  const equipment = (layout.equipment ?? []).find((item) => eq(item.unitId) || eq(item.id) || eq(item.name));
   if (equipment) return { type: 'equipment', id: equipment.id };
 
   return null;

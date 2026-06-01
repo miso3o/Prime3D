@@ -1,5 +1,5 @@
-{
-  "_comment": "Prime3D default warehouse layout. Scale: ~1 unit ≈ 1 m. Origin: CDC1 crane aisle centre. All positions are JSON-editable — open the Layout Editor or Designer Panel to modify.",
+﻿{
+  "_comment": "Prime3D default warehouse layout. Scale: ~1 unit ??1 m. Origin: CDC1 crane aisle centre. All positions are JSON-editable ??open the Layout Editor or Designer Panel to modify.",
   "racks": [
     {
       "id": "CDC1-R",
@@ -490,7 +490,7 @@
       ]
     },
     {
-      "_comment": "CDC input spine — Z-direction cross-conveyor that feeds trays to CDC1/CDC2/CDC3 track entry points (Z≈0, 8.4, 16.0). Segments align with each CDC track's left entry end.",
+      "_comment": "CDC input spine ??Z-direction cross-conveyor that feeds trays to CDC1/CDC2/CDC3 track entry points (Z??, 8.4, 16.0). Segments align with each CDC track's left entry end.",
       "id": "track-CDC-spine",
       "position": [
         -21.5,
@@ -561,7 +561,7 @@
       ]
     },
     {
-      "_comment": "CDC→AG transfer bridge — Z-direction connector bridging the gap between the CDC spine end (~Z=16.6) and the AG section start (~Z=21.6).",
+      "_comment": "CDC?ымиG transfer bridge ??Z-direction connector bridging the gap between the CDC spine end (~Z=16.6) and the AG section start (~Z=21.6).",
       "id": "track-CDC-AG-xfer",
       "position": [
         -21.5,
@@ -592,7 +592,7 @@
       ]
     },
     {
-      "_comment": "AG outfeed spine — Z-direction cross-conveyor collecting trays from AG1 and AG2 right-side output ends (Z≈21.6, Z≈27.6).",
+      "_comment": "AG outfeed spine ??Z-direction cross-conveyor collecting trays from AG1 and AG2 right-side output ends (Z??1.6, Z??7.6).",
       "id": "track-AG-spine",
       "position": [
         23.8,
@@ -638,7 +638,7 @@
       ]
     },
     {
-      "_comment": "HAG infeed — X-direction extension track to the left of track-HAG, providing the inbound path from the buffer/loading area into the HAG crane zone.",
+      "_comment": "HAG infeed ??X-direction extension track to the left of track-HAG, providing the inbound path from the buffer/loading area into the HAG crane zone.",
       "id": "track-HAG-infeed",
       "position": [
         -65.4,
@@ -679,7 +679,7 @@
       ]
     },
     {
-      "_comment": "HAG outfeed — X-direction output track on the right side of the HAG crane area, carrying retrieved trays toward the dispatch/transfer zone.",
+      "_comment": "HAG outfeed ??X-direction output track on the right side of the HAG crane area, carrying retrieved trays toward the dispatch/transfer zone.",
       "id": "track-HAG-outfeed",
       "position": [
         -36.2,
@@ -847,8 +847,9 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
-        "trackType": "OutboundHs"
+        "layerId": "7F",
+        "trackType": "OutboundHs",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1101",
@@ -858,7 +859,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1"
+        "layerId": "7F",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1102",
@@ -868,7 +870,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1"
+        "layerId": "7F",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1103",
@@ -878,13 +881,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1104",
@@ -894,7 +898,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1"
+        "layerId": "7F",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1105",
@@ -904,13 +909,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1109",
@@ -920,13 +926,14 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1110",
@@ -936,12 +943,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1111",
@@ -951,12 +959,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1112",
@@ -966,13 +975,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1108",
@@ -982,13 +992,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1122",
@@ -998,13 +1009,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1113",
@@ -1014,8 +1026,9 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
-        "trackType": "OutboundHs"
+        "layerId": "7F",
+        "trackType": "OutboundHs",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1114",
@@ -1025,7 +1038,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1"
+        "layerId": "7F",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1115",
@@ -1036,7 +1050,8 @@
         "h": 30,
         "colorSet": "conv",
         "idFontSize": 6,
-        "layerId": "layer_group1"
+        "layerId": "7F",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1116",
@@ -1046,13 +1061,14 @@
         "w": 30,
         "h": 60,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1117",
@@ -1062,13 +1078,14 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1118",
@@ -1078,12 +1095,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1119",
@@ -1093,12 +1111,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1120",
@@ -1108,13 +1127,14 @@
         "w": 30,
         "h": 70,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1123",
@@ -1124,13 +1144,14 @@
         "w": 30,
         "h": 60,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1125",
@@ -1140,13 +1161,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1124",
@@ -1156,13 +1178,14 @@
         "w": 30,
         "h": 70,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "1"
       },
       {
         "id": "T_G1_1121",
@@ -1172,12 +1195,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group1",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "1"
       },
       {
         "id": "T_G2_2136",
@@ -1187,13 +1211,14 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "OutboundHs",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2137",
@@ -1203,12 +1228,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2138",
@@ -1218,12 +1244,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2139",
@@ -1233,12 +1260,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2135",
@@ -1248,13 +1276,14 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2134",
@@ -1264,13 +1293,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2133",
@@ -1280,12 +1310,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2132",
@@ -1295,12 +1326,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2128",
@@ -1310,13 +1342,14 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "OutboundHs",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2129",
@@ -1326,12 +1359,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2130",
@@ -1341,12 +1375,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2131",
@@ -1356,12 +1391,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2127",
@@ -1371,13 +1407,14 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2126",
@@ -1387,13 +1424,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2125",
@@ -1403,12 +1441,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2124",
@@ -1418,12 +1457,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2113",
@@ -1433,13 +1473,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2111",
@@ -1449,13 +1490,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "OutboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2109",
@@ -1465,13 +1507,14 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2146",
@@ -1481,12 +1524,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2108",
@@ -1496,12 +1540,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2112",
@@ -1511,12 +1556,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2110",
@@ -1526,13 +1572,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2041",
@@ -1542,9 +1589,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Depalletizer"
+        "trackType": "Depalletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2143",
@@ -1554,12 +1602,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2144",
@@ -1569,12 +1618,13 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2145",
@@ -1584,12 +1634,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2107",
@@ -1599,12 +1650,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2106",
@@ -1614,13 +1666,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2105",
@@ -1630,13 +1683,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2103",
@@ -1646,13 +1700,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "OutboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2101",
@@ -1662,13 +1717,14 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2142",
@@ -1678,12 +1734,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2100",
@@ -1694,12 +1751,13 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": -4,
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2104",
@@ -1710,12 +1768,13 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": 0,
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2022",
@@ -1725,9 +1784,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2021",
@@ -1737,9 +1797,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2020",
@@ -1749,9 +1810,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2102",
@@ -1761,13 +1823,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2040",
@@ -1777,9 +1840,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Depalletizer"
+        "trackType": "Depalletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2147",
@@ -1789,12 +1853,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2148",
@@ -1804,12 +1869,13 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2149",
@@ -1819,12 +1885,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2115",
@@ -1834,12 +1901,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2114",
@@ -1849,13 +1917,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2025",
@@ -1865,9 +1934,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2024",
@@ -1877,9 +1947,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2023",
@@ -1889,9 +1960,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2121",
@@ -1901,12 +1973,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2119",
@@ -1916,13 +1989,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "OutboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2117",
@@ -1932,13 +2006,14 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2150",
@@ -1948,12 +2023,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2116",
@@ -1963,12 +2039,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2120",
@@ -1978,12 +2055,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2118",
@@ -1993,13 +2071,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2042",
@@ -2009,9 +2088,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Depalletizer"
+        "trackType": "Depalletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2151",
@@ -2022,12 +2102,13 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": -3,
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2152",
@@ -2037,12 +2118,13 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2153",
@@ -2052,12 +2134,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2123",
@@ -2067,12 +2150,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2122",
@@ -2082,13 +2166,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2028",
@@ -2098,9 +2183,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2027",
@@ -2110,9 +2196,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G2_2026",
@@ -2122,9 +2209,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group2",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "2"
       },
       {
         "id": "T_G3_3123",
@@ -2134,13 +2222,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "down",
         "fpDirections": [
           "down",
           "right"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3124",
@@ -2150,13 +2239,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3125",
@@ -2166,13 +2256,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3126",
@@ -2182,13 +2273,14 @@
         "w": 30,
         "h": 70,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3127",
@@ -2198,13 +2290,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3128",
@@ -2214,13 +2307,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3129",
@@ -2230,13 +2324,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3130",
@@ -2246,13 +2341,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3132",
@@ -2262,13 +2358,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3131",
@@ -2278,13 +2375,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3133",
@@ -2294,13 +2392,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3134",
@@ -2310,13 +2409,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3135",
@@ -2326,13 +2426,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3136",
@@ -2342,13 +2443,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3137",
@@ -2358,13 +2460,14 @@
         "w": 30,
         "h": 70,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3138",
@@ -2374,13 +2477,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3140",
@@ -2390,14 +2494,15 @@
         "w": 30,
         "h": 70,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down",
           "left"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3139",
@@ -2407,13 +2512,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3141",
@@ -2423,12 +2529,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3121",
@@ -2438,12 +2545,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3120",
@@ -2453,13 +2561,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3119",
@@ -2469,13 +2578,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3118",
@@ -2485,13 +2595,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3117",
@@ -2501,13 +2612,14 @@
         "w": 30,
         "h": 60,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3116",
@@ -2517,13 +2629,14 @@
         "w": 30,
         "h": 60,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3114",
@@ -2533,13 +2646,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3115",
@@ -2549,13 +2663,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3113",
@@ -2565,13 +2680,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3111",
@@ -2581,12 +2697,13 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3110",
@@ -2596,12 +2713,13 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3109",
@@ -2611,13 +2729,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3107",
@@ -2627,14 +2746,15 @@
         "w": 30,
         "h": 60,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up",
           "left"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3106",
@@ -2644,14 +2764,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
         "direction": "y",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3142",
@@ -2661,13 +2782,14 @@
         "w": 30,
         "h": 60,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3104",
@@ -2677,13 +2799,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3103",
@@ -2693,7 +2816,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3"
+        "layerId": "7F",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3143",
@@ -2703,13 +2827,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3100",
@@ -2719,8 +2844,9 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
-        "trackType": "OutboundHs"
+        "layerId": "7F",
+        "trackType": "OutboundHs",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3102",
@@ -2730,7 +2856,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3"
+        "layerId": "7F",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3101",
@@ -2740,7 +2867,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3"
+        "layerId": "7F",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3146",
@@ -2750,13 +2878,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "trackType": "InboundHs",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3144",
@@ -2766,12 +2895,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3145",
@@ -2781,12 +2911,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3122",
@@ -2796,7 +2927,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3"
+        "layerId": "7F",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3112",
@@ -2806,7 +2938,8 @@
         "w": 40,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group3"
+        "layerId": "7F",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3108",
@@ -2816,13 +2949,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G3_3105",
@@ -2832,13 +2966,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group3",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "3"
       },
       {
         "id": "T_G4_4151",
@@ -2848,13 +2983,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4150",
@@ -2864,7 +3000,7 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
@@ -2872,7 +3008,8 @@
           "up"
         ],
         "direction": "y",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4157",
@@ -2882,13 +3019,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4148",
@@ -2898,7 +3036,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4149",
@@ -2908,13 +3047,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4100",
@@ -2924,12 +3064,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4147",
@@ -2939,7 +3080,8 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4146",
@@ -2949,7 +3091,8 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4145",
@@ -2959,13 +3102,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4101",
@@ -2975,12 +3119,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4102",
@@ -2990,12 +3135,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4103",
@@ -3005,12 +3151,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4104",
@@ -3020,12 +3167,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4105",
@@ -3035,12 +3183,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4140",
@@ -3050,13 +3199,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4139",
@@ -3066,13 +3216,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "down"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4024",
@@ -3082,8 +3233,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Palletizer"
+        "layerId": "7F",
+        "trackType": "Palletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4143",
@@ -3093,13 +3245,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4144",
@@ -3109,14 +3262,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4156",
@@ -3126,13 +3280,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4043",
@@ -3142,8 +3297,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Depalletizer"
+        "layerId": "7F",
+        "trackType": "Depalletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4142",
@@ -3153,13 +3309,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4141",
@@ -3169,7 +3326,7 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
@@ -3177,7 +3334,8 @@
           "up"
         ],
         "direction": "y",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4155",
@@ -3187,13 +3345,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4023",
@@ -3203,8 +3362,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Palletizer"
+        "layerId": "7F",
+        "trackType": "Palletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4138",
@@ -3214,7 +3374,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4106",
@@ -3224,12 +3385,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4107",
@@ -3239,12 +3401,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4137",
@@ -3254,7 +3417,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4108",
@@ -3264,12 +3428,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4136",
@@ -3279,13 +3444,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4109",
@@ -3295,12 +3461,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4133",
@@ -3310,7 +3477,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4134",
@@ -3320,13 +3488,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4135",
@@ -3336,14 +3505,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4154",
@@ -3353,13 +3523,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4042",
@@ -3369,8 +3540,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Depalletizer"
+        "layerId": "7F",
+        "trackType": "Depalletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4132",
@@ -3380,7 +3552,8 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4130",
@@ -3390,12 +3563,13 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4131",
@@ -3405,14 +3579,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
         "direction": "y",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4153",
@@ -3422,13 +3597,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4022",
@@ -3438,8 +3614,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Palletizer"
+        "layerId": "7F",
+        "trackType": "Palletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4126",
@@ -3449,13 +3626,14 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4041",
@@ -3465,8 +3643,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Depalletizer"
+        "layerId": "7F",
+        "trackType": "Depalletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4128",
@@ -3476,14 +3655,15 @@
         "w": 30,
         "h": 80,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4159",
@@ -3493,14 +3673,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4127",
@@ -3510,14 +3691,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4129",
@@ -3527,12 +3709,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4110",
@@ -3542,12 +3725,13 @@
         "w": 80,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4111",
@@ -3557,13 +3741,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4112",
@@ -3573,13 +3758,14 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4125",
@@ -3589,7 +3775,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4124",
@@ -3599,7 +3786,8 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4122",
@@ -3609,14 +3797,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "down"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4123",
@@ -3626,14 +3815,15 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
         "direction": "y",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4152",
@@ -3643,13 +3833,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4021",
@@ -3659,8 +3850,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Palletizer"
+        "layerId": "7F",
+        "trackType": "Palletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4118",
@@ -3670,13 +3862,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4040",
@@ -3686,8 +3879,9 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
-        "trackType": "Depalletizer"
+        "layerId": "7F",
+        "trackType": "Depalletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4120",
@@ -3697,14 +3891,15 @@
         "w": 30,
         "h": 80,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up",
           "right"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4158",
@@ -3714,13 +3909,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4119",
@@ -3730,13 +3926,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4121",
@@ -3746,12 +3943,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4160",
@@ -3761,7 +3959,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4020",
@@ -3771,9 +3970,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4117",
@@ -3783,7 +3983,8 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4"
+        "layerId": "7F",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4115",
@@ -3793,14 +3994,15 @@
         "w": 30,
         "h": 50,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4114",
@@ -3810,13 +4012,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left",
           "up"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4113",
@@ -3826,12 +4029,13 @@
         "w": 130,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G4_4116",
@@ -3841,12 +4045,13 @@
         "w": 100,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       },
       {
         "id": "T_G5_5113",
@@ -3856,12 +4061,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5114",
@@ -3871,12 +4077,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5115",
@@ -3886,12 +4093,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5116",
@@ -3901,12 +4109,13 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5117",
@@ -3916,12 +4125,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5118",
@@ -3931,12 +4141,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5139",
@@ -3946,12 +4157,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5042",
@@ -3961,9 +4173,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
-        "trackType": "Depalletizer"
+        "trackType": "Depalletizer",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5119",
@@ -3973,12 +4186,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5121",
@@ -3988,12 +4202,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5123",
@@ -4003,12 +4218,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5125",
@@ -4018,12 +4234,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5120",
@@ -4033,13 +4250,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5122",
@@ -4049,13 +4267,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5124",
@@ -4065,13 +4284,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5126",
@@ -4081,13 +4301,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5110",
@@ -4097,12 +4318,13 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5138",
@@ -4112,12 +4334,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5111",
@@ -4127,12 +4350,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5041",
@@ -4142,9 +4366,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
-        "trackType": "Depalletizer"
+        "trackType": "Depalletizer",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5112",
@@ -4154,12 +4379,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5100",
@@ -4169,13 +4395,14 @@
         "w": 60,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5137",
@@ -4185,12 +4412,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5101",
@@ -4200,12 +4428,13 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5102",
@@ -4215,12 +4444,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5040",
@@ -4230,9 +4460,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "vertical": true,
-        "trackType": "Depalletizer"
+        "trackType": "Depalletizer",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5103",
@@ -4242,13 +4473,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
+        "layerId": "GRD1F",
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
         "direction": "x",
-        "trackType": "Default"
+        "trackType": "Default",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5104u",
@@ -4258,7 +4490,7 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "trackType": "Lift",
         "lift3dRef": "T_G5_5104",
         "lift3dSatellites": [
@@ -4279,7 +4511,8 @@
           "T_G5_5134",
           "T_G5_5135",
           "T_G5_5136"
-        ]
+        ],
+        "groupId": "5"
       },
       {
         "id": "T_G5_5104",
@@ -4289,8 +4522,9 @@
         "w": 70,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_1",
-        "trackType": "Lift"
+        "layerId": "GRD1F",
+        "trackType": "Lift",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5109",
@@ -4300,13 +4534,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "up",
         "fpDirections": [
           "up",
           "right"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5108",
@@ -4316,13 +4551,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
           "up"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5107",
@@ -4332,7 +4568,7 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
@@ -4340,7 +4576,8 @@
           "down"
         ],
         "direction": "x",
-        "trackType": "BCRRead"
+        "trackType": "BCRRead",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5106",
@@ -4350,13 +4587,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5105",
@@ -4366,13 +4604,14 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "right",
         "fpDirections": [
           "right",
           "down"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5140",
@@ -4382,7 +4621,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2"
+        "layerId": "GRD2F",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5020",
@@ -4392,9 +4632,10 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
-        "trackType": "Palletizer"
+        "trackType": "Palletizer",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5128",
@@ -4404,12 +4645,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5130",
@@ -4419,12 +4661,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5132",
@@ -4434,12 +4677,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5134",
@@ -4449,12 +4693,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5127",
@@ -4464,13 +4709,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5129",
@@ -4480,13 +4726,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5131",
@@ -4496,13 +4743,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5133",
@@ -4512,13 +4760,14 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "vertical": true,
         "fpDirection": "down",
         "fpDirections": [
           "down"
         ],
-        "direction": "y"
+        "direction": "y",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5135",
@@ -4528,12 +4777,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G5_5136",
@@ -4543,12 +4793,13 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group5_2",
+        "layerId": "GRD2F",
         "fpDirection": "left",
         "fpDirections": [
           "left"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "5"
       },
       {
         "id": "T_G6_6103",
@@ -4559,7 +4810,8 @@
         "h": 30,
         "colorSet": "conv",
         "zIndex": -1,
-        "layerId": "layer_group7"
+        "layerId": "7F",
+        "groupId": "6"
       },
       {
         "id": "T_G6_6102",
@@ -4569,7 +4821,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group7"
+        "layerId": "7F",
+        "groupId": "6"
       },
       {
         "id": "T_G6_6001",
@@ -4579,7 +4832,8 @@
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_group7",
+        "layerId": "7F",
+        "groupId": "6",
         "fpDirection": "right",
         "fpDirections": [
           "right"
@@ -4595,7 +4849,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "6",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4610,7 +4865,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "6",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4625,7 +4881,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "6",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4640,7 +4897,8 @@
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "6",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4667,7 +4925,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "6",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
@@ -4685,7 +4944,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group7",
+        "layerId": "7F",
+        "groupId": "7",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4700,7 +4960,8 @@
         "w": 50,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group7",
+        "layerId": "7F",
+        "groupId": "7",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4715,7 +4976,8 @@
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_group7",
+        "layerId": "7F",
+        "groupId": "7",
         "fpDirection": "left",
         "fpDirections": [
           "left"
@@ -4731,7 +4993,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "7",
         "fpDirection": "right",
         "fpDirections": [
           "right"
@@ -4746,7 +5009,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "7",
         "fpDirection": "right",
         "fpDirections": [
           "right"
@@ -4761,7 +5025,8 @@
         "w": 40,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "7",
         "fpDirection": "right",
         "fpDirections": [
           "right"
@@ -4777,7 +5042,8 @@
         "w": 50,
         "h": 90,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "7",
         "fpDirection": "right",
         "fpDirections": [
           "right"
@@ -4793,7 +5059,8 @@
         "w": 30,
         "h": 30,
         "colorSet": "conv",
-        "layerId": "layer_group6",
+        "layerId": "6F",
+        "groupId": "7",
         "vertical": true,
         "fpDirection": "up",
         "fpDirections": [
@@ -4811,13 +5078,14 @@
         "w": 30,
         "h": 40,
         "colorSet": "conv",
-        "layerId": "layer_group4",
+        "layerId": "7F",
         "vertical": true,
         "fpDirection": "right",
         "fpDirections": [
           "right"
         ],
-        "direction": "x"
+        "direction": "x",
+        "groupId": "4"
       }
     ],
     "cranes": [
@@ -4830,7 +5098,8 @@
         "slotIdPrefix": "AG1",
         "forkCount": 1,
         "totalW": 960,
-        "totalH": 130
+        "totalH": 130,
+        "layerId": "7F"
       },
       {
         "id": "AG2",
@@ -4841,7 +5110,8 @@
         "slotIdPrefix": "AG2",
         "forkCount": 1,
         "totalW": 960,
-        "totalH": 130
+        "totalH": 130,
+        "layerId": "7F"
       },
       {
         "id": "HAG",
@@ -4852,7 +5122,8 @@
         "slotIdPrefix": "HAG",
         "forkCount": 1,
         "totalW": 430,
-        "totalH": 140
+        "totalH": 140,
+        "layerId": "7F"
       },
       {
         "id": "CDC1",
@@ -4863,7 +5134,8 @@
         "slotIdPrefix": "CDC1",
         "forkCount": 1,
         "totalW": 750,
-        "totalH": 90
+        "totalH": 90,
+        "layerId": "7F"
       },
       {
         "id": "CDC2",
@@ -4874,7 +5146,8 @@
         "slotIdPrefix": "CDC2",
         "forkCount": 1,
         "totalW": 750,
-        "totalH": 90
+        "totalH": 90,
+        "layerId": "7F"
       },
       {
         "id": "CDC3",
@@ -4885,7 +5158,8 @@
         "slotIdPrefix": "CDC3",
         "forkCount": 1,
         "totalW": 750,
-        "totalH": 90
+        "totalH": 90,
+        "layerId": "7F"
       }
     ],
     "conveyorLines": [
@@ -5181,7 +5455,8 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group1"
+        "groupId": "1",
+        "layerId": "7F"
       },
       {
         "id": "LBL_G2",
@@ -5196,7 +5471,8 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group1"
+        "groupId": "2",
+        "layerId": "7F"
       },
       {
         "id": "LBL_G3",
@@ -5211,7 +5487,8 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group3"
+        "groupId": "3",
+        "layerId": "7F"
       },
       {
         "id": "LBL_G4",
@@ -5226,12 +5503,13 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group4"
+        "groupId": "4",
+        "layerId": "7F"
       },
       {
         "id": "LBL_G5",
         "x": 820,
-        "y": 640,
+        "y": 635,
         "w": 60,
         "h": 20,
         "text": "Group 5",
@@ -5241,7 +5519,24 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group5_1"
+        "groupId": "5",
+        "layerId": "GRD1F"
+      },
+      {
+        "id": "LBL_G5_2",
+        "x": 735,
+        "y": 130,
+        "w": 60,
+        "h": 20,
+        "text": "Group 5",
+        "fontSize": 11,
+        "fontFamily": "Tahoma, Arial",
+        "color": "#303050",
+        "bgColor": "transparent",
+        "bold": true,
+        "italic": false,
+        "groupId": "5",
+        "layerId": "GRD2F"
       },
       {
         "id": "LBL_G6",
@@ -5256,12 +5551,13 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group6"
+        "groupId": "6",
+        "layerId": "7F"
       },
       {
         "id": "LBL_G7",
         "x": 2365,
-        "y": 1025,
+        "y": 1085,
         "w": 80,
         "h": 20,
         "text": "Group 7",
@@ -5271,7 +5567,40 @@
         "bgColor": "transparent",
         "bold": true,
         "italic": false,
-        "layerId": "layer_group7"
+        "groupId": "7",
+        "layerId": "7F"
+      },
+      {
+        "id": "LBL_G6_6F",
+        "x": 2365,
+        "y": 1280,
+        "w": 80,
+        "h": 20,
+        "text": "Group 6",
+        "fontSize": 11,
+        "fontFamily": "Tahoma, Arial",
+        "color": "#303050",
+        "bgColor": "transparent",
+        "bold": true,
+        "italic": false,
+        "groupId": "6",
+        "layerId": "6F"
+      },
+      {
+        "id": "LBL_G7_6F",
+        "x": 2365,
+        "y": 1405,
+        "w": 80,
+        "h": 20,
+        "text": "Group 7",
+        "fontSize": 11,
+        "fontFamily": "Tahoma, Arial",
+        "color": "#303050",
+        "bgColor": "transparent",
+        "bold": true,
+        "italic": false,
+        "groupId": "7",
+        "layerId": "6F"
       },
       {
         "id": "_lbl_AG1",
@@ -5287,14 +5616,13 @@
         "bold": true,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group1",
-        "showId": false
+        "layerId": "7F"
       },
       {
         "id": "_lbl_AG1_b2",
         "text": "B2",
         "x": 2140,
-        "y": 980,
+        "y": 984,
         "w": 20,
         "h": 20,
         "fontSize": 10,
@@ -5304,7 +5632,7 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group1"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_AG1_b1",
@@ -5320,7 +5648,7 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group1"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_AG2",
@@ -5336,13 +5664,13 @@
         "bold": true,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group1"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_AG2_b2",
         "text": "B2",
         "x": 2140,
-        "y": 1130,
+        "y": 1136,
         "w": 20,
         "h": 20,
         "fontSize": 10,
@@ -5352,7 +5680,7 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group1"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_AG2_b1",
@@ -5368,13 +5696,13 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group1"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_HAG_b2",
         "text": "B2",
         "x": 700,
-        "y": 1120,
+        "y": 1124,
         "w": 20,
         "h": 20,
         "fontSize": 10,
@@ -5384,7 +5712,7 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group3"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_HAG_b1",
@@ -5400,13 +5728,13 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group3"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_CDC1_b2",
         "text": "B2",
         "x": 1230,
-        "y": 390,
+        "y": 504,
         "w": 20,
         "h": 20,
         "fontSize": 10,
@@ -5416,29 +5744,13 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group2"
-      },
-      {
-        "id": "_lbl_CDC1_b1",
-        "text": "B1",
-        "x": 1230,
-        "y": 500,
-        "w": 20,
-        "h": 20,
-        "fontSize": 10,
-        "fontFamily": "Tahoma, Arial, sans-serif",
-        "color": "#404050",
-        "bgColor": "transparent",
-        "bold": false,
-        "italic": false,
-        "zIndex": 15,
-        "layerId": "layer_group2"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_CDC2_b2",
         "text": "B2",
         "x": 1230,
-        "y": 600,
+        "y": 714,
         "w": 20,
         "h": 20,
         "fontSize": 10,
@@ -5448,29 +5760,13 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group2"
-      },
-      {
-        "id": "_lbl_CDC2_b1",
-        "text": "B1",
-        "x": 1230,
-        "y": 710,
-        "w": 20,
-        "h": 20,
-        "fontSize": 10,
-        "fontFamily": "Tahoma, Arial, sans-serif",
-        "color": "#404050",
-        "bgColor": "transparent",
-        "bold": false,
-        "italic": false,
-        "zIndex": 15,
-        "layerId": "layer_group2"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_CDC3_b2",
         "text": "B2",
         "x": 1230,
-        "y": 790,
+        "y": 904,
         "w": 20,
         "h": 20,
         "fontSize": 10,
@@ -5480,23 +5776,7 @@
         "bold": false,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group2"
-      },
-      {
-        "id": "_lbl_CDC3_b1",
-        "text": "B1",
-        "x": 1230,
-        "y": 900,
-        "w": 20,
-        "h": 20,
-        "fontSize": 10,
-        "fontFamily": "Tahoma, Arial, sans-serif",
-        "color": "#404050",
-        "bgColor": "transparent",
-        "bold": false,
-        "italic": false,
-        "zIndex": 15,
-        "layerId": "layer_group2"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_HAG",
@@ -5512,7 +5792,7 @@
         "bold": true,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group3"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_CDC1",
@@ -5528,7 +5808,7 @@
         "bold": true,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group2"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_CDC2",
@@ -5544,7 +5824,7 @@
         "bold": true,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group2"
+        "layerId": "7F"
       },
       {
         "id": "_lbl_CDC3",
@@ -5560,7 +5840,7 @@
         "bold": true,
         "italic": false,
         "zIndex": 15,
-        "layerId": "layer_group2"
+        "layerId": "7F"
       }
     ],
     "boxes": [
@@ -5578,7 +5858,7 @@
         "textColor": "#406040",
         "fontSize": 11,
         "zIndex": 0,
-        "layerId": "layer_group4"
+        "layerId": "7F"
       },
       {
         "id": "OCV2",
@@ -5594,7 +5874,7 @@
         "textColor": "#406040",
         "fontSize": 11,
         "zIndex": 0,
-        "layerId": "layer_group4"
+        "layerId": "7F"
       },
       {
         "id": "NGR1",
@@ -5610,7 +5890,7 @@
         "textColor": "#406040",
         "fontSize": 11,
         "zIndex": 0,
-        "layerId": "layer_group4"
+        "layerId": "7F"
       },
       {
         "id": "NGR2",
@@ -5626,7 +5906,7 @@
         "textColor": "#406040",
         "fontSize": 11,
         "zIndex": 0,
-        "layerId": "layer_group4"
+        "layerId": "7F"
       },
       {
         "id": "BOX_MNCRKG8MJ",
@@ -5639,11 +5919,11 @@
         "bgAlpha": 1,
         "borderColor": "#408040",
         "borderWidth": 1,
-        "text": "GRD_1F",
+        "text": "GRD1",
         "textColor": "#406040",
         "fontSize": 15,
         "zIndex": 0,
-        "layerId": "layer_group5_1"
+        "layerId": "GRD1F"
       },
       {
         "id": "BOX_MNCRLNX3K",
@@ -5657,11 +5937,11 @@
         "borderColor": "#408040",
         "borderWidth": 1,
         "invisible3d": true,
-        "text": "GRD_2F",
+        "text": "GRD1",
         "textColor": "#406040",
         "fontSize": 15,
         "zIndex": 0,
-        "layerId": "layer_group5_2"
+        "layerId": "GRD2F"
       },
       {
         "id": "BOX_ASSY",
@@ -5680,7 +5960,7 @@
         "textColor": "#406040",
         "fontSize": 15,
         "zIndex": 0,
-        "layerId": "layer_group6"
+        "layerId": "6F"
       }
     ],
     "legend": {
@@ -5714,67 +5994,32 @@
     },
     "layers": [
       {
-        "id": "default",
-        "name": "Default",
+        "id": "7F",
+        "name": "7th Floor",
         "visible": true,
         "locked": false,
-        "order": 0
+        "order": 1
       },
       {
-        "id": "layer_group2",
-        "name": "Group2",
-        "visible": true,
-        "locked": false,
-        "order": 3
-      },
-      {
-        "id": "layer_group1",
-        "name": "Group1",
+        "id": "6F",
+        "name": "6th Floor",
         "visible": true,
         "locked": false,
         "order": 2
       },
       {
-        "id": "layer_group4",
-        "name": "Group4",
+        "id": "GRD1F",
+        "name": "Grader 1st Floor",
+        "visible": true,
+        "locked": false,
+        "order": 3
+      },
+      {
+        "id": "GRD2F",
+        "name": "Grader 2nd Floor",
         "visible": true,
         "locked": false,
         "order": 4
-      },
-      {
-        "id": "layer_group3",
-        "name": "Group3",
-        "visible": true,
-        "locked": false,
-        "order": 5
-      },
-      {
-        "id": "layer_group5_1",
-        "name": "Group5_1",
-        "visible": true,
-        "locked": false,
-        "order": 6
-      },
-      {
-        "id": "layer_group5_2",
-        "name": "Group5_2",
-        "visible": true,
-        "locked": false,
-        "order": 9
-      },
-      {
-        "id": "layer_group6",
-        "name": "Group6",
-        "visible": true,
-        "locked": false,
-        "order": 7
-      },
-      {
-        "id": "layer_group7",
-        "name": "Group7",
-        "visible": true,
-        "locked": false,
-        "order": 8
       }
     ]
   },

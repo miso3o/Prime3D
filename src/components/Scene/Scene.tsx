@@ -8,7 +8,7 @@
  * Default view: diagonal overview aligned to the 2D floor plan.
  * GRD appears upper-left and Aging/AG appears lower-right after Reset View.
  */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Grid, Html } from '@react-three/drei';
@@ -64,6 +64,8 @@ function CameraSync({ layout }: { layout: LayoutConfig }) {
     }
   }, [camera, controls, viewResetToken]);
 
+  const lastFocusToken = useRef(-1);
+
   useEffect(() => {
     if (!focusRequest) return;
     const ctrl = controls as OrbitControlsImpl | null;
@@ -72,14 +74,16 @@ function CameraSync({ layout }: { layout: LayoutConfig }) {
     if (!point) return;
 
     const renderedPoint = toRenderedPoint(point);
-    const projected = new THREE.Vector3(...renderedPoint).project(camera);
-    if (
-      projected.z > -1 &&
-      projected.z < 1 &&
-      Math.abs(projected.x) < 0.7 &&
-      Math.abs(projected.y) < 0.7
-    ) {
-      return;
+    const isNewRequest = focusRequest.token !== lastFocusToken.current;
+    lastFocusToken.current = focusRequest.token;
+
+    // 새 검색 요청이면 visibility 체크 없이 무조건 이동
+    if (!isNewRequest) {
+      const projected = new THREE.Vector3(...renderedPoint).project(camera);
+      if (
+        projected.z > -1 && projected.z < 1 &&
+        Math.abs(projected.x) < 0.7 && Math.abs(projected.y) < 0.7
+      ) return;
     }
 
     const offset = new THREE.Vector3().subVectors(camera.position, ctrl.target);
@@ -172,6 +176,15 @@ function WarehouseScene({ layout, showTrackIds }: { layout: LayoutConfig; showTr
   const trays    = useWarehouseStore((s) => s.trays);
   const ctrlRef  = useRef<OrbitControlsImpl>(null);
   const floorPlanBoxIds = new Set(layout.floorPlan?.boxes.map((box) => box.id) ?? []);
+  const selectedObject = useWarehouseStore((s) => s.selectedObject);
+
+  // fpbox/crane 선택 시 연결된 랙 IDs 계산
+  const highlightedRackIds = useMemo(() => {
+    const sel = selectedObject;
+    if (!sel || (sel.type !== 'fpbox' && sel.type !== 'crane')) return new Set<string>();
+    const crane = layout.cranes.find((c) => c.id === sel.id);
+    return new Set(crane?.rackIds ?? []);
+  }, [selectedObject, layout.cranes]);
 
   return (
     <>
@@ -210,7 +223,7 @@ function WarehouseScene({ layout, showTrackIds }: { layout: LayoutConfig; showTr
 
       {/* ── Floor plan tracks + equipment ────────────────────────────────── */}
       <group scale={WORLD_MIRROR_X ? [-1, 1, 1] : [1, 1, 1]}>
-      {layout.floorPlan && <FPScene3D floorPlan={layout.floorPlan} showTrackIds={showTrackIds} />}
+      {layout.floorPlan && <FPScene3D floorPlan={layout.floorPlan} racks={layout.racks} showTrackIds={showTrackIds} />}
       {(layout.equipment ?? []).filter((equipment) => !floorPlanBoxIds.has(equipment.id)).map((equipment) => (
         <Equipment key={equipment.id} config={equipment} />
       ))}
@@ -220,7 +233,7 @@ function WarehouseScene({ layout, showTrackIds }: { layout: LayoutConfig; showTr
         const totalH = getRackHeight(rack);
         return (
           <group key={rack.id}>
-            <Rack config={rack} />
+            <Rack config={rack} highlighted={highlightedRackIds.has(rack.id)} />
             <RackLabel rackId={rack.id} position={rack.position} totalH={totalH} />
           </group>
         );

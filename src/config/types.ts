@@ -156,6 +156,8 @@ export interface FPTrack {
   h: number;
   colorSet: string;
   layerId: string;
+  /** Group this track belongs to for color coding. Overrides the layerId-derived group if set. */
+  groupId?: string;
   /** Conveyor travel direction in 2D: 'x' = left-right, 'y' = front-back */
   direction?: 'x' | 'y';
   /** Designer-facing 2D direction with sign. */
@@ -183,6 +185,9 @@ export interface FPCrane {
   forkCount: number;
   totalW: number;
   totalH: number;
+  /** Optional layer assignment — if set, this crane is hidden when its layer's floor is not active. */
+  layerId?: string;
+  groupId?: string;
 }
 
 /** A text label in the 2D floor plan */
@@ -200,6 +205,7 @@ export interface FPLabel {
   bold: boolean;
   italic: boolean;
   layerId?: string;
+  groupId?: string;
 }
 
 /** A filled/bordered rectangle — used for equipment zones (CDC, AG, HAG, OCV, etc.) */
@@ -221,6 +227,7 @@ export interface FPBox {
   unitId?: string;
   /** Optional layer assignment (determines 3D floor Z, editable in Designer) */
   layerId?: string;
+  groupId?: string;
   /** 3D only: if true, this box is omitted from the 3D scene. */
   invisible3d?: boolean;
   /** 3D only: override x position in floor plan pixel coords (2D keeps original x). */

@@ -8,3 +8,37 @@ body {
   background: #0f1624;
   overflow: hidden;
 }
+
+/* ── Track search flash animations (2D SVG) ─────────────────────────────────── */
+@keyframes track-blink {
+  0%   { opacity: 1;    }
+  12%  { opacity: 0.0;  }
+  25%  { opacity: 1;    }
+  37%  { opacity: 0.0;  }
+  50%  { opacity: 1;    }
+  62%  { opacity: 0.0;  }
+  75%  { opacity: 1;    }
+  87%  { opacity: 0.0;  }
+  100% { opacity: 0;    }
+}
+/* ── Search not-found feedback ───────────────────────────────────────────────── */
+@keyframes input-shake {
+  0%, 100% { transform: translateX(0); }
+  18%       { transform: translateX(-6px); }
+  36%       { transform: translateX(6px); }
+  54%       { transform: translateX(-4px); }
+  72%       { transform: translateX(4px); }
+  88%       { transform: translateX(-2px); }
+}
+@keyframes toast-fade {
+  0%   { opacity: 0; transform: translateY(6px); }
+  15%  { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes track-ring {
+  0%   { stroke: #ff5400; stroke-width: 2;  opacity: 1;   }
+  40%  { stroke: #ff5400; stroke-width: 10; opacity: 0.5; }
+  100% { stroke: #ff5400; stroke-width: 18; opacity: 0;   }
+}

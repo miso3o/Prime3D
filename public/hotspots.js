@@ -59,7 +59,7 @@ const HOTSPOTS = [
           "num": 1,
           "code": "MIX",
           "name": "🧪 Mixer (incl. PD Mixer)",
-          "note": "BatchID 9자리 생성",
+          "note": "Generate 9-digit BatchID",
           "noteStyle": "key"
         },
         {
@@ -86,7 +86,7 @@ const HOTSPOTS = [
           "num": 6,
           "code": "WDR",
           "name": "🌀 Winder",
-          "note": "→ 젤리롤 생산",
+          "note": "→ Produce Jelly Roll",
           "noteStyle": "last"
         }
       ]
@@ -423,7 +423,7 @@ const HOTSPOTS = [
   "left": 68.41,
   "width": 29.85,
   "title": "⚡ RMS · 화성공정 제어 시스템",
-  "titleEn": "⚡ RMS · Formation Process Control System",
+  "titleEn": "⚡ RMS · Recipe Management System",
   "sub": "Scheduler·OCV·NGR·GRD 4개 서브 시스템으로 화성공정 전체를 실시간 수집·통제해요.",
   "subEn": "Collects and controls the entire Formation process in real-time via 4 sub-systems: Scheduler, OCV, NGR, and GRD.",
   "theme": "rms",
@@ -449,7 +449,7 @@ const HOTSPOTS = [
         },
         {
           "name": "RMS OCV",
-          "comm": "↔ OCV 설비",
+          "comm": "↔ OCV",
           "image": "images/OCV.png",
           "desc": "OCV 설비 실시간 상태 수집·통제, 셀 전압 측정 결과 MES DB 저장",
           "descEn": "Real-time collection and control of OCV equipment status, stores cell voltage measurement results in MES DB"
@@ -476,9 +476,9 @@ const HOTSPOTS = [
       "titleEn": "RMS Communication Architecture",
       "peers": [
         { "label": "FMS · CDC", "proto": "REST API" },
-        { "label": "OCV 설비", "proto": "REST API" },
-        { "label": "NG Selector 설비", "proto": "REST API" },
-        { "label": "Grader 설비", "proto": "REST API" }
+        { "label": "OCV", "proto": "REST API" },
+        { "label": "NG Selector", "proto": "REST API" },
+        { "label": "Grader", "proto": "REST API" }
       ],
       "programs": ["RMS Scheduler", "RMS OCV", "RMS NGR", "RMS GRD"],
       "db": "MES DB",

@@ -24,7 +24,8 @@ export function PlaybackControls() {
       style={{
         position: 'absolute',
         left: 16,
-        bottom: 84,
+        top: '50%',
+        transform: 'translateY(-50%)',
         display: 'flex',
         flexDirection: 'column',
         gap: 6,
