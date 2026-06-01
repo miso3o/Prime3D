@@ -157,7 +157,7 @@ function App() {
         src="/character1.png"
         alt=""
         title={devMode ? 'Dev mode ON — battery factory running at full capacity! (Ctrl+Click to exit)' : "Hi! I'm Zaion, guardian of the MES factory. Every single battery cell is under my watch!"}
-        onClick={(e) => { if (e.ctrlKey) setDevMode((d) => !d); else window.open('/MES_GUIDE.html', 'mes_guide'); }}
+        onClick={(e) => { if (e.ctrlKey) setDevMode((d) => !d); else window.location.href = '/MES_GUIDE.html'; }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLImageElement).style.filter = devMode ? 'drop-shadow(0 0 10px #90cdf4)' : 'drop-shadow(0 0 10px #90cdf4)'; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLImageElement).style.filter = devMode ? 'drop-shadow(0 0 6px #90cdf4)' : 'none'; }}
         style={{
